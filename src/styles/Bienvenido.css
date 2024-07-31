@@ -1,0 +1,379 @@
+
+/*RESPONSIVE BIENVENIDA*/
+.cambio-de-color{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-05);
+}
+
+.bienvenida-usuario{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 30px;
+}
+
+.bienvenida-usuario h1{
+    font-size: 2.5rem;
+    text-align: center;
+    font-weight: bold;
+    color: var(--color-blanco);
+}
+
+.agregar-servidor{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-blanco);
+    padding: 20px;
+    margin: 10px 30px;
+    border-radius: 10px;
+}
+
+.agregar-servidor img{
+    width: 80px;
+    height: 80px;
+}
+
+.agregar-servidor p{
+    margin: 0px 30px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: 'Heebo', sans-serif;
+    text-align: center;
+}
+
+.unirme-a-servidores{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-blanco);
+    padding: 20px;
+    margin: 10px 30px;
+    border-radius: 10px;
+}
+
+.unirme-a-servidores img{
+    width: 80px;
+    height: 80px;
+}
+
+.unirme-a-servidores p{
+    margin: 0px 30px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: 'Heebo', sans-serif;
+    text-align: center;
+}
+
+.unirme-a-servidores .link-unirme-servidor{
+    font-size: 1.2rem;
+}
+
+.titulo-tus-servidores{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 30px;
+}
+
+.titulo-tus-servidores h2{
+    font-size: 2rem;
+    text-align: center;
+    font-weight: bold;
+    color: var(--color-blanco);
+}
+
+.ningun-servidor{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 30px;
+    background-color: var(--color-blanco);
+    border-radius: 10px;
+    margin: 0px 10px;
+}
+
+.ningun-servidor img{
+    width: 80px;
+    height: 80px;
+}
+
+.ningun-servidor h3{
+    margin-left: 25px;
+    font-size: 1.4rem;
+    text-align: center;
+    font-weight: bold;
+    font-family: 'Heebo', sans-serif;
+}
+
+.tus-servidores{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 30px;
+}
+
+.tus-servidores .card-servidor{
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--color-blanco);
+    margin: 20px 0px;
+    padding: 30px 20px;
+    border-radius: 10px;
+}
+
+.tus-servidores .card-servidor img{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+
+.tus-servidores .card-servidor .descripcion-servidor{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    align-self: normal;
+    flex-grow: 1;
+    flex-basis: 0;
+    padding: 0px 20px;
+}
+
+.tus-servidores .card-servidor .descripcion-servidor h2{
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.tus-servidores .card-servidor .descripcion-servidor p{
+    font-size: 1rem;
+    font-weight: 400;
+    font-family: 'Heebo', sans-serif;
+    padding: 5px 0px;
+    text-align: center;
+}
+
+.tus-servidores .card-servidor .descripcion-servidor p a{
+    position: relative;
+    text-decoration: none;
+    color: var(--color-04);
+    font-weight: bold;
+    text-align: center;
+}
+
+.tus-servidores .card-servidor .descripcion-servidor p a:hover{
+    color: var(--color-03);
+    transition: 0.2s linear;
+}
+
+.tus-servidores .card-servidor .descripcion-servidor p a:after{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--color-04);
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.6s ease-in-out;
+}
+
+.tus-servidores .card-servidor .descripcion-servidor p a:hover:after{
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+.btn-servidor{
+    font-size: 0.9rem;
+}
+
+.tus-servidores .card-servidor .botones-servidor{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.me-encanta-lokita {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.me-encanta-lokita .label-me-encanta i {
+    font-size: 30px;
+    color: var(--color-fondo);
+    cursor: pointer;
+}
+
+.me-encanta-lokita .label-me-encanta i.lokita {
+    color: var(--color-07);
+    transition: 0.2s linear;
+}
+
+@media screen and (max-width: 900px) {
+    /*RESPONSIVE BIENVENIDA*/
+    .bienvenida-usuario{
+        padding: 30px 20px;
+    }
+
+    .bienvenida-usuario h1{
+        font-size: 2rem;
+    }
+
+    .agregar-servidor{
+        margin: 10px 20px;
+    }
+
+    .agregar-servidor img{
+        width: 70px;
+        height: 70px;
+    }
+
+    .agregar-servidor p{
+        font-size: 1.1rem;
+    }
+
+    .agregar-servidor .btn-agregar-servidor{
+        font-size: 0.8rem;
+    }
+
+    .unirme-a-servidores{
+        margin: 10px 20px;
+    }
+
+    .unirme-a-servidores img{
+        width: 70px;
+        height: 70px;
+    }
+
+    .unirme-a-servidores p{
+        font-size: 1.1rem;
+    }
+
+    .unirme-a-servidores .link-unirme-servidor{
+        font-size: 0.8rem;
+    }
+
+    .ningun-servidor h3{
+        font-size: 1rem;
+    }
+
+    .tus-servidores{
+        width: 100%;
+        margin: 5px 20px;
+    }
+
+    .tus-servidores .card-servidor .descripcion-servidor h2{
+        font-size: 1.4rem;
+    }
+
+    .tus-servidores .card-servidor .descripcion-servidor p{
+        font-size: 0.8rem;
+    }
+
+    .tus-servidores .card-servidor .descripcion-servidor p a:hover:after{
+        transform: scaleX(1);
+        transform-origin: bottom left;
+    }
+
+    .tus-servidores .card-servidor .botones-servidor a{
+        font-size: 0.9rem;
+    }
+
+    .tus-servidores .card-servidor .botones-servidor label{
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (max-width: 710px) {
+    /*RESPONSIVE BIENVENIDA SERVIDORES*/
+    .tus-servidores .card-servidor{
+        padding: 30px;
+    }
+
+    .tus-servidores .card-servidor .botones-servidor{
+        flex-direction: column;
+        align-items: center;
+        padding: 0px;
+        margin: 10px 0px;
+    }
+
+    .tus-servidores .card-servidor .botones-servidor a{
+        align-self: normal;
+        text-align: center;
+    }
+
+    .tus-servidores .card-servidor .botones-servidor label{
+        align-self: normal;
+        text-align: center;
+    }
+
+    .tus-servidores .card-servidor .botones-servidor .btn-editar{
+        margin: 5px 0px;
+    }
+
+    .tus-servidores .card-servidor .botones-servidor .btn-ingresar{
+        margin: 0px 0px 5px 0px;
+    }
+
+    .tus-servidores .card-servidor .botones-servidor .btn-salir{
+        margin: 5px 0px 0px 0px;
+    }
+
+    .me-encanta-lokita {
+        top: 10px;
+        right: 10px;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .agregar-servidor{
+        flex-direction: column;
+        margin: 10px;
+    }
+
+    .agregar-servidor p{
+        margin: 10px;
+    }
+
+    .unirme-a-servidores{
+        flex-direction: column;
+        margin: 10px;
+    }
+
+    .unirme-a-servidores p{
+        margin: 10px;
+    }
+
+    .tus-servidores{
+        padding: 20px;
+    }
+
+    .tus-servidores .card-servidor{
+        width: 90%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .tus-servidores .card-servidor img{
+        width: 100px;
+        height: 100px;
+    }
+
+    .tus-servidores .card-servidor .descripcion-servidor{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+    }
+}
