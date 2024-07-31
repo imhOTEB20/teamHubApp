@@ -6,10 +6,7 @@ function MainHeader() {
         <header>
             <nav className="menu_container">
                 <Logo />
-                <ul className="menu_links">
-                    <li className="menu_item">
-                        <a href="" className="menu_link">Bienvenido</a>
-                    </li>
+                <ul className="menu_links">                    
                     <li className="menu_item">
                         <a href="#Nosotros" className="menu_link">Nosotros</a>
                     </li>

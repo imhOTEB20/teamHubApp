@@ -1,0 +1,688 @@
+/*PALETA DE COLORES*/
+:root{
+    --color-principal:#591414;
+    --color-secundario:#8C1111;
+    --color-terciario:#A6242F;
+    --color-negro:#0D0908;
+    --color-alternativo-I:#7D6841;
+    --color-alternativo-II:#3045BF;
+    --color-apuesto:#145959;
+    --color-fondo:#E7E1E1;
+    --color-letra-pricipal: #fff;
+}
+
+main{
+    flex-grow: 1;
+    background-color: var(--color-fondo);
+}
+
+/*BANNER*/
+.banner{
+    height: 600px;
+    background-image: linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)), url(/img/banner-1.jpeg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.banner article{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-letra-pricipal);
+}
+
+.banner article h1{
+    font-size: 2.5rem;
+    text-align: center;
+    font-weight: bold;
+    margin: 5px 0px;
+}
+
+.banner article h2{
+    font-size: 2rem;
+    text-align: center;
+    font-weight: bold;
+    margin: 5px 0px;
+}
+
+.banner article p{
+    font-size: 1.2rem;
+    text-align: center;
+    font-weight: bold;
+    margin: 5px 0px;
+    font-family: 'Heebo', sans-serif;
+}
+
+.banner article .contenedor-boton-registrarse{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0px;
+}
+
+.banner article .contenedor-boton-registrarse a{
+    background-color:var(--color-terciario);
+    color: var(--color-letra-pricipal);
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 15px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.banner article .contenedor-boton-registrarse a:hover{
+    background-color: var(--color-apuesto);
+    color: var(--color-letra-pricipal);
+    transition: 0.2s linear;
+}
+
+/*DESCRIPCION*/
+.descripcion-app-1{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 30px;
+    height: 60%;
+    margin: 20px 0px;
+}
+
+.descripcion-app-1 .imagen-descripcion{
+    background-image: url(../assets/reunion.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    height: 350px;
+    border-radius: 30px 200px 200px 30px;
+    -moz-border-radius: 30px 200px 200px 30px;
+    -webkit-border-radius: 30px 200px 200px 30px;
+    border: 5px solid var(--color-principal);
+}
+
+.descripcion-app-1 .imagen-descripcion:hover{
+    border: 5px solid var(--color-apuesto);
+    transition: 0.2s linear;
+}
+
+.descripcion-app-1 .descripcion{
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.descripcion-app-1 .descripcion h2{
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px;
+}
+
+.descripcion-app-1 .descripcion p{
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px;
+}
+
+.descripcion-app-2{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 30px;
+    height: 60%;
+}
+
+.descripcion-app-2 .descripcion{
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.descripcion-app-2 .descripcion h2{
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px;
+}
+
+.descripcion-app-2 .descripcion p{
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px;
+}
+
+.descripcion-app-2 .imagen-descripcion{
+    background-image: url(../assets/reunion2.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    height: 350px;
+    border-radius: 30px 200px 200px 30px;
+    -moz-border-radius: 30px 200px 200px 30px;
+    -webkit-border-radius: 30px 200px 200px 30px;
+    border: 5px solid var(--color-apuesto);
+}
+
+.descripcion-app-2 .imagen-descripcion:hover{
+    border: 5px solid var(--color-principal);
+    transition: 0.2s linear;
+}
+
+.descripcion-app-3{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 30px;
+    height: 60%;
+}
+
+.descripcion-app-3 .imagen-descripcion{
+    background-image: url(../assets/reunion3.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    height: 350px;
+    border-radius: 30px 200px 200px 30px;
+    -moz-border-radius: 30px 200px 200px 30px;
+    -webkit-border-radius: 30px 200px 200px 30px;
+    border: 5px solid var(--color-principal);
+}
+
+.descripcion-app-3 .imagen-descripcion:hover{
+    border: 5px solid var(--color-apuesto);
+    transition: 0.2s linear;
+}
+
+.descripcion-app-3 .descripcion{
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.descripcion-app-3 .descripcion h2{
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px;
+}
+
+.descripcion-app-3 .descripcion p{
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px;
+}
+
+/*CARDS DE SISTEMAS*/
+
+.cards-sistemas{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    height: auto;
+    padding: 30px;
+    background-color: var(--color-letra-pricipal);
+}
+
+.cards-sistemas .card-s{
+    width: 250px;
+    display: flex;
+    margin: 20px 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    background-color: var(--color-fondo);
+    align-self: normal;
+    padding: 20px;
+    border-radius: 15px 15px 15px 15px;
+    -webkit-border-radius: 15px 15px 15px 15px;
+    -moz-border-radius: 15px 15px 15px 15px;
+    box-shadow: 1px -1px 16px 1px rgba(0,0,0,0.76);
+    -webkit-box-shadow: 1px -1px 16px 1px rgba(0,0,0,0.76);
+    -moz-box-shadow: 1px -1px 16px 1px rgba(0,0,0,0.76);
+}
+
+.cards-sistemas .card-s img{
+    width: 100%;
+    border-radius: 15px 15px 15px 15px;
+    -webkit-border-radius: 15px 15px 15px 15px;
+    -moz-border-radius: 15px 15px 15px 15px;
+}
+
+.cards-sistemas .card-s h4{
+    font-size: 1.8rem;
+    margin: 10px 0px;
+}
+
+.cards-sistemas .card-s p{
+    font-size: 1rem;
+    margin: 10px 0px 20px 0px;
+    font-family: 'Heebo', sans-serif;
+}
+
+.cards-sistemas .card-s .btn-card{
+    margin-top: auto;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 10px 25px;
+    background-color: var(--color-apuesto);
+    color: var(--color-letra-pricipal);
+    border-radius: 10px;
+    font-family: 'Heebo', sans-serif;
+    cursor: pointer;
+}
+
+.cards-sistemas .card-s .btn-card:hover{
+    background-color: var(--color-principal);
+    transition: 0.2s linear;
+}
+
+/*CARD DESARROLLADORES*/
+
+.card-desarroladores{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    height: auto;
+    padding: 30px;
+}
+
+.card-desarroladores .card-desarrolador{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    background-color: var(--color-letra-pricipal);
+    border-radius: 10px;
+    overflow: hidden;
+    align-self: normal;
+    margin: 20px 10px;
+    box-shadow: 1px -1px 16px 1px rgba(0,0,0,0.76);
+    -webkit-box-shadow: 1px -1px 16px 1px rgba(0,0,0,0.76);
+    -moz-box-shadow: 1px -1px 16px 1px rgba(0,0,0,0.76);
+}
+
+.card-desarroladores .card-desarrolador:hover{
+    transform: scale(1.05);
+    transition: 0.5s linear;
+}
+.card-desarrolador .head{
+    width: 100%;
+    height: 150px;
+    position: relative;
+}
+
+.card-desarrolador .head .circulo{
+    position: absolute;
+    width: 100%;
+    height: 300px;
+    border-radius: 50%;
+    background-color: var(--color-apuesto);
+    bottom: 0;
+}
+
+.card-desarrolador .head .contenedor-img{
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    background-color: var(--color-letra-pricipal);
+    padding: 5px;
+    border-radius: 50%;
+    bottom: -30%;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.contenedor-img img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.card-desarrolador .descripcion{
+    display: flex;
+    flex-direction: column;
+    padding: 60px 20px 5px 20px;
+    text-align: center;
+}
+
+.card-desarrolador .descripcion h3{
+    font-size: 1.6rem;
+    margin: 5px 0px;
+}
+
+.card-desarrolador .descripcion h4{
+    font-size: 1.2rem;
+    margin: 5px 0px;
+}
+
+.card-desarrolador .descripcion p{
+    font-size: 1rem;
+    margin: 10px 0px;
+    font-family: 'Heebo', sans-serif;
+}
+
+.card-desarrolador .redes{
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 10px 20px 20px 20px;
+}
+
+.card-desarrolador .redes a{
+    text-decoration: none;
+    font-size: 1.8rem;
+    padding: 4px 10px;
+    border-radius: 50%;
+    background-color: var(--color-apuesto);
+    color: var(--color-letra-pricipal);
+    cursor: pointer;
+}
+
+.card-desarrolador .redes a:hover{
+    background-color: var(--color-principal);
+    transition: 0.2s linear;
+}
+
+@media screen and (max-width: 1000px) {
+    /*RESPONSIVE DESCRIPCION*/
+
+    .descripcion-app-1 .imagen-descripcion{
+        width: 40%;
+    }
+
+    .descripcion-app-1 .descripcion{
+        width: 60%;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .descripcion-app-1 .descripcion h2{
+        font-size: 1.5rem;
+        margin: 5px;
+    }
+
+    .descripcion-app-1 .descripcion p{
+        font-size: 1rem;
+        margin: 5px;
+    }
+
+    .descripcion-app-2 .descripcion{
+        width: 60%;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .descripcion-app-2 .descripcion h2{
+        font-size: 1.5rem;
+        margin: 5px;
+    }
+
+    .descripcion-app-2 .descripcion p{
+        font-size: 1rem;
+        margin: 5px;
+    }
+
+    .descripcion-app-2 .imagen-descripcion{
+        width: 40%;
+    }
+
+    .descripcion-app-1 .imagen-descripcion{
+        width: 40%;
+    }
+
+    .descripcion-app-3 .descripcion{
+        width: 60%;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .descripcion-app-3 .descripcion h2{
+        font-size: 1.5rem;
+        margin: 5px;
+    }
+
+    .descripcion-app-3 .descripcion p{
+        font-size: 1rem;
+        margin: 5px;
+    }
+}
+
+@media screen and (max-width: 840px) {
+    /*RESPONSIVE BANNER*/
+    .banner{
+        height: 500px;
+    }
+
+    .banner article{
+        width: 95%;
+    }
+
+    .banner article h1{
+        font-size: 2rem;
+    }
+
+    .banner article h2{
+        font-size: 1.8rem;
+    }
+
+    .banner article p{
+        font-size: 0.9rem;
+    }
+
+    /*RESPONSIVE DESCRIPCION*/
+    .descripcion-app-1{
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .descripcion-app-1 .imagen-descripcion{
+        width: 400px;
+        height: 250px;
+    }
+
+    .descripcion-app-1 .descripcion{
+        width: 100%;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .descripcion-app-2{
+        flex-direction: column-reverse;
+        padding: 10px;
+    }
+
+    .descripcion-app-2 .descripcion{
+        width: 100%;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .descripcion-app-2 .imagen-descripcion{
+        width: 400px;
+        height: 250px;
+    }
+
+    .descripcion-app-3{
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .descripcion-app-3 .imagen-descripcion{
+        width: 400px;
+        height: 250px;
+    }
+
+    .descripcion-app-3 .descripcion{
+        width: 100%;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    /*CARD SISTEMA*/
+    .cards-sistemas{
+        padding: 30px 10px;
+    }
+
+    .cards-sistemas .card-s{
+        width: 400px;
+        margin: 10px 10px;
+        padding: 10px;
+    }
+
+    .cards-sistemas .card-s img{
+        width: 100%;
+    }
+
+    .cards-sistemas .card-s h4{
+        font-size: 1.5rem;
+    }
+
+    .cards-sistemas .card-s p{
+        font-size: 1rem;
+    }
+
+    .cards-sistemas .card-s .btn-card{
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 445px) {
+    /*DESCRIPCION BANNER*/
+    .banner{
+        height: 500px;
+    }
+
+    .banner article{
+        width: 95%;
+    }
+
+    .banner article h1{
+        font-size: 1.8rem;
+    }
+
+    .banner article h2{
+        font-size: 1.5rem;
+    }
+
+    .banner article p{
+        font-size: 0.8rem;
+    }
+
+    /*RESPONDIVE DESCRIPCION*/
+    .descripcion-app-1 .imagen-descripcion{
+        width: 250px;
+        height: 200px;
+    }
+
+    .descripcion-app-1 .descripcion h2{
+        font-size: 1.4rem;
+    }
+
+    .descripcion-app-1 .descripcion p{
+        font-size: 0.8em;
+    }
+
+    .descripcion-app-2 .imagen-descripcion{
+        width: 250px;
+        height: 200px;
+    }
+
+    .descripcion-app-2 .descripcion h2{
+        font-size: 1.4rem;
+    }
+
+    .descripcion-app-2 .descripcion p{
+        font-size: 0.8em;
+    }
+
+    .descripcion-app-3 .imagen-descripcion{
+        width: 250px;
+        height: 200px;
+    }
+
+    .descripcion-app-3 .descripcion h2{
+        font-size: 1.4rem;
+    }
+
+    .descripcion-app-3 .descripcion p{
+        font-size: 0.8em;
+    }
+
+    /*CARD SISTEMA*/
+    .cards-sistemas{
+        padding: 30px 10px;
+    }
+
+    .cards-sistemas .card-s{
+        width: 200px;
+        margin: 20px 10px;
+        padding: 10px;
+    }
+
+    .cards-sistemas .card-s p{
+        font-size: 0.8rem;
+    }
+
+    .cards-sistemas .card-s img{
+        width: 100%;
+    }
+
+    /*CARD DESARROLLADORES*/
+    .card-desarrolador .head .circulo{
+        border-radius: 0;
+    }
+
+    .card-desarrolador .descripcion h3{
+        font-size: 1.2rem;
+    }
+
+    .card-desarrolador .descripcion h4{
+        font-size: 1rem;
+    }
+
+    .card-desarrolador .descripcion p{
+        font-size: 0.8rem;
+    }
+
+    .card-desarrolador .redes{
+        justify-content: space-between;
+    }
+
+    .card-desarrolador .redes a{
+        font-size: 1.5rem;
+    }
+}

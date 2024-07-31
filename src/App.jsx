@@ -1,14 +1,11 @@
-import Footer from './components/Footer.jsx'
-import MainHeader from './components/MainHeader.jsx'
-
-function App() {
-
+import Welcome from "./components/Welcome";
+import Main from "./components/Main";
+const App = () => {
   return (
-    <>
-      <MainHeader />
-      <Footer />
-    </>
-  )
-}
+    <div>
+      <Main />
+    </div>
+  );
+};
 
-export default App
+export default App;
