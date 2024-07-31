@@ -1,22 +1,9 @@
-/*PALETA DE COLORES*/
-:root{
-    --color-principal:#591414;
-    --color-secundario:#8C1111;
-    --color-terciario:#A6242F;
-    --color-negro:#0D0908;
-    --color-alternativo-I:#7D6841;
-    --color-alternativo-II:#3045BF;
-    --color-apuesto:#145959;
-    --color-fondo:#E7E1E1;
-    --color-letra-pricipal: #fff;
-}
-
 footer{
     display: flex;
     align-items: start;
     justify-content: space-around;
     padding: 40px 30px;
-    background-color: var(--color-apuesto);
+    background-color: var(--color-05);
     flex-wrap: wrap;
     height: auto;
 }
@@ -32,7 +19,7 @@ footer .section-footer{
 footer .section-footer h3{
     font-size: 1.4rem;
     margin: 0px 0px 15px 0px;
-    color: var(--color-letra-pricipal);
+    color: var(--color-blanco);
     font-family: 'Heebo', sans-serif;
     text-transform: uppercase;
 }
@@ -40,14 +27,14 @@ footer .section-footer h3{
 footer .section-footer a{
     text-decoration: none;
     font-size: 1.1rem;
-    color: var(--color-letra-pricipal);
+    color: var(--color-blanco);
     margin: 5px 0px;
     font-weight: bold;
 }
 
 footer .section-footer p{
     font-size: 1.1rem;
-    color: var(--color-letra-pricipal);
+    color: var(--color-blanco);
     margin: 5px 0px;
     font-weight: bold;
 }

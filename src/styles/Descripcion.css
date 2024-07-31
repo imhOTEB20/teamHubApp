@@ -1,0 +1,315 @@
+/*DESCRIPCION*/
+.descripcion-app-1{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 30px;
+    height: 60%;
+    background-color: var(--color-fondo);
+}
+
+.descripcion-app-1 .imagen-descripcion{
+    background-image: url(../assets/img/descripcion-sistema-1.jpeg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    height: 350px;
+    border-radius: 30px 200px 200px 30px;
+    -moz-border-radius: 30px 200px 200px 30px;
+    -webkit-border-radius: 30px 200px 200px 30px;
+    border: 5px solid var(--color-01);
+}
+
+.descripcion-app-1 .imagen-descripcion:hover{
+    border: 5px solid var(--color-05);
+    transition: 0.2s linear;
+}
+
+.descripcion-app-1 .descripcion{
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.descripcion-app-1 .descripcion h2{
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px;
+}
+
+.descripcion-app-1 .descripcion p{
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px;
+}
+
+.descripcion-app-2{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 30px;
+    height: 60%;
+    background-color: var(--color-fondo);
+}
+
+.descripcion-app-2 .descripcion{
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.descripcion-app-2 .descripcion h2{
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px;
+}
+
+.descripcion-app-2 .descripcion p{
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px;
+}
+
+.descripcion-app-2 .imagen-descripcion{
+    background-image: url(../assets/img/descripcion-sistema-2.jpeg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    height: 350px;
+    border-radius: 30px 200px 200px 30px;
+    -moz-border-radius: 30px 200px 200px 30px;
+    -webkit-border-radius: 30px 200px 200px 30px;
+    border: 5px solid var(--color-05);
+}
+
+.descripcion-app-2 .imagen-descripcion:hover{
+    border: 5px solid var(--color-01);
+    transition: 0.2s linear;
+}
+
+.descripcion-app-3{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 30px;
+    height: 60%;
+    background-color: var(--color-fondo);
+}
+
+.descripcion-app-3 .imagen-descripcion{
+    background-image: url(../assets/img/descripcion-sistema-3.jpeg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    height: 350px;
+    border-radius: 30px 200px 200px 30px;
+    -moz-border-radius: 30px 200px 200px 30px;
+    -webkit-border-radius: 30px 200px 200px 30px;
+    border: 5px solid var(--color-01);
+}
+
+.descripcion-app-3 .imagen-descripcion:hover{
+    border: 5px solid var(--color-05);
+    transition: 0.2s linear;
+}
+
+.descripcion-app-3 .descripcion{
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.descripcion-app-3 .descripcion h2{
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px;
+}
+
+.descripcion-app-3 .descripcion p{
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px;
+}
+
+@media screen and (max-width: 1000px) {
+    /*RESPONSIVE DESCRIPCION*/
+    .descripcion-app-1 .imagen-descripcion{
+        width: 40%;
+    }
+
+    .descripcion-app-1 .descripcion{
+        width: 60%;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .descripcion-app-1 .descripcion h2{
+        font-size: 1.5rem;
+        margin: 5px;
+    }
+
+    .descripcion-app-1 .descripcion p{
+        font-size: 1rem;
+        margin: 5px;
+    }
+
+    .descripcion-app-2 .descripcion{
+        width: 60%;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .descripcion-app-2 .descripcion h2{
+        font-size: 1.5rem;
+        margin: 5px;
+    }
+
+    .descripcion-app-2 .descripcion p{
+        font-size: 1rem;
+        margin: 5px;
+    }
+
+    .descripcion-app-2 .imagen-descripcion{
+        width: 40%;
+    }
+
+    .descripcion-app-1 .imagen-descripcion{
+        width: 40%;
+    }
+
+    .descripcion-app-3 .descripcion{
+        width: 60%;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .descripcion-app-3 .descripcion h2{
+        font-size: 1.5rem;
+        margin: 5px;
+    }
+
+    .descripcion-app-3 .descripcion p{
+        font-size: 1rem;
+        margin: 5px;
+    }
+}
+
+@media screen and (max-width: 840px) {
+    /*RESPONSIVE DESCRIPCION*/
+    .descripcion-app-1{
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .descripcion-app-1 .imagen-descripcion{
+        width: 400px;
+        height: 250px;
+    }
+
+    .descripcion-app-1 .descripcion{
+        width: 100%;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .descripcion-app-2{
+        flex-direction: column-reverse;
+        padding: 10px;
+    }
+
+    .descripcion-app-2 .descripcion{
+        width: 100%;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .descripcion-app-2 .imagen-descripcion{
+        width: 400px;
+        height: 250px;
+    }
+
+    .descripcion-app-3{
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .descripcion-app-3 .imagen-descripcion{
+        width: 400px;
+        height: 250px;
+    }
+
+    .descripcion-app-3 .descripcion{
+        width: 100%;
+        justify-content: center;
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: 445px) {
+    /*RESPONSIVE DESCRIPCION*/
+    .descripcion-app-1 .imagen-descripcion{
+        width: 250px;
+        height: 200px;
+    }
+
+    .descripcion-app-1 .descripcion h2{
+        font-size: 1.4rem;
+    }
+
+    .descripcion-app-1 .descripcion p{
+        font-size: 0.8em;
+    }
+
+    .descripcion-app-2 .imagen-descripcion{
+        width: 250px;
+        height: 200px;
+    }
+
+    .descripcion-app-2 .descripcion h2{
+        font-size: 1.4rem;
+    }
+
+    .descripcion-app-2 .descripcion p{
+        font-size: 0.8em;
+    }
+
+    .descripcion-app-3 .imagen-descripcion{
+        width: 250px;
+        height: 200px;
+    }
+
+    .descripcion-app-3 .descripcion h2{
+        font-size: 1.4rem;
+    }
+
+    .descripcion-app-3 .descripcion p{
+        font-size: 0.8em;
+    }
+}
