@@ -191,6 +191,7 @@
     transform: scaleX(1);
     transform-origin: bottom left;
 }
+
 .btn-servidor{
     font-size: 0.9rem;
 }

@@ -3,7 +3,7 @@ import '../styles/Descripcion.css';
 const Descripcion = () => {
     return (
         <>
-        <section id="Nosotros" className="descripcion-app-1">
+        <section id="Descripcion" className="descripcion-app-1">
             <artlcle className="imagen-descripcion" data-aos="fade-left">
             </artlcle>
             <artlcle className="descripcion" data-aos="fade-right">

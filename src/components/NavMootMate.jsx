@@ -1,6 +1,4 @@
-import Login from "./Login";
-
-const Header = (props) => {
+const NavMootMate = (props) => {
     const cerrarSesion = () =>{
         Swal.fire({
             title: "Cerrar Sesión",
@@ -30,8 +28,8 @@ return (
     <header className="sticky-top">
         <nav className="navbar navbar-expand-lg navbar-dark bg-color-principal p-md-2 p-lg-3">
             <div className="container-fluid">
-            <a className="navbar-brand fw-bold">
-                <i className="fa-solid fa-fire-flame-curved"></i> {props.nombre}
+            <a className="navbar-brand fw-bold" href="/">
+                <i class="fa-brands fa-mastodon"></i> {props.nombre}
             </a>
             <button
                 className="navbar-toggler"
@@ -50,19 +48,19 @@ return (
                     <a
                     className="nav-link active"
                     aria-current="page"
-                    href="./index.html"
+                    href="/"
                     >
                     Inicio
                     </a>
                 </li>
                 <li className="nav-item mx-2">
-                    <a className="nav-link" href="./pages/contacto.html">
-                    Contacto
+                    <a className="nav-link" href="/#Descripcion">
+                    Acerca de Nosotros
                     </a>
                 </li>
                 <li className="nav-item mx-2">
-                    <a className="nav-link" href="pages/acercaDeNosotros.html">
-                    Acerca de Nosotros
+                    <a className="nav-link" href="/#Funciones">
+                    Funciones
                     </a>
                 </li>
 
@@ -78,6 +76,13 @@ return (
                     <span id="nombre-usuario"> Mia Khalifa </span>
                     </a>
                     <ul className="dropdown-menu dropdown-menu-dark bg-color-secundario mb-2 mb-lg-0">
+                    <li>
+                        <a href="/bienvenida"
+                        className="dropdown-item text-light fw-bold"
+                        >
+                        <i class="fa-solid fa-message"></i> Tus servidores
+                        </a>
+                    </li>
                     <li>
                         <button
                         className="dropdown-item text-light fw-bold"
@@ -139,4 +144,4 @@ return (
     );
 }
 
-export default Header;
+export default NavMootMate;
