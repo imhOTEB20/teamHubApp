@@ -1,4 +1,5 @@
 import Login from "./Login";
+import PropTypes from 'prop-types'
 
 const Header = (props) => {
 return (
@@ -115,4 +116,7 @@ return (
     );
 }
 
+Header.propTypes = {
+    nombre: PropTypes.string.isRequired,
+};
 export default Header;

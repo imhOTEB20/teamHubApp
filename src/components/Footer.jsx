@@ -1,4 +1,5 @@
 import "../styles/Footer.css";
+import PropTypes from 'prop-types';
 const Footer = (props) => {
     return (
         <footer>
@@ -30,5 +31,7 @@ const Footer = (props) => {
         </footer>
     );
 }
-
+Footer.propTypes = {
+    nombre: PropTypes.string.isRequired,
+};
 export default Footer;

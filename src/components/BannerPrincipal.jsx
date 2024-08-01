@@ -1,4 +1,5 @@
 import '../styles/BannerPrincipal.css';
+import PropTypes from 'prop-types';
 
 const BannerPrincipal = (props) =>{
     return (
@@ -23,5 +24,9 @@ const BannerPrincipal = (props) =>{
         </section>
     );
 }
+
+BannerPrincipal.propTypes = {
+    nombre: PropTypes.string.isRequired,
+};
 
 export default BannerPrincipal;

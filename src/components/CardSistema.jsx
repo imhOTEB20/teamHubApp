@@ -1,4 +1,5 @@
 import '../styles/CardSistema.css';
+import PropTypes from 'prop-types'
 import imagen1 from '../assets/img/card-1.jpeg';
 import imagen2 from '../assets/img/card-2.jpeg';
 import imagen3 from '../assets/img/card-3.jpeg';
@@ -34,5 +35,8 @@ const CardSistema = (props) => {
         </section>
     );
 }
+CardSistema.propTypes = {
+    nombre: PropTypes.string.isRequired,
+};
 
 export default CardSistema;

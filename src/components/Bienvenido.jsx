@@ -50,8 +50,8 @@ const Servidores = () =>{
                     </div>
                     <div className="botones-servidor">
                         <a className="btn-servidor btn btn-personalized-1 fw-bold my-1 mx-0 mx-sm-1 my-md-0" href="chat.html">Ingresar <i className="fa-solid fa-comments"></i></a>
-                        <button className="btn-servidor btn btn-personalized-2 fw-bold my-1 mx-0 mx-sm-1 my-md-0"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
-                        <button className='btn-servidor btn btn-personalized-3 fw-bold my-1 mx-0 mx-sm-1 my-md-0'><i class="fa-solid fa-right-from-bracket"></i> Salir</button>
+                        <button className="btn-servidor btn btn-personalized-2 fw-bold my-1 mx-0 mx-sm-1 my-md-0"><i className="fa-solid fa-pen-to-square"></i> Editar</button>
+                        <button className='btn-servidor btn btn-personalized-3 fw-bold my-1 mx-0 mx-sm-1 my-md-0'><i className="fa-solid fa-right-from-bracket"></i> Salir</button>
                     </div>
                     <div className="me-encanta-lokita">
                         <label className="label-me-encanta"><i className="fa-regular fa-heart"></i></label>
@@ -66,21 +66,21 @@ const Servidores = () =>{
                     </div>
                     <div className="botones-servidor">
                     <a className="btn-servidor btn btn-personalized-1 fw-bold my-1 mx-0 mx-sm-1 my-md-0" href="chat.html">Ingresar <i className="fa-solid fa-comments"></i></a>
-                        <button className='btn-servidor btn btn-personalized-3 fw-bold my-1 mx-0 mx-sm-1 my-md-0'><i class="fa-solid fa-right-from-bracket"></i> Salir</button>
+                        <button className='btn-servidor btn btn-personalized-3 fw-bold my-1 mx-0 mx-sm-1 my-md-0'><i className="fa-solid fa-right-from-bracket"></i> Salir</button>
                     </div>
                     <div className="me-encanta-lokita">
-                        <label className="label-me-encanta lbl-mg-1" for="btn-me-encanta-1"><i className="fa-regular fa-heart"></i></label>
+                        <label className="label-me-encanta lbl-mg-1" htmlFor="btn-me-encanta-1"><i className="fa-regular fa-heart"></i></label>
                     </div>
                 </article>
             </section>
     );
 }
 
-const Bienvenido = () => {
+const Bienvenido = (nombre) => {
     return(
         <section className="cambio-de-color">
             <section className="bienvenida-usuario" data-aos="fade-down">
-                <h1 id="bienvenida">¡Bienvenido Eric Cartman!</h1>
+                <h1 id="bienvenida">¡Bienvenido {nombre}!</h1>
             </section>
             <AgregarServidor/>
             <BuscarServidor/>
