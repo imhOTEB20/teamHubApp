@@ -7,6 +7,7 @@ import Footer from "./components/Footer";
 import Login from "./components/Login";
 import Registro from "./components/Registro";
 import Bienvenido from "./components/Bienvenido";
+import ModalEditarPerfil from "./components/ModalEditarPerfil";
 
 const tituloSoftware = "MootMate";
 const App = () => {
@@ -15,16 +16,17 @@ const App = () => {
       <Header nombre={tituloSoftware}/>
 
       {/* PAGINA PRINCIPAL*/}
-      {/* <BannerPrincipal nombre={tituloSoftware}/>
+      <BannerPrincipal nombre={tituloSoftware}/>
       <Descripcion/>
       <CardSistema nombre={tituloSoftware}/>
       <Desarrolladores/>
       <Login/>
-      <Registro/> */}
+      <Registro/>
+      <ModalEditarPerfil/>
 
       {/* PAGINA BIENVENIDA*/}
-      <Bienvenido/>
-      <CardSistema nombre={tituloSoftware}/>
+      {/* <Bienvenido/>
+      <CardSistema nombre={tituloSoftware}/> */}
 
       <Footer nombre={tituloSoftware}/>
     </div>

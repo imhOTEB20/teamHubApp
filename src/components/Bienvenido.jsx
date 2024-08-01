@@ -2,9 +2,8 @@ import '../styles/Bienvenido.css';
 import nuevoServidor from '../assets/img/new-server.png';
 import buscarServidor from '../assets/img/new-server-1.png'
 import sinServidores from '../assets/img/no-chatear.png'
-import radioGarka from '../assets/img/radio-garka.jpg'
-import cdt from '../assets/img/cdt.jpg'
 import ModalCrearServidor from './ModalCrearServidor';
+import Servidor from './Servidor';
 
 
 const AgregarServidor = () => {
@@ -40,39 +39,10 @@ const NoHayServidores = () =>{
 const Servidores = () =>{
     return(
         <section className="tus-servidores">
-                <article className="card-servidor" data-aos="fade-up">
-                    <img src={radioGarka} alt="logo-server"/>
-                    <div className="descripcion-servidor">
-                        <h2>Radio Garka</h2>
-                        <p>69 miembros <a href="miembros.html">mostrar <i className="fa-solid fa-eye"></i></a></p>
-                        <p>2 canales <a href="canales.html">mostrar <i className="fa-solid fa-comments"></i></a></p>
-                        <button className="btn-servidor btn btn-personalized-3 fw-bold"><i className="fa-solid fa-trash"></i> Eliminar</button>
-                    </div>
-                    <div className="botones-servidor">
-                        <a className="btn-servidor btn btn-personalized-1 fw-bold my-1 mx-0 mx-sm-1 my-md-0" href="chat.html">Ingresar <i className="fa-solid fa-comments"></i></a>
-                        <button className="btn-servidor btn btn-personalized-2 fw-bold my-1 mx-0 mx-sm-1 my-md-0"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
-                        <button className='btn-servidor btn btn-personalized-3 fw-bold my-1 mx-0 mx-sm-1 my-md-0'><i class="fa-solid fa-right-from-bracket"></i> Salir</button>
-                    </div>
-                    <div className="me-encanta-lokita">
-                        <label className="label-me-encanta"><i className="fa-regular fa-heart"></i></label>
-                    </div>
-                </article>
-                <article className="card-servidor" data-aos="fade-up">
-                    <img src={cdt} alt="logo-server"/>
-                    <div className="descripcion-servidor">
-                        <h2>Radio Garka</h2>
-                        <p>69 miembros <a href="#">mostrar <i className="las la-eye"></i></a></p>
-                        <p>2 canales <a href="#">mostrar <i className="las la-comment-dots"></i></a></p>
-                    </div>
-                    <div className="botones-servidor">
-                    <a className="btn-servidor btn btn-personalized-1 fw-bold my-1 mx-0 mx-sm-1 my-md-0" href="chat.html">Ingresar <i className="fa-solid fa-comments"></i></a>
-                        <button className='btn-servidor btn btn-personalized-3 fw-bold my-1 mx-0 mx-sm-1 my-md-0'><i class="fa-solid fa-right-from-bracket"></i> Salir</button>
-                    </div>
-                    <div className="me-encanta-lokita">
-                        <label className="label-me-encanta lbl-mg-1" for="btn-me-encanta-1"><i className="fa-regular fa-heart"></i></label>
-                    </div>
-                </article>
-            </section>
+            <Servidor id={1}/>
+            <Servidor id={2}/>
+            <Servidor id={3}/>
+        </section>
     );
 }
 
