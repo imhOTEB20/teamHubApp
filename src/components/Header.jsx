@@ -2,6 +2,31 @@ import Login from "./Login";
 import PropTypes from 'prop-types'
 
 const Header = (props) => {
+    const cerrarSesion = () =>{
+        Swal.fire({
+            title: "Cerrar Sesión",
+            text: "¿Estás seguro de cerrar sesión?",
+            icon: "warning",
+            showCancelButton: true,
+            background: "#eaeef4",
+            confirmButtonColor: "#144d4d",
+            confirmButtonText: "Si, cerrar",
+            cancelButtonColor: "#A60505",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    icon: "success",
+                    title: "¡Éxito!",
+                    text: "¡Hasta luego!",
+                    showConfirmButton: false,
+                    background: "#eaeef4",
+                    timer: 1500
+                });
+            }
+        });
+    }
+
 return (
     <header className="sticky-top">
         <nav className="navbar navbar-expand-lg navbar-dark bg-color-principal p-md-2 p-lg-3">
@@ -55,14 +80,13 @@ return (
                     </a>
                     <ul className="dropdown-menu dropdown-menu-dark bg-color-secundario mb-2 mb-lg-0">
                     <li>
-                        <a
+                        <button
                         className="dropdown-item text-light fw-bold"
-                        href="#"
                         data-bs-toggle="modal"
                         data-bs-target="#editarPerfilModal"
                         >
                         <i className="fa-solid fa-user-pen"></i> Editar perfil
-                        </a>
+                        </button>
                     </li>
                     <li>
                         <a
@@ -77,13 +101,13 @@ return (
                         <hr className="dropdown-divider bg-light" />
                     </li>
                     <li>
-                        <a
+                        <button
                         className="dropdown-item text-light fw-bold"
                         id="btnCerrarSesion"
-                        href="#"
+                        onClick={cerrarSesion}
                         >
                         <i className="fa-solid fa-door-open"></i> Salir
-                        </a>
+                        </button>
                     </li>
                     </ul>
                 </li>
