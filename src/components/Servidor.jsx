@@ -58,8 +58,8 @@ const Servidor = ({id}) =>{
             <img src={radioGarka} alt="logo-server"/>
             <div className="descripcion-servidor">
                 <h2>Radio Garka</h2>
-                <p>69 miembros <a href="miembros.html">mostrar <i className="fa-solid fa-eye"></i></a></p>
-                <p>2 canales <a href="canales.html">mostrar <i className="fa-solid fa-comments"></i></a></p>
+                <p>69 miembros <a href="/miembros">mostrar <i className="fa-solid fa-eye"></i></a></p>
+                <p>2 canales <a href="/canales">mostrar <i className="fa-solid fa-comments"></i></a></p>
                 <button className="btn-servidor btn btn-personalized-3 fw-bold" onClick={alertEliminarServidor}><i className="fa-solid fa-trash"></i> Eliminar</button>
             </div>
             <div className="botones-servidor">

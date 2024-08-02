@@ -1,4 +1,3 @@
-
 /*RESPONSIVE BIENVENIDA*/
 .cambio-de-color{
     display: flex;
@@ -294,7 +293,7 @@
     }
 }
 
-@media screen and (max-width: 710px) {
+@media screen and (max-width: 650px) {
     /*RESPONSIVE BIENVENIDA SERVIDORES*/
     .tus-servidores .card-servidor{
         padding: 30px;

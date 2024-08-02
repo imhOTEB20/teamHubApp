@@ -1,0 +1,233 @@
+.bienvenidad-miembros{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 30px 10px;
+}
+
+.bienvenidad-miembros h1{
+    font-size: 2.5rem;
+    text-align: center;
+    font-weight: bold;
+    color: var(--color-blanco);
+}
+
+.invitar-a-miembros{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-blanco);
+    padding: 20px;
+    margin: 30px 10px 20px 10px;
+    border: 1px var(--color-05) solid;
+    border-radius: 10px;
+}
+
+.invitar-a-miembros img{
+    width: 80px;
+    height: 80px;
+}
+
+.invitar-a-miembros p{
+    margin: 0px 30px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: 'Heebo', sans-serif;
+    text-align: center;
+}
+
+/*BUSCADOR*/
+.buscador{
+    width: 600px;
+    height: 40px;
+    background-color: var(--color-blanco);
+    margin: 10px 10px 30px 10px;
+    border-radius: 10px;
+    padding: 5px 10px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.buscador i{
+    font-size: 1.8rem;
+    color: var(--color-05);
+}
+
+.buscador input{
+    height: 100%;
+    width: 100%;
+    font-size: 1.2rem;
+    padding: 5px 10px;
+    font-weight: bold;
+    outline: none;
+    border: none;
+    background-color: var(--color-blanco);
+    color: var(--color-05);
+    padding-right: 5px;
+}
+
+.buscador input::placeholder{
+    color: var(--color-05);
+}
+
+/*MIEMBROS*/
+.tus-miembros{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 30px;
+    background-color: var(--color-fondo);
+}
+
+.tus-miembros .card-miembro{
+    width: 80%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--color-blanco);
+    margin: 20px 0px;
+    padding: 30px 20px;
+    border-radius: 10px;
+}
+
+.tus-miembros .card-miembro img{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+
+.tus-miembros .card-miembro .descripcion-miembro{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    align-self: normal;
+    flex-grow: 1;
+    flex-basis: 0;
+    padding: 0px 20px;
+}
+
+.tus-miembros .card-miembro .descripcion-miembro h2{
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.tus-miembros .card-miembro .descripcion-miembro p{
+    font-size: 1rem;
+    font-weight: 400;
+    font-family: 'Heebo', sans-serif;
+    padding: 5px 0px;
+    text-align: center;
+}
+
+.tus-miembros .card-miembro .descripcion-miembro p a{
+    position: relative;
+    text-decoration: none;
+    color: var(--color-04);
+    font-weight: bold;
+    text-align: center;
+}
+
+.tus-miembros .card-miembro .descripcion-miembro p a:hover{
+    color: var(--color-01);
+    transition: 0.2s linear;
+}
+
+.tus-miembros .card-miembro .botones-miembro{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+@media screen and (max-width: 900px) {
+    /*RESPONSIVE MIEMBROS*/
+    .bienvenidad-miembros{
+        margin: 30px 20px;
+    }
+
+    .bienvenidad-miembros h1{
+        font-size: 2rem;
+    }
+
+    .invitar-a-miembros{
+        margin: 20px 10px 20px 10px;
+    }
+
+    .invitar-a-miembros img{
+        width: 70px;
+        height: 70px;
+    }
+
+    .invitar-a-miembros p{
+        font-size: 1.1rem;
+    }
+
+    .buscador i{
+        font-size: 1.6rem;
+    }
+
+    .buscador input{
+        font-size: 1rem;
+    }
+
+    .tus-miembros .card-miembro{
+        width: 90%;
+        padding: 30px;
+    }
+
+    .tus-miembros .card-miembro .descripcion-miembro h2{
+        font-size: 1.4rem;
+    }
+
+    .tus-miembros .card-miembro .descripcion-miembro p{
+        font-size: 0.8rem;
+    }
+
+    .tus-miembros .card-miembro .botones-miembro {
+        flex-direction: column;
+        align-items: center;
+        padding: 0px;
+        margin: 10px 0px;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .invitar-a-miembros{
+        flex-direction: column;
+    }
+
+    .invitar-a-miembros img{
+        width: 70px;
+        height: 70px;
+    }
+
+    .invitar-a-miembros p{
+        margin: 20px 10px;
+    }
+
+    .buscador{
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .tus-miembros{
+        padding: 10px 20px;
+        margin: 0;
+    }
+
+    .tus-miembros .card-miembro{
+        flex-direction: column;
+        margin: 10px 0px;
+    }
+
+    .tus-miembros .card-miembro .descripcion-miembro{
+        align-items: center;
+    }
+}

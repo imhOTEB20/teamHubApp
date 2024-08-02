@@ -6,6 +6,7 @@ import FooterMootMate from "../components/FooterMootMate";
 import BienvenidaPage from "../pages/BienvenidaPage";
 import DesarrolladoresPage from "../pages/DesarrolladoresPage";
 import CanalesPage from "../pages/CanalesPage";
+import MiembrosPage from "../pages/MiembrosPage";
 
 const tituloSoftware = "MootMate";
 
@@ -16,6 +17,7 @@ const RoutesViews = () => {
         <Routes>
             <Route path="/desarrolladores" element={<DesarrolladoresPage/>}/>
             <Route path="/canales" element={<CanalesPage/>}/>
+            <Route path="/miembros" element={<MiembrosPage/>}/>
             <Route path="/bienvenida" element={<BienvenidaPage/>}/>
             <Route path="/" element={<HomePage/>}/>
             <Route path="*" element={<Error404Page/>}/>
