@@ -53,7 +53,7 @@ const ModalCrearServidor = () => {
                                 <input className="form-control bg-input" type="file" id="fotoServidor" />
                             </div>
                             <div className="mb-3">
-                                <NombreServidor variable={varibleInput} manejadorCambio={validarNombreServidor}/>
+                                <NombreServidor variable={varibleInput} manejadorCambio={manejarCambioInput}/>
                                 <div id="nombreErrorServidor"></div>
                             </div>
                             <div className="mb-3">
