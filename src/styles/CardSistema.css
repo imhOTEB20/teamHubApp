@@ -1,0 +1,105 @@
+/*CARDS DE SISTEMAS*/
+.cards-sistemas{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    height: auto;
+    padding: 30px;
+    background-color: var(--color-blanco);
+}
+
+.cards-sistemas .card-s{
+    width: 300px;
+    display: flex;
+    margin: 20px 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    background-color: var(--color-fondo);
+    align-self: normal;
+    padding: 20px;
+    border-radius: 15px 15px 15px 15px;
+    -webkit-border-radius: 15px 15px 15px 15px;
+    -moz-border-radius: 15px 15px 15px 15px;
+    box-shadow: 1px -1px 16px 1px rgba(0,0,0,0.76);
+    -webkit-box-shadow: 1px -1px 16px 1px rgba(0,0,0,0.76);
+    -moz-box-shadow: 1px -1px 16px 1px rgba(0,0,0,0.76);
+}
+
+.cards-sistemas .card-s img{
+    width: 100%;
+    border-radius: 15px 15px 15px 15px;
+    -webkit-border-radius: 15px 15px 15px 15px;
+    -moz-border-radius: 15px 15px 15px 15px;
+}
+
+.cards-sistemas .card-s h4{
+    font-size: 1.8rem;
+    margin: 10px 0px;
+}
+
+.cards-sistemas .card-s p{
+    font-size: 1rem;
+    margin: 10px 0px 20px 0px;
+    font-family: 'Heebo', sans-serif;
+    text-align: center;
+}
+
+.cards-sistemas .card-s button{
+    font-size: 1.1rem;
+    font-family: 'Heebo', sans-serif;
+}
+
+@media screen and (max-width: 840px) {
+    /*CARD SISTEMA*/
+    .cards-sistemas{
+        padding: 30px 10px;
+    }
+
+    .cards-sistemas .card-s{
+        margin: 10px 10px;
+        padding: 10px;
+    }
+
+    .cards-sistemas .card-s img{
+        width: 100%;
+    }
+
+    .cards-sistemas .card-s h4{
+        font-size: 1.5rem;
+    }
+
+    .cards-sistemas .card-s p{
+        font-size: 1rem;
+    }
+
+    .cards-sistemas .card-s button{
+        font-size: 1rem;
+    }
+
+    .titulo-desarrolladores h3{
+        font-size: 1.8rem;
+    }
+}
+
+@media screen and (max-width: 445px) {
+    /*CARD SISTEMA*/
+    .cards-sistemas{
+        padding: 30px 10px;
+    }
+
+    .cards-sistemas .card-s{
+        width: 275px;
+        margin: 20px 10px;
+        padding: 10px;
+    }
+
+    .cards-sistemas .card-s p{
+        font-size: 0.8rem;
+    }
+
+    .cards-sistemas .card-s img{
+        width: 100%;
+    }
+}
