@@ -69,7 +69,7 @@ const Servidor = ({id}) =>{
                     data-bs-toggle="modal"
                     data-bs-target={`#editarServidorModal${id}`}><i className="fa-solid fa-pen-to-square"></i> Editar</button>
                 <ModalEditarServidor idModal={id} />
-                <button className='btn-servidor btn btn-personalized-3 fw-bold my-1 mx-0 mx-sm-1 my-md-0' onClick={salirDelServidor}><i class="fa-solid fa-right-from-bracket"></i> Salir</button>
+                <button className='btn-servidor btn btn-personalized-3 fw-bold my-1 mx-0 mx-sm-1 my-md-0' onClick={salirDelServidor}><i className="fa-solid fa-right-from-bracket"></i> Salir</button>
             </div>
             <div className="me-encanta-lokita">
                 <label className="label-me-encanta"><i className="fa-regular fa-heart"></i></label>

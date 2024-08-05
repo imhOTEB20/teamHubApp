@@ -29,7 +29,7 @@ return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-color-principal p-md-2 p-lg-3">
             <div className="container-fluid">
             <a className="navbar-brand fw-bold" href="/">
-                <i class="fa-brands fa-mastodon"></i> {props.nombre}
+                <i className="fa-brands fa-mastodon"></i> {props.nombre}
             </a>
             <button
                 className="navbar-toggler"
@@ -80,7 +80,7 @@ return (
                         <a href="/bienvenida"
                         className="dropdown-item text-light fw-bold"
                         >
-                        <i class="fa-solid fa-message"></i> Tus servidores
+                        <i className="fa-solid fa-message"></i> Tus servidores
                         </a>
                     </li>
                     <li>

@@ -1,27 +1,52 @@
 import { useState } from 'react';
+import useFetch from '../hooks/useFetch';
 import PropTypes from 'prop-types';
 
-const NombreServidor = ( {variable, manejadorCambio }) => {
+import { SERVER_API_URL } from '../apiConfig';
+
+const NombreServidor = ({ variable, manejadorCambio }) => {
     return (
         <>
-        <label htmlFor="nombreServidor" className="form-label fw-bolder">Nombre</label>
-        <input type="text"
-        className="form-control bg-input"
-        id="nombreServidor"
-        value={variable}
-        onChange={manejadorCambio}
-        placeholder="Ingrese nombre"
-        minLength="4"
-        maxLength="25"
-        name="Nombre"
-        required />
+            <label htmlFor="nombreServidor" className="form-label fw-bolder">Nombre</label>
+            <input type="text"
+                className="form-control bg-input"
+                id="nombreServidor"
+                value={variable}
+                onChange={manejadorCambio}
+                placeholder="Ingrese nombre"
+                minLength="4"
+                maxLength="25"
+                name="Nombre"
+                required />
         </>
     );
 }
 
 const ModalCrearServidor = () => {
-    const [varibleInput, setVariableInput] = useState("");
+    const [nombreServidor, setNombreServidor] = useState("");
     const [botonDesactivado, setBotonDesactivado] = useState(true);
+    const [descripcionServidor, setDescripcionServidor] = useState("");
+    const [triggerFetch, setTriggerFetch] = useState(false);
+    const {data, isError, isLoading} = useFetch(
+        SERVER_API_URL,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify( {
+                name: nombreServidor,
+                description: descripcionServidor
+            })
+        },
+        triggerFetch
+    );
+
+    const manejarSubmit = (e) => {
+        e.preventDefault();
+        setTriggerFetch(true);
+    };
+
 
     const validarNombreServidor = (valor) => {
         const exp_reg = /^[a-zA-Z\d]{4,}$/;
@@ -32,11 +57,17 @@ const ModalCrearServidor = () => {
             setBotonDesactivado(true);
         }
     };
-    const manejarCambioInput = (e) => {
+
+    const manejarCambioNombreServidor = (e) => {
         const valor = e.target.value;
-        setVariableInput(valor);
+        setNombreServidor(valor);
         validarNombreServidor(valor);
     };
+
+    const manejadorCambioDescripcionServidor = (e) => {
+        const text = e.target.value;
+        setDescripcionServidor(text);
+    }
 
     return (
         <section className="modal fade" id="agregarServidorModal" tabIndex="-1" aria-labelledby="agregarServidorModal" aria-hidden="true">
@@ -47,18 +78,18 @@ const ModalCrearServidor = () => {
                         <button type="button" className="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body bg-color-fondo">
-                        <form>
+                        <form onSubmit={manejarSubmit}>
                             <div className="mb-3">
                                 <label htmlFor="fotoServidor" className="form-label fw-bolder">Subir foto</label>
-                                <input className="form-control bg-input" type="file" id="fotoServidor" />
+                                <input className="form-control bg-input" type="file" id="fotoServidor"/>
                             </div>
                             <div className="mb-3">
-                                <NombreServidor variable={varibleInput} manejadorCambio={manejarCambioInput}/>
+                                <NombreServidor variable={nombreServidor} manejadorCambio={manejarCambioNombreServidor} />
                                 <div id="nombreErrorServidor"></div>
                             </div>
                             <div className="mb-3">
                                 <div className="form-floating">
-                                    <textarea className="form-control bg-input" placeholder="Ingrese descripción" id="descripcion" style={{ height: '100px' }}></textarea>
+                                    <textarea className="form-control bg-input" value={descripcionServidor} onChange={manejadorCambioDescripcionServidor} placeholder="Ingrese descripción" id="descripcion" style={{ height: '100px' }}></textarea>
                                     <label htmlFor="descripcion">Descripción</label>
                                 </div>
                             </div>
@@ -89,8 +120,9 @@ const ModalCrearServidor = () => {
     );
 }
 
-NombreServidor.protoTypes = {
+NombreServidor.propTypes = {
     variable: PropTypes.string.isRequired,
     manejadorCambio: PropTypes.func.isRequired
-}
+};
+
 export default ModalCrearServidor;
