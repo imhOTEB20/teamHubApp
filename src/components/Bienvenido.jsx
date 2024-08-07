@@ -1,7 +1,8 @@
 import '../styles/Bienvenido.css';
 import nuevoServidor from '../assets/img/new-server.png';
-import buscarServidor from '../assets/img/new-server-1.png'
-import sinServidores from '../assets/img/no-chatear.png'
+import buscarServidor from '../assets/img/new-server-1.png';
+import sinServidores from '../assets/img/no-chatear.png';
+import error404 from '../assets/img/error.png';
 import ModalCrearServidor from './ModalCrearServidor';
 import Servidor from './Servidor';
 
@@ -36,6 +37,15 @@ const NoHayServidores = () =>{
     );
 }
 
+const ErrorAlCargarServidores = () =>{
+    return(
+        <section className="ningun-servidor" id="vacio" data-aos="flip-left">
+            <img src={error404} alt="no-perteneces-a-ningun-server"/>
+            <h3>¡Se produjo un error al cargar los servidores!</h3>
+        </section>
+    );
+}
+
 const Servidores = () =>{
     return(
         <section className="tus-servidores">
@@ -57,7 +67,7 @@ const Bienvenido = () => {
             <section className="titulo-tus-servidores">
                 <h2>¡Tus servidores!</h2>
             </section>
-            <NoHayServidores/>
+            <ErrorAlCargarServidores/>
             <Servidores/>
         </section>
     );

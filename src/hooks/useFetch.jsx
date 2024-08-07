@@ -55,6 +55,7 @@ function useFetch(url, options = {}, trigger = true) {
                 })
                 .catch((e) => {
                     dispatch({ type: ACTIONS.FETCH_FAILURE });
+                    console.log(e);
                 });
         }
     }, [url, trigger]);
