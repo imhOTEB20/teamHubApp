@@ -1,20 +1,21 @@
-import React from 'react';
+import { useState, useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import useValidateLogin from '../hooks/useValidateLogin';
 
-const EmailInput = ({ value, handleEmailInput }) => (
+import useValidateLogin from '../hooks/useValidateLogin';
+import useFetch from '../hooks/useFetch';
+import useAuth from '../hooks/useAuth';
+
+const UsernameInput = ({ value, handleUsernameInput }) => (
     <input
-        type="email"
+        type="text"
         className="form-control bg-input"
-        id="email-iniciar-sesion"
-        aria-describedby="emailHelp"
-        placeholder="Ingrese su email"
-        minLength="5"
-        maxLength="254"
-        name="Email"
+        id="username-iniciar-sesion"
+        placeholder="Ingrese su nombre de usuario"
+        name="Username"
         autoComplete="username"
         value={value}
-        onChange={handleEmailInput}
+        onChange={handleUsernameInput}
         required
     />
 );
@@ -25,9 +26,6 @@ const PasswordInput = ({ value, handlePasswordInput }) => (
         className="form-control bg-input"
         id="password-iniciar-sesion"
         placeholder="Ingrese su contraseña"
-        maxLength="16"
-        minLength="8"
-        title="Debe contener al menos un número, una letra mayúscula, una letra minúscula, y tener entre 6 y 16 caracteres"
         value={value}
         onChange={handlePasswordInput}
         name="Contraseña"
@@ -37,18 +35,40 @@ const PasswordInput = ({ value, handlePasswordInput }) => (
 );
 
 const Login = () => {
-    const validateEmail = (value) => /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(value);
-    const validatePassword = (value) => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(value);
+    const { login } = useAuth();
 
-    const { email, password, isValid, setEmail, setPassword } = useValidateLogin(validateEmail, validatePassword);
+    const validateUsername = (value) => value.length != 0;
+    const validatePassword = (value) => value.length != 0;
 
+    const { username, password, isValid, setUsername, setPassword } = useValidateLogin(validateUsername, validatePassword);
+    const navigate = useNavigate();
+    const [triggerFetch, setTriggerFetch] = useState(false);
+    const options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: username, password: password}),
+    }
+    const { data, isError, isLoading} = useFetch(
+        import.meta.env.VITE_USER_AUTH_API_URL,
+        options,
+        triggerFetch
+    );
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         if (isValid) {
-            // Lógica para manejar el login
-            // llamar a una API para autenticar al usuario
+            console.log(import.meta.env.VITE_USER_AUTH_API_URL);
+            setTriggerFetch(true);
         }
     };
+
+    
+    useEffect(() => {
+        if (data && !isError && !isLoading) {
+            login(data.token);
+            navigate("/bienvenida");
+        }
+    },[data])
 
     return (
         <section className="modal fade" id="iniciarSesionModal" tabIndex="-1" aria-labelledby="iniciarSesionModal" aria-hidden="true">
@@ -61,8 +81,8 @@ const Login = () => {
                     <div className="modal-body bg-color-fondo">
                         <form id="form-iniciar-sesion" onSubmit={handleSubmit}>
                             <div className="mb-3">
-                                <label htmlFor="email-iniciar-sesion" className="form-label fw-bolder">Email</label>
-                                <EmailInput value={email} handleEmailInput={(e) => setEmail(e.target.value)} />
+                                <label htmlFor="username-iniciar-sesion" className="form-label fw-bolder">Username</label>
+                                <UsernameInput value={username} handleUsernameInput={(e) => setUsername(e.target.value)} />
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="password-iniciar-sesion" className="form-label fw-bolder">Contraseña</label>
@@ -76,10 +96,10 @@ const Login = () => {
                                 </div>
                             </div>
                             <div className="d-flex align-items-center justify-content-center">
-                                <button type="submit" disabled={!isValid} className="btn btn-personalized-1 mx-1 fw-bold" aria-label="Ingresar">
+                                <button type="submit" disabled={!isValid} className="btn btn-personalized-1 mx-1 fw-bold" data-bs-dismiss="modal" aria-label="Ingresar">
                                     Ingresar
                                 </button>
-                                <button type="reset" className="btn btn-personalized-3 mx-1 fw-bold" aria-label="Cancelar">
+                                <button type="reset" className="btn btn-personalized-3 mx-1 fw-bold" data-bs-dismiss="modal" aria-label="Cancelar" >
                                     Cancelar
                                 </button>
                             </div>
@@ -91,9 +111,9 @@ const Login = () => {
     );
 };
 
-EmailInput.propTypes = {
+UsernameInput.propTypes = {
     value: PropTypes.string.isRequired,
-    handleEmailInput: PropTypes.func.isRequired
+    handleUsernameInput: PropTypes.func.isRequired
 }
 
 PasswordInput.propTypes = {

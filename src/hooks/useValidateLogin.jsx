@@ -1,17 +1,17 @@
 import { useReducer, useEffect } from "react";
 
 const ACTIONS = {
-    SET_EMAIL: "SET_EMAIL",
+    SET_USERNAME: "SET_USERNAME",
     SET_PASSWORD: "SET_PASSWORD",
     SET_VALIDITY: "SET_VALIDITY",
 };
 
 function reducer(state, action) {
     switch (action.type) {
-        case ACTIONS.SET_EMAIL:
+        case ACTIONS.SET_USERNAME:
             return {
                 ...state,
-                email: action.payload,
+                username: action.payload,
             };
         case ACTIONS.SET_PASSWORD:
             return {
@@ -28,20 +28,20 @@ function reducer(state, action) {
     }
 }
 
-function useValidateLogin(validateEmail, validatePassword) {
+function useValidateLogin(validateUsername, validatePassword) {
     const [state, dispatch] = useReducer(reducer, {
-        email: "",
+        username: "",
         password: "",
         isValid: false,
     });
 
     useEffect(() => {
-        const isValid = validateEmail(state.email) && validatePassword(state.password);
+        const isValid = validateUsername(state.username) && validatePassword(state.password);
         dispatch({ type: ACTIONS.SET_VALIDITY, payload: isValid });
-    }, [state.email, state.password, validateEmail, validatePassword]);
+    }, [state.username, state.password]);
 
-    const setEmail = (email) => {
-        dispatch({ type: ACTIONS.SET_EMAIL, payload: email });
+    const setUsername = (username) => {
+        dispatch({ type: ACTIONS.SET_USERNAME, payload: username });
     };
 
     const setPassword = (password) => {
@@ -49,10 +49,10 @@ function useValidateLogin(validateEmail, validatePassword) {
     };
 
     return {
-        email: state.email,
+        username: state.username,
         password: state.password,
         isValid: state.isValid,
-        setEmail,
+        setUsername,
         setPassword,
     };
 }

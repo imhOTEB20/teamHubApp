@@ -5,6 +5,9 @@ import sinServidores from '../assets/img/no-chatear.png';
 import error404 from '../assets/img/error.png';
 import ModalCrearServidor from './ModalCrearServidor';
 import Servidor from './Servidor';
+import useFetch from '../hooks/useFetch';
+import { useEffect, useState } from 'react';
+import useAuth from '../hooks/useAuth';
 
 
 const AgregarServidor = () => {
@@ -46,29 +49,65 @@ const ErrorAlCargarServidores = () =>{
     );
 }
 
-const Servidores = () =>{
-    return(
-        <section className="tus-servidores">
-            <Servidor id={1}/>
-            <Servidor id={2}/>
-            <Servidor id={3}/>
-        </section>
-    );
+const Servidores = ({ servers }) => {
+    if (Object.keys(servers).length !== 0)
+        return (
+            <section className='tus-servidores'>
+                {Object.entries(servers)
+                    .map(([key, data]) => (
+                        <Servidor id={key} data={data} />
+                    ))}
+            </section>
+            );
+    else {
+        return (
+            <section className='tus-servidores'>
+                <NoHayServidores />
+            </section>
+        );
+    }
 }
 
 const Bienvenido = () => {
+    const { profileData } = useAuth();
+    const firstName = JSON.parse(profileData).first_name;
+    const lastName = JSON.parse(profileData).last_name;
+    const user_id = JSON.parse(profileData).id;
+    const [servers, setServers] = useState({});
+    const { data, isError, isLoading} = useFetch(
+        import.meta.env.VITE_SERVER_API_URL,
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Token ${localStorage.getItem('token')}`
+            }
+        }
+    );
+
+    useEffect(() => {
+        if(data && !isError && !isLoading) {
+            const loadedServers = {};
+            data.results.forEach(server => {
+                if(server.owner === user_id || server.members.includes(user_id)) {
+                    loadedServers[server.id] = server;
+                }
+            });
+            setServers(loadedServers);
+        }
+    },[data]);
+
     return(
         <section className="cambio-de-color">
             <section className="bienvenida-usuario" data-aos="fade-down">
-                <h1 id="bienvenida">¡Bienvenido Eric Cartman!</h1>
+                <h1 id="bienvenida">{`${firstName} ${lastName}`}</h1>
             </section>
             <AgregarServidor/>
             <BuscarServidor/>
             <section className="titulo-tus-servidores">
                 <h2>¡Tus servidores!</h2>
             </section>
-            <ErrorAlCargarServidores/>
-            <Servidores/>
+            <Servidores servers={servers}/>
         </section>
     );
 }

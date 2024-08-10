@@ -6,11 +6,12 @@ import DesarrolladoresPage from "./pages/DesarrolladoresPage";
 import CanalesPage from "./pages/CanalesPage";
 import MiembrosPage from "./pages/MiembrosPage";
 import PrivateRoute from "./components/PrivateRoute";
+import ComponentIfLogged from "./components/ComponentIfLogged";
 
 const Router = createBrowserRouter([
     {
         path: "/",
-        element: <HomePage />,
+        element: <ComponentIfLogged childrenIfLogged={<BienvenidaPage />} childrenIfNotLogged={<HomePage />}/>,
     },
     {
         path: "/canales",

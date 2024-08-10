@@ -2,8 +2,6 @@ import { useState } from 'react';
 import useFetch from '../hooks/useFetch';
 import PropTypes from 'prop-types';
 
-import { SERVER_API_URL } from '../apiConfig';
-
 const NombreServidor = ({ variable, manejadorCambio }) => {
     return (
         <>
@@ -28,7 +26,7 @@ const ModalCrearServidor = () => {
     const [descripcionServidor, setDescripcionServidor] = useState("");
     const [triggerFetch, setTriggerFetch] = useState(false);
     const {data, isError, isLoading} = useFetch(
-        SERVER_API_URL,
+        import.meta.env.VITE_SERVER_API_URL,
         {
             method: 'POST',
             headers: {

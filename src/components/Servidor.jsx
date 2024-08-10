@@ -1,8 +1,6 @@
-import radioGarka from '../assets/img/radio-garka.jpg'
-import cdt from '../assets/img/cdt.jpg'
 import ModalEditarServidor from './ModalEditarServidor';
 
-const Servidor = ({id}) =>{
+const Servidor = ({id, data}) =>{
     const alertEliminarServidor = () =>{
         Swal.fire({
             title: "Eliminar Servidor",
@@ -52,14 +50,17 @@ const Servidor = ({id}) =>{
             }
         });
     }
-
+    const icon = JSON.parse(data).icon;
+    const serverName = JSON.parse(data).name;
+    const members = JSON.parse(data).members;
+    //const canales = realizar consulta en members filtrado por servidor
     return(
-        <article className="card-servidor" data-aos="fade-up">
-            <img src={radioGarka} alt="logo-server"/>
+        <article key={id} className="card-servidor" data-aos="fade-up">
+            <img src={icon} alt="logo-server"/>
             <div className="descripcion-servidor">
-                <h2>Radio Garka</h2>
-                <p>69 miembros <a href="/miembros">mostrar <i className="fa-solid fa-eye"></i></a></p>
-                <p>2 canales <a href="/canales">mostrar <i className="fa-solid fa-comments"></i></a></p>
+                <h2>{serverName}</h2>
+                <p> {members.length} <a href="/miembros">mostrar <i className="fa-solid fa-eye"></i></a></p>
+                <p>falta implementar <a href="/canales">mostrar <i className="fa-solid fa-comments"></i></a></p>
                 <button className="btn-servidor btn btn-personalized-3 fw-bold" onClick={alertEliminarServidor}><i className="fa-solid fa-trash"></i> Eliminar</button>
             </div>
             <div className="botones-servidor">
