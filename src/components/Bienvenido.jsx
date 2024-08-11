@@ -49,13 +49,13 @@ const ErrorAlCargarServidores = () =>{
     );
 }
 
-const Servidores = ({ servers }) => {
+const Servidores = ({ servers, onDelete }) => {
     if (Object.keys(servers).length !== 0)
         return (
             <section className='tus-servidores'>
                 {Object.entries(servers)
-                    .map(([key, data]) => (
-                        <Servidor id={key} data={data} />
+                    .map(([clave, valor]) => (
+                        <Servidor key={clave} idServidor={clave} dataServer={valor} onDelete={onDelete}></Servidor>
                     ))}
             </section>
             );
@@ -70,9 +70,12 @@ const Servidores = ({ servers }) => {
 
 const Bienvenido = () => {
     const { profileData } = useAuth();
-    const firstName = JSON.parse(profileData).first_name;
-    const lastName = JSON.parse(profileData).last_name;
-    const user_id = JSON.parse(profileData).id;
+    const parsedData = JSON.parse(profileData);
+
+    const firstName = parsedData.first_name;
+    const lastName = parsedData.last_name;
+    const userId = parsedData.user__id;
+    
     const [servers, setServers] = useState({});
     const { data, isError, isLoading} = useFetch(
         import.meta.env.VITE_SERVER_API_URL,
@@ -89,7 +92,7 @@ const Bienvenido = () => {
         if(data && !isError && !isLoading) {
             const loadedServers = {};
             data.results.forEach(server => {
-                if(server.owner === user_id || server.members.includes(user_id)) {
+                if(server.owner === userId || server.members.includes(userId)) {
                     loadedServers[server.id] = server;
                 }
             });
@@ -97,19 +100,27 @@ const Bienvenido = () => {
         }
     },[data]);
 
-    return(
-        <section className="cambio-de-color">
-            <section className="bienvenida-usuario" data-aos="fade-down">
-                <h1 id="bienvenida">{`${firstName} ${lastName}`}</h1>
+    const deleteServer = (idServer) => {
+        const loadedServers = { ...servers };
+        delete loadedServers[idServer];
+        setServers(loadedServers);
+    } 
+
+    if(data) {
+        return(
+            <section className="cambio-de-color">
+                <section className="bienvenida-usuario" data-aos="fade-down">
+                    <h1 id="bienvenida">{`${firstName} ${lastName}`}</h1>
+                </section>
+                <AgregarServidor/>
+                <BuscarServidor/>
+                <section className="titulo-tus-servidores">
+                    <h2>¡Tus servidores!</h2>
+                </section>
+                <Servidores servers={servers} onDelete={deleteServer}/>
             </section>
-            <AgregarServidor/>
-            <BuscarServidor/>
-            <section className="titulo-tus-servidores">
-                <h2>¡Tus servidores!</h2>
-            </section>
-            <Servidores servers={servers}/>
-        </section>
-    );
+        );
+    }
 }
 
 export default Bienvenido;

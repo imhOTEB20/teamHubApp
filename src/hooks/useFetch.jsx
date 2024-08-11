@@ -42,8 +42,11 @@ function useFetch(url, options = {}, trigger = true) {
 
             fetch(url, { ...options })
                 .then((response) => {
-                    if (response.ok) {
+                    if (response.ok && response.status !== 204) {
                         return response.json();
+                    }
+                    else if(response.status === 204) {
+                        return null;
                     }
                     throw Error("Error al relizar la petición");
                 })

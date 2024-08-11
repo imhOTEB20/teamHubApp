@@ -8,6 +8,7 @@ export default function AuthProvider({ children }) {
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
     const [triggerFetch, setTriggerFetch] = useState(false);
     const [profileData, setProfileData] = useState(localStorage.getItem('profileData'));
+    const userID = JSON.parse(profileData).user__id;
     const { data, isError, isLoading} = useFetch(
         import.meta.env.VITE_AUTHENTICATED_USER_DATA_API_URL,
         {
@@ -23,7 +24,7 @@ export default function AuthProvider({ children }) {
     useEffect(() => {
         if (data && !isError && !isLoading) {
             setProfileData(data);
-            localStorage.setItem('profileData', JSON.stringify(data));
+            localStorage.setItem('profileData', data);
             setIsLoggedIn(true);
         }
     },[data]);
@@ -40,7 +41,7 @@ export default function AuthProvider({ children }) {
     };
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, profileData, login, logout }}>
+        <AuthContext.Provider value={{ userID, isLoggedIn, profileData, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

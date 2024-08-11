@@ -13,7 +13,7 @@ const NombreServidor = ({ variable, manejadorCambio }) => {
                 onChange={manejadorCambio}
                 placeholder="Ingrese nombre"
                 minLength="4"
-                maxLength="25"
+                maxLength="100"
                 name="Nombre"
                 required />
         </>
@@ -22,32 +22,42 @@ const NombreServidor = ({ variable, manejadorCambio }) => {
 
 const ModalCrearServidor = () => {
     const [nombreServidor, setNombreServidor] = useState("");
-    const [botonDesactivado, setBotonDesactivado] = useState(true);
     const [descripcionServidor, setDescripcionServidor] = useState("");
-    const [triggerFetch, setTriggerFetch] = useState(false);
-    const {data, isError, isLoading} = useFetch(
-        import.meta.env.VITE_SERVER_API_URL,
-        {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify( {
-                name: nombreServidor,
-                description: descripcionServidor
-            })
-        },
-        triggerFetch
-    );
+    const [icon, setIcon] = useState(null);
+    const [botonDesactivado, setBotonDesactivado] = useState(true);
 
     const manejarSubmit = (e) => {
         e.preventDefault();
-        setTriggerFetch(true);
+
+        const newFormData = new FormData();
+        if (icon) newFormData.append('icon', icon);
+        newFormData.append('name', nombreServidor);
+        newFormData.append('description', descripcionServidor);
+        
+        fetch(import.meta.env.VITE_SERVER_API_URL, {
+            method: 'POST',
+            headers: {
+                Authorization: `Token ${localStorage.getItem('token')}`
+            },
+            body: newFormData,
+        })
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw Error("Error al intentar crear el servidor.");
+        })
+        .then((data) => {
+            console.log(data);
+        })
+        .catch((e) => {
+            console.log(e);
+        });
     };
 
 
     const validarNombreServidor = (valor) => {
-        const exp_reg = /^[a-zA-Z\d]{4,}$/;
+        const exp_reg = /^[a-zA-Z0-9 ]{4,}$/;
 
         if (exp_reg.test(valor)) {
             setBotonDesactivado(false);
@@ -67,6 +77,11 @@ const ModalCrearServidor = () => {
         setDescripcionServidor(text);
     }
 
+    const manejarCambioImagen = (e) => {
+        const file = e.target.files[0] || null;
+        setIcon(file);
+    };
+
     return (
         <section className="modal fade" id="agregarServidorModal" tabIndex="-1" aria-labelledby="agregarServidorModal" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered">
@@ -79,7 +94,7 @@ const ModalCrearServidor = () => {
                         <form onSubmit={manejarSubmit}>
                             <div className="mb-3">
                                 <label htmlFor="fotoServidor" className="form-label fw-bolder">Subir foto</label>
-                                <input className="form-control bg-input" type="file" id="fotoServidor"/>
+                                <input className="form-control bg-input" type="file" id="fotoServidor" onChange={manejarCambioImagen}/>
                             </div>
                             <div className="mb-3">
                                 <NombreServidor variable={nombreServidor} manejadorCambio={manejarCambioNombreServidor} />
