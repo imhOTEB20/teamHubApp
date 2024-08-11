@@ -1,5 +1,5 @@
 import "../styles/Footer.css";
-const Footer = (props) => {
+const FooterMootMate = (props) => {
     return (
         <footer>
             <section className="section-footer">
@@ -11,8 +11,8 @@ const Footer = (props) => {
             </section>
             <section className="section-footer">
                 <h3>Desarrolladores</h3>
-                <p>Cristian Geronimo</p>
-                <p>Maximiliano Soriano</p>
+                <a href="/desarrolladores">Cristian Geronimo</a>
+                <a href="/desarrolladores">Maximiliano Soriano</a>
             </section>
             <section className="section-footer">
                 <h3>Recursos</h3>
@@ -31,4 +31,4 @@ const Footer = (props) => {
     );
 }
 
-export default Footer;
+export default FooterMootMate;

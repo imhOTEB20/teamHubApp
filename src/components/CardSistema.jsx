@@ -6,7 +6,7 @@ import imagen4 from '../assets/img/card-4.jpeg';
 
 const CardSistema = (props) => {
     return (
-        <section id="Sistema" className="cards-sistemas">
+        <section id="Funciones" className="cards-sistemas">
             <article className="card-s" data-aos="flip-left">
                 <img src={imagen1} alt="img-card-1"/>
                 <h4>Funciones</h4>

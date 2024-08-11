@@ -1,4 +1,75 @@
+import { useState, useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
+import useValidateLogin from '../hooks/useValidateLogin';
+import useFetch from '../hooks/useFetch';
+import useAuth from '../hooks/useAuth';
+
+const UsernameInput = ({ value, handleUsernameInput }) => (
+    <input
+        type="text"
+        className="form-control bg-input"
+        id="username-iniciar-sesion"
+        placeholder="Ingrese su nombre de usuario"
+        name="Username"
+        autoComplete="username"
+        value={value}
+        onChange={handleUsernameInput}
+        required
+    />
+);
+
+const PasswordInput = ({ value, handlePasswordInput }) => (
+    <input
+        type="password"
+        className="form-control bg-input"
+        id="password-iniciar-sesion"
+        placeholder="Ingrese su contraseña"
+        value={value}
+        onChange={handlePasswordInput}
+        name="Contraseña"
+        autoComplete="current-password"
+        required
+    />
+);
+
 const Login = () => {
+    const { login } = useAuth();
+
+    const validateUsername = (value) => value.length != 0;
+    const validatePassword = (value) => value.length != 0;
+
+    const { username, password, isValid, setUsername, setPassword } = useValidateLogin(validateUsername, validatePassword);
+    const navigate = useNavigate();
+    const [triggerFetch, setTriggerFetch] = useState(false);
+    const options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: username, password: password}),
+    }
+    const { data, isError, isLoading} = useFetch(
+        import.meta.env.VITE_USER_AUTH_API_URL,
+        options,
+        triggerFetch
+    );
+    
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (isValid) {
+            console.log(import.meta.env.VITE_USER_AUTH_API_URL);
+            setTriggerFetch(true);
+        }
+    };
+
+    
+    useEffect(() => {
+        if (data && !isError && !isLoading) {
+            login(data.token);
+            navigate("/bienvenida");
+        }
+    },[data])
+
     return (
         <section className="modal fade" id="iniciarSesionModal" tabIndex="-1" aria-labelledby="iniciarSesionModal" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered">
@@ -8,40 +79,14 @@ const Login = () => {
                         <button type="button" className="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body bg-color-fondo">
-                        <form id="form-iniciar-sesion">
+                        <form id="form-iniciar-sesion" onSubmit={handleSubmit}>
                             <div className="mb-3">
-                                <label htmlFor="email-iniciar-sesion" className="form-label fw-bolder">Email</label>
-                                <input
-                                    type="email"
-                                    className="form-control bg-input"
-                                    id="email-iniciar-sesion"
-                                    aria-describedby="emailHelp"
-                                    placeholder="Ingrese su email"
-                                    minLength="5"
-                                    maxLength="254"
-                                    name="Email"
-                                    autoComplete="username"
-                                    required
-                                    pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
-                                />
-                                <div id="emailErrorIniciarSesion"></div>
+                                <label htmlFor="username-iniciar-sesion" className="form-label fw-bolder">Username</label>
+                                <UsernameInput value={username} handleUsernameInput={(e) => setUsername(e.target.value)} />
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="password-iniciar-sesion" className="form-label fw-bolder">Contraseña</label>
-                                <input
-                                    type="password"
-                                    className="form-control bg-input"
-                                    id="password-iniciar-sesion"
-                                    placeholder="Ingrese su contraseña"
-                                    pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[^\W_]{6,16}$"
-                                    title="Debe contener al menos un número, una letra mayúscula, una letra minúscula, y tener entre 6 y 16 caracteres"
-                                    maxLength="16"
-                                    minLength="6"
-                                    name="Contraseña"
-                                    autoComplete="current-password"
-                                    required
-                                />
-                                <div id="passwordErrorIniciarSesion"></div>
+                                <PasswordInput value={password} handlePasswordInput={(e) => setPassword(e.target.value)} />
                             </div>
                             <div className="mb-3">
                                 <div className="form-text">
@@ -51,10 +96,10 @@ const Login = () => {
                                 </div>
                             </div>
                             <div className="d-flex align-items-center justify-content-center">
-                                <button type="submit" className="btn btn-personalized-1 mx-1 fw-bold" aria-label="Ingresar">
+                                <button type="submit" disabled={!isValid} className="btn btn-personalized-1 mx-1 fw-bold" data-bs-dismiss="modal" aria-label="Ingresar">
                                     Ingresar
                                 </button>
-                                <button type="reset" className="btn btn-personalized-3 mx-1 fw-bold" aria-label="Cancelar">
+                                <button type="reset" className="btn btn-personalized-3 mx-1 fw-bold" data-bs-dismiss="modal" aria-label="Cancelar" >
                                     Cancelar
                                 </button>
                             </div>
@@ -64,6 +109,16 @@ const Login = () => {
             </div>
         </section>
     );
+};
+
+UsernameInput.propTypes = {
+    value: PropTypes.string.isRequired,
+    handleUsernameInput: PropTypes.func.isRequired
+}
+
+PasswordInput.propTypes = {
+    value: PropTypes.string.isRequired,
+    handlePasswordInput: PropTypes.func.isRequired
 }
 
 export default Login;
