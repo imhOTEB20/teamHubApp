@@ -1,6 +1,7 @@
 import { useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Swal from 'sweetalert2';
 
 import useValidateLogin from '../hooks/useValidateLogin';
 import useFetch from '../hooks/useFetch';
@@ -67,8 +68,14 @@ const Login = () => {
         if (data && !isError && !isLoading) {
             login(data.token);
             navigate("/bienvenida");
+        } else if (isError) {
+            Swal.fire({
+                icon: "error",
+                title: "Credenciales Invalidas",
+                text: "Username o Password incorrectos"
+            });
         }
-    },[data])
+    },[data, isLoading])
 
     return (
         <section className="modal fade" id="iniciarSesionModal" tabIndex="-1" aria-labelledby="iniciarSesionModal" aria-hidden="true">

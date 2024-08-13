@@ -1,22 +1,24 @@
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+
+import ModalCrearServidor from './ModalCrearServidor';
+import Servidor from './Servidor';
+import useFetch from '../hooks/useFetch';
+import useAuth from '../hooks/useAuth';
+
 import '../styles/Bienvenido.css';
 import nuevoServidor from '../assets/img/new-server.png';
 import buscarServidor from '../assets/img/new-server-1.png';
 import sinServidores from '../assets/img/no-chatear.png';
 import error404 from '../assets/img/error.png';
-import ModalCrearServidor from './ModalCrearServidor';
-import Servidor from './Servidor';
-import useFetch from '../hooks/useFetch';
-import { useEffect, useState } from 'react';
-import useAuth from '../hooks/useAuth';
 
-
-const AgregarServidor = () => {
+const AgregarServidor = ({ agregarServidor }) => {
     return(
         <section className="agregar-servidor" data-aos="fade-down">
             <img src={nuevoServidor} alt="nuevo-servidor"/>
             <p>¿Quieres usar MootMate con un nuevo equipo?</p>
             <button type="button" className="btn btn-personalized-1 btn-agregar-servidor fw-bold" data-bs-toggle="modal" data-bs-target="#agregarServidorModal"><i className="fa-solid fa-circle-plus" aria-label="Agregar Servidor"></i> Agregar Servidor</button>
-            <ModalCrearServidor/>
+            <ModalCrearServidor agregarServidor={ agregarServidor }/>
         </section>
     );
 }
@@ -49,32 +51,38 @@ const ErrorAlCargarServidores = () =>{
     );
 }
 
-const Servidores = ({ servers, onDelete }) => {
-    if (Object.keys(servers).length !== 0)
-        return (
-            <section className='tus-servidores'>
-                {Object.entries(servers)
-                    .map(([clave, valor]) => (
-                        <Servidor key={clave} idServidor={clave} dataServer={valor} onDelete={onDelete}></Servidor>
-                    ))}
-            </section>
+const TusServidores = ({ isError, servers, onDelete, onEdit}) => {
+    console.log(isError);
+    if (!isError) {
+        if (Object.keys(servers).length !== 0)
+            return (
+                <section className='tus-servidores'>
+                    {Object.entries(servers)
+                        .map(([clave, valor]) => (
+                            <Servidor key={clave} idServidor={clave} serverData={valor} onDelete={onDelete} onEdit={onEdit}></Servidor>
+                        ))}
+                </section>
+                );
+        else {
+            return (
+                <section className='tus-servidores'>
+                    <NoHayServidores />
+                </section>
             );
-    else {
+        }
+    } else {
         return (
-            <section className='tus-servidores'>
-                <NoHayServidores />
-            </section>
+            <ErrorAlCargarServidores />
         );
     }
 }
 
 const Bienvenido = () => {
     const { profileData } = useAuth();
-    const parsedData = JSON.parse(profileData);
 
-    const firstName = parsedData.first_name;
-    const lastName = parsedData.last_name;
-    const userId = parsedData.user__id;
+    const firstName = profileData.first_name;
+    const lastName = profileData.last_name;
+    const userId = profileData.user__id;
     
     const [servers, setServers] = useState({});
     const { data, isError, isLoading} = useFetch(
@@ -90,9 +98,10 @@ const Bienvenido = () => {
 
     useEffect(() => {
         if(data && !isError && !isLoading) {
+            console.log("NO SE CARGARON LOS SERVIDORES");
             const loadedServers = {};
             data.results.forEach(server => {
-                if(server.owner === userId || server.members.includes(userId)) {
+                if(server.members.includes(userId)) {
                     loadedServers[server.id] = server;
                 }
             });
@@ -100,27 +109,51 @@ const Bienvenido = () => {
         }
     },[data]);
 
-    const deleteServer = (idServer) => {
+    const deleteServers = (idServer) => {
         const loadedServers = { ...servers };
         delete loadedServers[idServer];
         setServers(loadedServers);
-    } 
-
-    if(data) {
-        return(
-            <section className="cambio-de-color">
-                <section className="bienvenida-usuario" data-aos="fade-down">
-                    <h1 id="bienvenida">{`${firstName} ${lastName}`}</h1>
-                </section>
-                <AgregarServidor/>
-                <BuscarServidor/>
-                <section className="titulo-tus-servidores">
-                    <h2>¡Tus servidores!</h2>
-                </section>
-                <Servidores servers={servers} onDelete={deleteServer}/>
-            </section>
-        );
     }
-}
+    
+    const addServer = (server) => {
+        const loadedServers = { ...servers };
+        loadedServers[server.id] = server;
+        setServers(loadedServers);
+    }
+
+    const editServers = (serverData) => {
+        const loadedServers = { ...servers };
+        loadedServers[serverData.id]["name"] = serverData.name;
+        loadedServers[serverData.id]["description"] = serverData.description;
+        loadedServers[serverData.id]["icon"] = serverData.icon;
+
+        setServers(loadedServers);
+    }
+    
+    return(
+        <section className="cambio-de-color">
+            <section className="bienvenida-usuario" data-aos="fade-down">
+                <h1 id="bienvenida">{`${firstName} ${lastName}`}</h1>
+            </section>
+            <AgregarServidor agregarServidor={ addServer }/>
+            <BuscarServidor/>
+            <section className="titulo-tus-servidores">
+                <h2>¡Tus servidores!</h2>
+            </section>
+            <TusServidores isError={isError} servers={servers} onDelete={deleteServers} onEdit={editServers}/>
+        </section>
+    );
+};
+
+AgregarServidor.propTypes = {
+    agregarServidor: PropTypes.func.isRequired,
+};
+
+TusServidores.propTypes = {
+    isError: PropTypes.bool.isRequired,
+    
+    onDelete: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
+};
 
 export default Bienvenido;

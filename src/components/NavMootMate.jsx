@@ -1,12 +1,78 @@
-import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 
 import ComponentIfLogged from "./ComponentIfLogged";
 import useAuth from '../hooks/useAuth';
+import useFetch from '../hooks/useFetch';
 
-const ProfileOptionsItem = ({ closeProfile }) => {
+const ExitProfileButton = () => {
+    const { logout } = useAuth();
+    const [toExit, setToExit] = useState(false);
+    const { data, isError, isLoading } = useFetch(
+        import.meta.env.VITE_USER_LOGOUT_API_URL,
+        {   
+            method: 'POST',
+            headers: {
+                Authorization: `Token ${localStorage.getItem('token')}`,
+            }
+        },
+        toExit
+    );
+
+    useEffect(() => {
+        if (data && !isError && !isLoading) {
+            logout();
+            Swal.fire({
+                icon: "success",
+                title: "¡Éxito!",
+                text: "¡Hasta luego!",
+                showConfirmButton: false,
+                background: "#eaeef4",
+                timer: 1500
+            });
+        } else if (isError && !isLoading) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Se produjo un error al intentar salir."
+            });
+        }
+    },[data, isError, isLoading]);
+
+    const cerrarSesion = () =>{
+        Swal.fire({
+            title: "Cerrar Sesión",
+            text: "¿Estás seguro de cerrar sesión?",
+            icon: "warning",
+            showCancelButton: true,
+            background: "#eaeef4",
+            confirmButtonColor: "#144d4d",
+            confirmButtonText: "Si, cerrar",
+            cancelButtonColor: "#A60505",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log("pase por aqui y quise salir")
+                setToExit(true);
+            }
+        });
+    }
+
+    return (
+        <button
+            className="dropdown-item text-light fw-bold"
+            id="btnCerrarSesion"
+            onClick={cerrarSesion}
+        >
+            <i className="fa-solid fa-door-open"></i> Salir
+        </button>
+    );
+}
+const ProfileOptionsItem = () => {
     const { profileData } = useAuth();
-    const firstName = JSON.parse(profileData).first_name;
-    const lastName = JSON.parse(profileData).last_name;
+    
+    const firstName = profileData.first_name;
+    const lastName = profileData.last_name;
     return (
         <li className="nav-item dropdown mx-2" id="opciones-usuario">
             <a
@@ -21,13 +87,6 @@ const ProfileOptionsItem = ({ closeProfile }) => {
             </a>
             <ul className="dropdown-menu dropdown-menu-dark bg-color-secundario mb-2 mb-lg-0">
                 <li>
-                    <a href="/bienvenida"
-                    className="dropdown-item text-light fw-bold"
-                    >
-                        <i className="fa-solid fa-message"></i> Tus servidores
-                    </a>
-                </li>
-                <li>
                     <button
                     className="dropdown-item text-light fw-bold"
                     data-bs-toggle="modal"
@@ -37,25 +96,10 @@ const ProfileOptionsItem = ({ closeProfile }) => {
                     </button>
                 </li>
                 <li>
-                    <a
-                    className="dropdown-item text-light fw-bold"
-                    id="btnAdministracion"
-                    href="pages/administracion.html"
-                    >
-                        <i className="fa-solid fa-user-tie"></i> Administrar
-                    </a>
-                </li>
-                <li>
                     <hr className="dropdown-divider bg-light" />
                 </li>
                 <li>
-                    <button
-                    className="dropdown-item text-light fw-bold"
-                    id="btnCerrarSesion"
-                    onClick={closeProfile}
-                    >
-                        <i className="fa-solid fa-door-open"></i> Salir
-                    </button>
+                    <ExitProfileButton />
                 </li>
             </ul>
         </li>
@@ -78,38 +122,13 @@ const LoginItem = () => {
     );
 };
 
-const NavMootMate = (props) => {
-    const cerrarSesion = () =>{
-        Swal.fire({
-            title: "Cerrar Sesión",
-            text: "¿Estás seguro de cerrar sesión?",
-            icon: "warning",
-            showCancelButton: true,
-            background: "#eaeef4",
-            confirmButtonColor: "#144d4d",
-            confirmButtonText: "Si, cerrar",
-            cancelButtonColor: "#A60505",
-            cancelButtonText: "Cancelar"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    icon: "success",
-                    title: "¡Éxito!",
-                    text: "¡Hasta luego!",
-                    showConfirmButton: false,
-                    background: "#eaeef4",
-                    timer: 1500
-                });
-            }
-        });
-    }
-
+const NavMootMate = () => {
     return (
         <header className="sticky-top">
             <nav className="navbar navbar-expand-lg navbar-dark bg-color-principal p-md-2 p-lg-3">
                 <div className="container-fluid">
                     <a className="navbar-brand fw-bold" href="/">
-                        <i className="fa-brands fa-mastodon"></i> {props.nombre}
+                        <i className="fa-brands fa-mastodon"></i> MootMate
                     </a>
                     <button
                     className="navbar-toggler"
@@ -127,7 +146,7 @@ const NavMootMate = (props) => {
                             <ComponentIfLogged
                             childrenIfLogged=
                                 { 
-                                <ProfileOptionsItem closeProfile={cerrarSesion}/>
+                                <ProfileOptionsItem />
                                 }
                             childrenIfNotLogged=
                                 {
@@ -154,9 +173,5 @@ const NavMootMate = (props) => {
         </header>
     );
 }
-
-ProfileOptionsItem.propTypes = {
-    closeProfile: PropTypes.func.isRequired
-};
 
 export default NavMootMate;
