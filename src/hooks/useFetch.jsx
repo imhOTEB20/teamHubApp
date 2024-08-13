@@ -39,6 +39,9 @@ function useFetch(url, options = {}, trigger = true) {
     useEffect(() => {
         if (trigger) {
             dispatch({ type: ACTIONS.FETCH_INIT });
+            if (url === "https://sandbox.academiadevelopers.com/teamhub/members/") {
+                console.log(options);
+            }
 
             fetch(url, { ...options })
                 .then((response) => {

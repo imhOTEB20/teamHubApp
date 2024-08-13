@@ -1,6 +1,8 @@
-import { useState } from 'react';
-import useFetch from '../hooks/useFetch';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import Swal from 'sweetalert2';
+
+import useFetch from '../hooks/useFetch';
 
 const NombreServidor = ({ variable, manejadorCambio }) => {
     return (
@@ -20,11 +22,44 @@ const NombreServidor = ({ variable, manejadorCambio }) => {
     );
 }
 
-const ModalCrearServidor = () => {
+const ModalCrearServidor = ({ agregarServidor }) => {
     const [nombreServidor, setNombreServidor] = useState("");
     const [descripcionServidor, setDescripcionServidor] = useState("");
     const [icon, setIcon] = useState(null);
     const [botonDesactivado, setBotonDesactivado] = useState(true);
+    const [serverCreated, setServerCreated] = useState({id:null});
+    const [joinServer, setJoinServer] = useState(false);
+    const { data: memberData, isError, isLoading } = useFetch(
+        import.meta.env.VITE_MEMBERS_API_URL,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Token ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({ server: serverCreated.id }),
+        },
+        joinServer,
+    );
+
+    useEffect(() => {
+        if (memberData && !isError && !isLoading) {
+            agregarServidor(serverCreated);
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Servidor creado",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        } else if (isError && !isLoading) {
+            Swal.fire({
+                icon: "warning",
+                title: "Oops...",
+                text: "Se creo el servidor, pero no pudiste unirte al mismo."
+            });
+        }
+    },[memberData, isError]);
 
     const manejarSubmit = (e) => {
         e.preventDefault();
@@ -48,10 +83,16 @@ const ModalCrearServidor = () => {
             throw Error("Error al intentar crear el servidor.");
         })
         .then((data) => {
-            console.log(data);
+            setServerCreated(data);
+            setJoinServer(true);
         })
         .catch((e) => {
             console.log(e);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Se produjo un error al crear el servidor"
+            });
         });
     };
 
@@ -106,24 +147,9 @@ const ModalCrearServidor = () => {
                                     <label htmlFor="descripcion">Descripción</label>
                                 </div>
                             </div>
-                            <div className="mb-3">
-                                <label className="form-label fw-bolder w-100">Chat general</label>
-                                <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="chatRadioOptions" id="chatRadio1" value="adm" />
-                                    <label className="form-check-label" htmlFor="chatRadio1"><i className="fa-solid fa-users-rectangle"></i> Adm.</label>
-                                </div>
-                                <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="chatRadioOptions" id="chatRadio2" value="adm-y-moderadores" />
-                                    <label className="form-check-label" htmlFor="chatRadio2"><i className="fa-solid fa-users-viewfinder"></i> Adm. y Moderadores</label>
-                                </div>
-                                <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="chatRadioOptions" id="chatRadio3" value="todos" />
-                                    <label className="form-check-label" htmlFor="chatRadio3"><i className="fa-solid fa-users"></i> Todos</label>
-                                </div>
-                            </div>
                             <div className="d-flex align-items-center justify-content-center">
-                                <button disabled={botonDesactivado} type="submit" className="btn btn-personalized-1 mx-1 fw-bold" aria-label="Agregar">Agregar</button>
-                                <button type="reset" className="btn btn-personalized-3 mx-1 fw-bold" aria-label="Cancelar">Cancelar</button>
+                                <button disabled={botonDesactivado} type="submit" data-bs-dismiss="modal" className="btn btn-personalized-1 mx-1 fw-bold" aria-label="Agregar">Agregar</button>
+                                <button type="reset" className="btn btn-personalized-3 mx-1 fw-bold" data-bs-dismiss="modal" aria-label="Cancelar">Cancelar</button>
                             </div>
                         </form>
                     </div>
@@ -137,5 +163,9 @@ NombreServidor.propTypes = {
     variable: PropTypes.string.isRequired,
     manejadorCambio: PropTypes.func.isRequired
 };
+
+ModalCrearServidor.propTypes = {
+    agregarServidor: PropTypes.func.isRequired
+}
 
 export default ModalCrearServidor;
