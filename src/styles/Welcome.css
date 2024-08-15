@@ -1,17 +1,3 @@
-/*PALETA DE COLORES*/
-:root{
-    --color-principal:#591414;
-    --color-secundario:#8C1111;
-    --color-terciario:#A6242F;
-    --color-negro:#0D0908;
-    --color-alternativo-I:#7D6841;
-    --color-alternativo-II:#3045BF;
-    --color-apuesto:#145959;
-    --color-fondo:#E7E1E1;
-    --color-letra-pricipal: #fff;
-    --color-fondo-modal: rgba(144,148,150,0.8);
-}
-
 /*RESPONSIVE BIENVENIDA*/
 .cambio-de-color{
     display: flex;
