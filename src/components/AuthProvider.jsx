@@ -30,8 +30,10 @@ export default function AuthProvider({ children }) {
         if (data && !isError && !isLoading) {
             localStorage.setItem('profileData', JSON.stringify(data));
             setProfileData(data);
+        } else if (isError) {
+            console.log("SE PRODUJO UN ERROR AL INTENTAR LOGUEARSE.");
         }
-    },[data]);
+    },[data, isError, isLoading]);
     
     const login = (token) => {
         localStorage.setItem('token', token);
