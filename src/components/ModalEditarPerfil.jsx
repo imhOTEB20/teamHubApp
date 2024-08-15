@@ -59,4 +59,4 @@ const ModalEditarPerfil = () =>{
     );
 }
 
-export default  ModalEditarPerfil;
+export default ModalEditarPerfil;

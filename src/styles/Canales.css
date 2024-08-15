@@ -1,0 +1,318 @@
+.cambio-de-color{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-05);
+}
+
+.bienvenida-canales{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 10px 20px 10px;
+}
+
+.bienvenida-canales h1{
+    font-size: 2.5rem;
+    text-align: center;
+    font-weight: bold;
+    color: var(--color-blanco);
+}
+
+.agregar-canal{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-blanco);
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.agregar-canal img{
+    width: 80px;
+    height: 80px;
+}
+
+.agregar-canal p{
+    margin: 0px 30px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: 'Heebo', sans-serif;
+    text-align: center;
+}
+
+
+.invitar-a-miembros{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-letra-pricipal);
+    padding: 20px;
+    margin: 20px 10px;
+    border: 1px var(--color-apuesto) solid;
+    border-radius: 10px;
+}
+
+.invitar-a-miembros img{
+    width: 80px;
+    height: 80px;
+}
+
+.invitar-a-miembros p{
+    margin: 0px 30px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: 'Heebo', sans-serif;
+    text-align: center;
+}
+
+/*BUSCADOR*/
+.buscador{
+    width: 600px;
+    height: 40px;
+    background-color: var(--color-blanco);
+    margin: 10px 10px 30px 10px;
+    border-radius: 10px;
+    padding: 5px 10px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.buscador i{
+    font-size: 1.8rem;
+    color: var(--color-05);
+}
+
+.buscador input{
+    height: 100%;
+    width: 100%;
+    font-size: 1.2rem;
+    padding: 5px 10px;
+    font-weight: bold;
+    outline: none;
+    border: none;
+    background-color: var(--color-05);
+    color: var(--color-blanco);
+    padding-right: 5px;
+}
+
+.buscador input::placeholder{
+    color: var(--color-05);
+}
+
+/*CANALES*/
+.tus-canales{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    background-color: var(--color-fondo);
+}
+
+.tus-canales .card-canal{
+    width: 80%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--color-blanco);
+    margin: 20px 0px;
+    padding: 30px 20px;
+    border-radius: 10px;
+}
+
+.tus-canales .card-canal .fa-hashtag{
+    background-color: var(--color-05);
+    color: var(--color-blanco);
+    padding: 20px 25px;
+    font-size: 80px;
+    border-radius: 50%;
+}
+
+.tus-canales .card-canal img{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+
+.tus-canales .card-canal .descripcion-canal{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    align-self: normal;
+    flex-grow: 1;
+    flex-basis: 0;
+    padding: 0px 20px;
+}
+
+.tus-canales .card-canal .descripcion-canal h2{
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.tus-canales .card-canal .descripcion-canal p{
+    font-size: 1rem;
+    font-weight: 400;
+    font-family: 'Heebo', sans-serif;
+    padding: 5px 0px;
+    text-align: start;
+}
+
+
+.tus-canales .card-canal .botones-canales{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.me-encanta-lokita {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.me-encanta-lokita .label-me-encanta i {
+    font-size: 30px;
+    color: var(--color-fondo);
+    cursor: pointer;
+}
+
+.me-encanta-lokita .label-me-encanta i.lokita {
+    color: var(--color-secundario);
+    transition: 0.2s linear;
+}
+
+
+@media screen and (max-width: 1000px) {
+    /*RESPONSIVE MIEMBROS*/
+    .bienvenida-canales{
+        margin: 20px 10px 10px 10px;
+    }
+
+    .bienvenida-canales h1{
+        font-size: 2rem;
+    }
+
+    .agregar-canal .btn-agregar-canal{
+        font-size: 1rem;
+    }
+
+    .buscador i{
+        font-size: 1.6rem;
+    }
+
+    .buscador input{
+        font-size: 1rem;
+    }
+
+    .tus-canales{
+        padding: 20px;
+    }
+
+    .tus-canales .card-canal{
+        width: 90%;
+        padding: 30px;
+    }
+
+    .tus-canales .card-canal .descripcion-canal h2{
+        font-size: 1.6rem;
+    }
+
+    .tus-canales .card-canal .descripcion-canal p{
+        font-size: 1rem;
+    }
+
+    .tus-canales .card-canal .descripcion-canal p a:hover:after{
+        transform: scaleX(1);
+        transform-origin: bottom left;
+    }
+
+    .tus-canales .card-canal .botones-canales {
+        flex-direction: column;
+        align-items: center;
+        padding: 0px;
+        margin: 10px 0px;
+    }
+
+    .tus-canales .card-canal .botones-canales a{
+        font-size: 0.9rem;
+        align-self: normal;
+        text-align: center;
+    }
+
+    .tus-canales .card-canal .botones-canales label{
+        font-size: 0.9rem;
+        align-self: normal;
+        text-align: center;
+    }
+
+    .tus-canales .card-canal .botones-canales .btn-editar{
+        margin: 0px 0px 5px 0px;
+    }
+
+    .tus-canales .card-canal .botones-canales .btn-servidor{
+        margin: 5px 0px 0px 0px;
+    }
+
+    .me-encanta-lokita {
+        top: 10px;
+        right: 10px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .agregar-canal{
+        flex-direction: column;
+        margin: 10px;
+    }
+
+    .agregar-canal p{
+        margin: 10px;
+    }
+
+    .buscador{
+        width: 90%;
+    }
+
+    .tus-canales .card-canal{
+        width: 90%;
+        padding: 30px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .tus-canales .card-canal .descripcion-canal{
+        align-items: center;
+        padding: 10px 0px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .bienvenida-canales h1{
+        font-size: 1.8rem;
+    }
+
+    .agregar-canal p{
+        font-size: 1.3rem;
+    }
+
+    .agregar-canal .btn-agregar-canal{
+        font-size: 0.8rem;
+    }
+
+    .invitar-a-miembros p{
+        font-size: 1.3rem;
+    }
+
+    .invitar-a-miembros .btn-enviar-invitacion{
+        font-size: 0.8rem;
+    }
+}
