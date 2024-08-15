@@ -1,14 +1,19 @@
-import { BrowserRouter as RutasMootMate } from "react-router-dom";
-import RoutesViews from "./routes/RoutesViews";
+import { RouterProvider } from "react-router-dom";
+
+import Router from "./Router";
+import NavMootMate from "./components/NavMootMate";
+import FooterMootMate from "./components/FooterMootMate";
 
 const App = () => {
-    return (
-      <>
-        <RutasMootMate>
-          <RoutesViews/>
-        </RutasMootMate>
-      </>
-    );
+
+  const tituloSoftware =  'MootMate';
+  return (
+    <>
+      <NavMootMate nombre={tituloSoftware}/>
+      <RouterProvider router={Router} />
+      <FooterMootMate nombre={tituloSoftware}/>
+    </>
+  );
 };
 
 export default App;
