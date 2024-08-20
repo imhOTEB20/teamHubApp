@@ -3,7 +3,7 @@ import Canales from "../components/Canales";
 const CanalesPage = () => {
     return (
     <>
-        <Canales/>
+        <Canales serverName={"nombre servidor"}/>
     </>
     )
 }

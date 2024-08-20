@@ -139,7 +139,6 @@ const ModalCrearServidor = ({ agregarServidor }) => {
                             </div>
                             <div className="mb-3">
                                 <NombreServidor variable={nombreServidor} manejadorCambio={manejarCambioNombreServidor} />
-                                <div id="nombreErrorServidor"></div>
                             </div>
                             <div className="mb-3">
                                 <div className="form-floating">

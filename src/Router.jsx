@@ -7,6 +7,7 @@ import CanalesPage from "./pages/CanalesPage";
 import MiembrosPage from "./pages/MiembrosPage";
 import PrivateRoute from "./components/PrivateRoute";
 import ComponentIfLogged from "./components/ComponentIfLogged";
+import TodosLosServidores from "./pages/TodosLosServidores";
 
 const Router = createBrowserRouter([
     {
@@ -14,8 +15,12 @@ const Router = createBrowserRouter([
         element: <ComponentIfLogged childrenIfLogged={<BienvenidaPage />} childrenIfNotLogged={<HomePage />}/>,
     },
     {
-        path: "/canales",
-        element: <PrivateRoute><CanalesPage/></PrivateRoute>
+        path: "/servidores/:id",
+        element: <PrivateRoute><CanalesPage /></PrivateRoute>
+    },
+    {
+        path: "/servidores/",
+        element: <PrivateRoute><TodosLosServidores /></PrivateRoute>
     },
     {
         path: "/miembros",

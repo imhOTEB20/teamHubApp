@@ -1,6 +1,128 @@
-import React from 'react'
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import Swal from 'sweetalert2';
+
+import useFetch from '../hooks/useFetch';
+
+const NombreCanal = ({ variable, manejadorCambio }) => {
+    return (
+        <>
+            <label htmlFor="nombreCanal" className="form-label fw-bolder">Nombre</label>
+            <input type="text"
+                className="form-control bg-input"
+                id="nombreCanal"
+                value={variable}
+                onChange={manejadorCambio}
+                placeholder="Ingrese nombre"
+                minLength="4"
+                maxLength="100"
+                name="Nombre"
+                required />
+        </>
+    );
+}
 
 const ModalCrearCanal = () => {
+    const [nombreCanal, setNombreCanal] = useState("");
+    const [descripcionCanal, setDescripcionCanal] = useState("");
+    const [icon, setIcon] = useState(null);
+    const [botonDesactivado, setBotonDesactivado] = useState(true);
+    const [channelCreated, setChannelCreated] = useState({id:null});
+    const [joinServer, setJoinServer] = useState(false);
+    const { data: memberData, isError, isLoading } = useFetch(
+        import.meta.env.VITE_MEMBERS_API_URL,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Token ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({ server: channelCreated.id }),
+        },
+        joinServer,
+    );
+
+    useEffect(() => {
+        if (memberData && !isError && !isLoading) {
+            agregarServidor(channelCreated);
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Servidor creado",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        } else if (isError && !isLoading) {
+            Swal.fire({
+                icon: "warning",
+                title: "Oops...",
+                text: "Se creo el servidor, pero no pudiste unirte al mismo."
+            });
+        }
+    },[memberData, isError]);
+
+    const manejarSubmit = (e) => {
+        e.preventDefault();
+
+        const newFormData = new FormData();
+        if (icon) newFormData.append('icon', icon);
+        newFormData.append('name', nombreCanal);
+        newFormData.append('description', descripcionCanal);
+        
+        fetch(import.meta.env.VITE_SERVER_API_URL, {
+            method: 'POST',
+            headers: {
+                Authorization: `Token ${localStorage.getItem('token')}`
+            },
+            body: newFormData,
+        })
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw Error("Error al intentar crear el servidor.");
+        })
+        .then((data) => {
+            setChannelCreated(data);
+            setJoinServer(true);
+        })
+        .catch((e) => {
+            console.log(e);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Se produjo un error al crear el servidor"
+            });
+        });
+    };
+
+
+    const validarNombreCanal = (valor) => {
+        const exp_reg = /^[a-zA-Z0-9 ]{4,}$/;
+
+        if (exp_reg.test(valor)) {
+            setBotonDesactivado(false);
+        } else {
+            setBotonDesactivado(true);
+        }
+    };
+
+    const manejarCambioNombreCanal = (e) => {
+        const valor = e.target.value;
+        setNombreCanal(valor);
+        validarNombreCanal(valor);
+    };
+
+    const manejadorCambioDescripcionCanal = (e) => {
+        const text = e.target.value;
+        setDescripcionCanal(text);
+    }
+
+    const manejarCambioImagen = (e) => {
+        const file = e.target.files[0] || null;
+        setIcon(file);
+    };
+    
     return (
         <section className="modal fade" id="agregarCanalModal" tabIndex="-1" aria-labelledby="agregarCanalModal" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered">
@@ -12,12 +134,8 @@ const ModalCrearCanal = () => {
                         <div className="modal-body bg-color-fondo">
                             <form>
                                 <div className="mb-3">
-                                    <label htmlFor="fotoServidor" className="form-label fw-bolder">Subir foto</label>
-                                    <input className="form-control bg-input" type="file" id="fotoServidor" />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="nombreServidor" className="form-label fw-bolder">Nombre</label>
-                                    <input type="text" className="form-control bg-input" id="nombreServidor" placeholder="Ingrese nombre"
+                                    <label htmlFor="nombreCanal" className="form-label fw-bolder">Nombre</label>
+                                    <input type="text" className="form-control bg-input" id="nombreCanal" placeholder="Ingrese nombre"
                                         minLength="3" maxLength="25" name="Nombre" required />
                                     <div id="nombreErrorServidor"></div>
                                 </div>
@@ -25,21 +143,6 @@ const ModalCrearCanal = () => {
                                     <div className="form-floating">
                                         <textarea className="form-control bg-input" placeholder="Ingrese descripción" id="descripcion" style={{ height: '100px' }}></textarea>
                                         <label htmlFor="descripcion">Descripción</label>
-                                    </div>
-                                </div>
-                                <div className="mb-3">
-                                    <label className="form-label fw-bolder w-100">Chat</label>
-                                    <div className="form-check form-check-inline">
-                                        <input className="form-check-input" type="radio" name="chatRadioOptions" id="chatRadio1" value="adm" />
-                                        <label className="form-check-label" htmlFor="chatRadio1"><i class="fa-solid fa-users-rectangle"></i> Adm.</label>
-                                    </div>
-                                    <div className="form-check form-check-inline">
-                                        <input className="form-check-input" type="radio" name="chatRadioOptions" id="chatRadio2" value="adm-y-moderadores" />
-                                        <label className="form-check-label" htmlFor="chatRadio2"><i class="fa-solid fa-users-viewfinder"></i> Adm. y Moderadores</label>
-                                    </div>
-                                    <div className="form-check form-check-inline">
-                                        <input className="form-check-input" type="radio" name="chatRadioOptions" id="chatRadio3" value="todos" />
-                                        <label className="form-check-label" htmlFor="chatRadio3"><i class="fa-solid fa-users"></i> Todos</label>
                                     </div>
                                 </div>
                                 <div className="d-flex align-items-center justify-content-center">

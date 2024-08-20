@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 import ModalCrearServidor from './ModalCrearServidor';
 import Servidor from './Servidor';
-import useFetch from '../hooks/useFetch';
+import EstadoServidores from './EstadoServidores';
+import useServers from '../hooks/useServers';
 import useAuth from '../hooks/useAuth';
 
 import '../styles/Bienvenido.css';
@@ -11,13 +12,14 @@ import nuevoServidor from '../assets/img/new-server.png';
 import buscarServidor from '../assets/img/new-server-1.png';
 import sinServidores from '../assets/img/no-chatear.png';
 import error404 from '../assets/img/error.png';
+import loading from '../assets/animations/girar.gif';
 
 const AgregarServidor = ({ agregarServidor }) => {
     return(
         <section className="agregar-servidor" data-aos="fade-down">
             <img src={nuevoServidor} alt="nuevo-servidor"/>
             <p>¿Quieres usar MootMate con un nuevo equipo?</p>
-            <button type="button" className="btn btn-personalized-1 btn-agregar-servidor fw-bold" data-bs-toggle="modal" data-bs-target="#agregarServidorModal"><i className="fa-solid fa-circle-plus" aria-label="Agregar Servidor"></i> Agregar Servidor</button>
+            <button type="button" className="btn btn-personalized-1 btn-agregar-servidor fw-bold" data-bs-toggle="modal" data-bs-target="#agregarServidorModal"><i className="fa-solid fa-circle-plus" aria-label="Agregar Servidor"></i> Crear Servidor</button>
             <ModalCrearServidor agregarServidor={ agregarServidor }/>
         </section>
     );
@@ -28,31 +30,12 @@ const BuscarServidor = () =>{
         <section className="unirme-a-servidores" data-aos="fade-down">
             <img src={buscarServidor} alt="buscar-servidor"/>
             <p>¿Quieres buscar un nuevo equipo en MootMate?</p>
-            <a className="btn btn-personalized-1 fw-bold .link-unirme-servidor" href="#">Servidores</a>
+            <a className="btn btn-personalized-1 fw-bold .link-unirme-servidor" href="/servidores/">Servidores</a>
         </section>
     );
-}
-
-const NoHayServidores = () =>{
-    return(
-        <section className="ningun-servidor" id="vacio" data-aos="flip-left">
-            <img src={sinServidores} alt="no-perteneces-a-ningun-server"/>
-            <h3>¡No perteneces a ningun servidor!</h3>
-        </section>
-    );
-}
-
-const ErrorAlCargarServidores = () =>{
-    return(
-        <section className="ningun-servidor" id="vacio" data-aos="flip-left">
-            <img src={error404} alt="no-perteneces-a-ningun-server"/>
-            <h3>¡Se produjo un error al cargar los servidores!</h3>
-        </section>
-    );
-}
+};
 
 const TusServidores = ({ isError, servers, onDelete, onEdit}) => {
-    console.log(isError);
     if (!isError) {
         if (Object.keys(servers).length !== 0)
             return (
@@ -66,13 +49,13 @@ const TusServidores = ({ isError, servers, onDelete, onEdit}) => {
         else {
             return (
                 <section className='tus-servidores'>
-                    <NoHayServidores />
+                    <EstadoServidores img={sinServidores} txt={"¡No perteneces a ningun servidor!"} />
                 </section>
             );
         }
     } else {
         return (
-            <ErrorAlCargarServidores />
+            <EstadoServidores img={error404} txt={"¡Se produjo un error al cargar los servidores!"} />
         );
     }
 }
@@ -84,30 +67,41 @@ const Bienvenido = () => {
     const lastName = profileData.last_name;
     const userId = profileData.user__id;
     
-    const [servers, setServers] = useState({});
-    const { data, isError, isLoading} = useFetch(
-        import.meta.env.VITE_SERVER_API_URL,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Token ${localStorage.getItem('token')}`
-            }
-        }
-    );
+    const [triggerLoadServer, setTriggerLoadServer] = useState(false);
+    const { serversData, isErrorServers, isLoadingServers } = useServers(triggerLoadServer);
+    const storedServer = localStorage.getItem('allServers');
+    const [servers, setServers] = useState(storedServer ? JSON.parse(storedServer) : null);
 
     useEffect(() => {
-        if(data && !isError && !isLoading) {
-            console.log("NO SE CARGARON LOS SERVIDORES");
+        if(localStorage.getItem('allServers') === null) {
+            setTriggerLoadServer(true);
+        } else {
             const loadedServers = {};
-            data.results.forEach(server => {
+            const ids = Object.keys(servers);
+            ids.forEach(id => {
+                const server = servers[id];
                 if(server.members.includes(userId)) {
-                    loadedServers[server.id] = server;
+                    loadedServers[id] = servers[id];
                 }
             });
             setServers(loadedServers);
         }
-    },[data]);
+    }, []);
+    
+    useEffect(() => {
+        if(serversData && !isErrorServers && !isLoadingServers) {
+            const loadedServers = {};
+            const ids = Object.keys(serversData);
+            ids.forEach(id => {
+                const server = serversData[id];
+                if(server.members.includes(userId)) {
+                    loadedServers[id] = serversData[id];
+                }
+            });
+            localStorage.setItem('allServers', JSON.stringify(loadedServers));
+            setServers(loadedServers);
+        }
+    },[serversData]);
 
     const deleteServers = (idServer) => {
         const loadedServers = { ...servers };
@@ -140,7 +134,7 @@ const Bienvenido = () => {
             <section className="titulo-tus-servidores">
                 <h2>¡Tus servidores!</h2>
             </section>
-            <TusServidores isError={isError} servers={servers} onDelete={deleteServers} onEdit={editServers}/>
+            {servers !== null ? (<TusServidores isError={isErrorServers} servers={servers} onDelete={deleteServers} onEdit={editServers}/>) : (<EstadoServidores img={loading} txt={"Cargando tus servidores"}/>)}
         </section>
     );
 };
@@ -151,9 +145,20 @@ AgregarServidor.propTypes = {
 
 TusServidores.propTypes = {
     isError: PropTypes.bool.isRequired,
-    
     onDelete: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
+    servers: PropTypes.objectOf(
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            created_at: PropTypes.string.isRequired,
+            updated_at: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+            description: PropTypes.string.isRequired,
+            icon: PropTypes.string.isRequired,
+            owner: PropTypes.number.isRequired,
+            members: PropTypes.array.isRequired
+        })
+    ).isRequired
 };
 
 export default Bienvenido;
