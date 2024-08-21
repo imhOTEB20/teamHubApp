@@ -1,5 +1,3 @@
-import React from 'react'
-
 const ModalCrearCanal = () => {
     return (
         <section className="modal fade" id="agregarCanalModal" tabIndex="-1" aria-labelledby="agregarCanalModal" aria-hidden="true">
@@ -31,15 +29,15 @@ const ModalCrearCanal = () => {
                                     <label className="form-label fw-bolder w-100">Chat</label>
                                     <div className="form-check form-check-inline">
                                         <input className="form-check-input" type="radio" name="chatRadioOptions" id="chatRadio1" value="adm" />
-                                        <label className="form-check-label" htmlFor="chatRadio1"><i class="fa-solid fa-users-rectangle"></i> Adm.</label>
+                                        <label className="form-check-label" htmlFor="chatRadio1"><i className="fa-solid fa-users-rectangle"></i> Adm.</label>
                                     </div>
                                     <div className="form-check form-check-inline">
                                         <input className="form-check-input" type="radio" name="chatRadioOptions" id="chatRadio2" value="adm-y-moderadores" />
-                                        <label className="form-check-label" htmlFor="chatRadio2"><i class="fa-solid fa-users-viewfinder"></i> Adm. y Moderadores</label>
+                                        <label className="form-check-label" htmlFor="chatRadio2"><i className="fa-solid fa-users-viewfinder"></i> Adm. y Moderadores</label>
                                     </div>
                                     <div className="form-check form-check-inline">
                                         <input className="form-check-input" type="radio" name="chatRadioOptions" id="chatRadio3" value="todos" />
-                                        <label className="form-check-label" htmlFor="chatRadio3"><i class="fa-solid fa-users"></i> Todos</label>
+                                        <label className="form-check-label" htmlFor="chatRadio3"><i className="fa-solid fa-users"></i> Todos</label>
                                     </div>
                                 </div>
                                 <div className="d-flex align-items-center justify-content-center">

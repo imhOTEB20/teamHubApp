@@ -1,0 +1,636 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito Sans', sans-serif;
+    scroll-behavior: smooth;
+}
+
+.chat-mensaje{
+    height: 100vh;
+    background-color: var(--color-blanco);
+    transition: 0.2s linear;
+    display: flex;
+}
+
+.header-chat{
+    position: sticky;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 270px;
+    background-color: var(--color-fondo);
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.header-chat .texto{
+    color: var(--color-negro);
+}
+
+.header-nav{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    position: relative;
+    padding: 10px 0px;
+}
+
+.header-nav img{
+    width: 50px;
+    border-radius: 50%;
+    border: 3px solid var(--color-05);
+}
+
+.header-nav .usuario-nombre{
+    padding-left: 10px;
+}
+
+.header-nav .usuario-nombre .usuario{
+    font-family: 'Heebo', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.header-nav .usuario-nombre .nombre{
+    font-family: 'Heebo', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 400;
+}
+
+.header-nav .toggle{
+    position: absolute;
+    top: 50%;
+    right: -30px;
+    transform: translateY(-50%) rotate(180deg);
+    width: 30px;
+    height: 30px;
+    background-color: var(--color-05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-blanco);
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.usuario-estado{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 5px 10px;
+}
+
+.usuario-estado .icono .la-user-circle{
+    font-size: 1.8rem;
+    background-color: var(--color-05);
+    color: var(--color-blanco);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.usuario-estado .contendor-radio{
+    padding-left: 10px;
+}
+
+.usuario-estado .contendor-radio .input-radio-1{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.usuario-estado .contendor-radio .input-radio-2{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 5px 0px;
+}
+
+.usuario-estado .contendor-radio .input-radio-3{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.contendor-radio .texto{
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding-left: 10px;
+}
+
+.buscador-chat input{
+    width: 100%;
+    outline: none;
+    border: none;
+    background-color: var(--color-05);
+    color: var(--color-blanco);
+    padding: 5px;
+}
+
+.buscador-chat{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    background-color: var(--color-05);
+    border-radius: 10px;
+}
+
+.buscador-chat .la-search{
+    font-size: 1.5rem;
+    color: var(--color-blanco);
+}
+
+.buscador-chat input::placeholder{
+    color: var(--color-blanco);
+}
+
+.buscador-chat input[type="search"]::-webkit-search-cancel-button {
+    color:var(--color-blanco);
+}
+
+.canales-chat{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin: 5px 0px;
+    overflow-y: scroll;
+    flex-grow: 1;
+}
+
+.canales-chat::-webkit-scrollbar{
+    width: 5px;
+    position: absolute;
+    right: -15px;
+}
+
+.canales-chat::-webkit-scrollbar-thumb{
+    background-color: var(--color-blanco);
+    border-radius: 5px;
+}
+
+.canales-chat::-webkit-scrollbar-thumb:hover{
+    background-color: var(--color-05);
+    transition: 0.2s linear;
+}
+
+.canales-chat .canal-chat{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 10px;
+    margin: 5px 0px;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.canales-chat .canal-chat:hover{
+    background-color: var(--color-05);
+    transition: 0.2s linear;
+}
+
+.canales-chat .canal-chat .la-slack-hash{
+    font-size: 1.8rem;
+    color: var(--color-negro);
+}
+
+.canales-chat .canal-chat:hover .la-slack-hash{
+    color: var(--color-blanco);
+    transition: 0.2s linear;
+}
+
+.canales-chat .canal-chat .icono{
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+}
+
+.canales-chat .canal-chat .texto{
+    margin-left: 10px;
+    font-family: 'Heebo', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.canales-chat .canal-chat:hover .texto{
+    color: var(--color-blanco);
+    transition: 0.2s linear;
+}
+
+.canales-chat .canal-chat .notificacion{
+    background-color: var(--color-07);
+    color: var(--color-blanco);
+    padding: 2.5px 5px;
+    border-radius: 5px;
+    font-size: 0.6rem;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.footer-header{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-header .canal-chat{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.footer-header .canal-chat a{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    text-decoration: none;
+}
+
+.footer-header .canal-chat a .fa-door-open{
+    font-size: 1.5rem;
+    color: var(--color-negro);
+}
+
+.footer-header .canal-chat a .texto{
+    margin-left: 10px;
+    font-family: 'Heebo', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.footer-header .canal-chat:hover{
+    background-color: var(--color-05);
+    transition: 0.2s linear;
+}
+
+.footer-header .canal-chat:hover a .la-door-open{
+    color: var(--color-blanco);
+    transition: 0.2s linear;
+}
+
+.footer-header .canal-chat:hover a .texto{
+    color: var(--color-blanco);
+    transition: 0.2s linear;
+}
+
+.footer-header .modo{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.footer-header .modo .oscuro{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.footer-header .modo .oscuro .la-moon{
+    font-size: 1.5rem;
+    color: var(--color-negro);
+}
+
+.footer-header .modo .oscuro .texto{
+    margin-left: 10px;
+    font-family: 'Heebo', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.footer-header .modo .claro{
+    display: none;
+    align-items: center;
+    justify-content: start;
+}
+
+.footer-header .modo .claro .la-sun{
+    font-size: 1.5rem;
+    color: var(--color-negro);
+}
+
+.footer-header .modo .claro .texto{
+    margin-left: 10px;
+    font-family: 'Heebo', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.footer-header .modo .toggle-switch{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    height: 100%;
+    min-width: 60px;
+    cursor: pointer;
+}
+
+.footer-header .modo .toggle-switch .switch{
+    position: relative;
+    height: 22px;
+    width: 44px;
+    border-radius: 25px;
+    background-color: var(--color-05);
+}
+
+.footer-header .modo .toggle-switch .switch::before{
+    content: '';
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    background-color: var(--color-fondo);
+    transition: 0.3s;
+}
+
+/*MODO DARK*/
+/*body.dark{
+    --color-05:#145959;
+    --color-07:#591414;
+    --color-fondo:#2B2827;
+    --color-negro:#fff;
+    --color-blanco:#0D0908;
+    --color-blanco:#fff;
+}*/
+
+body.dark .footer-header .modo .oscuro{
+    display: none;
+}
+
+body.dark .footer-header .modo .claro{
+    display: flex;
+}
+
+body.dark .footer-header .modo .toggle-switch .switch::before{
+    left: 25px;
+}
+
+/*CLOSE*/
+header.close{
+    width: 80px;
+}
+
+header.close .header-nav{
+    justify-content: center;
+    position: relative;
+    padding: 10px 10px;
+}
+
+header.close .header-nav .usuario-nombre{
+    display: none;
+}
+
+header.close .header-nav .toggle{
+    right: -27px;
+    transform: translateY(-50%);
+}
+
+header.close .usuario-estado{
+    justify-content: center;
+}
+
+.usuario-estado .icono .la-user-circle{
+    padding: 7px;
+}
+
+header.close .usuario-estado .contendor-radio{
+    display: none;
+}
+
+header.close .buscador{
+    justify-content: center;
+    background-color: var(--color-fondo);
+}
+
+header.close .buscador .la-search{
+    background-color: var(--color-05);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+header.close .buscador input{
+    display: none;
+}
+
+header.close .canales-chat{
+    justify-content: center;
+}
+
+header.close .canales-chat .canal-chat{
+    justify-content: center;
+}
+
+header.close .canales-chat .canal-chat .texto{
+    display: none;
+}
+
+header.close .footer-header .canal-chat{
+    justify-content: center;
+}
+
+header.close .footer-header .canal-chat a{
+    justify-content: center;
+}
+
+header.close .footer-header .canal-chat a .texto{
+    display: none;
+}
+
+header.close .footer-header .modo{
+    justify-content: center;
+}
+
+header.close .footer-header .modo .oscuro{
+    display: none;
+}
+
+header.close .footer-header .modo .claro{
+    display: none;
+}
+
+main{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-blanco);
+}
+
+.nombre-de-canal{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-fondo);
+    color: var(--color-negro);
+    padding: 20px 10px;
+    border: solid 2px var(--color-05);
+}
+
+.chat{
+    width: 100%;
+    padding: 10px;
+    flex-grow: 1;
+    border-left: solid 2px var(--color-05);
+    border-right: solid 2px var(--color-05);
+    overflow-y: scroll;
+}
+
+.chat::-webkit-scrollbar{
+    width: 10px;
+    position: absolute;
+}
+
+.chat::-webkit-scrollbar-thumb{
+    background-color: var(--color-05);
+    border-radius: 5px;
+}
+
+.chat::-webkit-scrollbar-thumb:hover{
+    background-color: var(--color-07);
+    transition: 0.2s linear;
+}
+
+.mensaje{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    background-color: var(--color-fondo);
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.mensaje .mensaje-header{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mensaje .mensaje-header .usuario-mensaje{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mensaje .mensaje-header .usuario-mensaje img{
+    width: 45px;
+    border-radius: 50%;
+    border: 3px solid var(--color-05);
+}
+
+.mensaje .mensaje-header .usuario-mensaje h3{
+    margin-left: 10px;
+    color: var(--color-negro);
+}
+
+.mensaje .mensaje-header .btns-mensaje .btn-editar{
+    background-color: var(--color-05);
+    color: var(--color-blanco);
+    padding: 7px;
+    border-radius: 10px;
+    font-size: 1rem;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.mensaje .mensaje-header .btns-mensaje .btn-editar:hover{
+    background-color: var(--color-07);
+    transition: 0.2s linear;
+}
+.mensaje .mensaje-header .btns-mensaje .btn-eliminar{
+    background-color: var(--color-05);
+    color: var(--color-blanco);
+    padding: 7px;
+    border-radius: 10px;
+    font-size: 1rem;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.mensaje .mensaje-header .btns-mensaje .btn-eliminar:hover{
+    background-color: var(--color-07);
+    transition: 0.2s linear;
+}
+
+.mensaje p{
+    padding: 10px 5px 0px 5px;
+    font-family: 'Heebo', sans-serif;
+    color: var(--color-negro);
+}
+
+.contenedor-chat{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-fondo);
+    color: var(--color-07);
+    border: solid 2px var(--color-05);
+}
+
+.contenedor-chat form{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+}
+
+.contenedor-chat i{
+    color: var(--color-negro);
+    font-size: 1.6rem;
+}
+
+.contenedor-chat .escribir-mensaje{
+    height: 100%;
+    font-size: 1.2rem;
+    font-weight: bold;
+    outline: none;
+    border: solid 2px var(--color-05);
+    padding: 10px;
+    border-radius: 10px;
+    align-self: normal;
+    flex-grow: 1;
+    flex-basis: 0;
+    margin: 0px 10px;
+}
+
+.contenedor-chat input::placeholder{
+    color: var(--color-07);
+}
+
+.contenedor-chat .btn-enviar{
+    background-color: var(--color-05);
+    color:var(--color-blanco);
+    border: none;
+    padding: 10px;
+    font-size: 1.2rem;
+    border-radius: 10px;
+}
+
+.contenedor-chat .btn-enviar:hover{
+    background-color: var(--color-07);
+    transition: 0.2s linear;
+}

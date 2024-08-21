@@ -26,22 +26,22 @@ const BuscarCanal = () => {
 
 const CanalGeneral = () =>{
   return(
-    <article class="card-canal" data-aos="fade-up">
-      <i class="fa-solid fa-hashtag"></i>
-      <div class="descripcion-canal">
+    <article className="card-canal" data-aos="fade-up">
+      <i className="fa-solid fa-hashtag"></i>
+      <div className="descripcion-canal">
           <h2>General</h2>
           <p>Chat general de Radio Garka</p>
       </div>
-      <div class="botones-canales">
+      <div className="botones-canales">
         <button type="button" className="btn-canal btn btn-personalized-2 fw-bold my-1 mx-0 mx-sm-1 my-md-0"
             id="boton-editar-canal"
             data-bs-toggle="modal"
             data-bs-target={`#editarCanalModal${"ChatGeneral"}`}><i className="fa-solid fa-pen-to-square"></i> Editar</button>
         <ModalEditarCanal idModal={"ChatGeneral"}/>
-        <a className="btn-canal btn btn-personalized-1 fw-bold my-1 mx-0 mx-sm-1 my-md-0" href="chat.html">Ir a servidor <i class="fa-solid fa-comments"></i></a>
+        <a className="btn-canal btn btn-personalized-1 fw-bold my-1 mx-0 mx-sm-1 my-md-0" href="chat.html">Ir a servidor <i className="fa-solid fa-comments"></i></a>
       </div>
-      <div class="me-encanta-lokita">
-          <label class="label-me-encanta"><i class="fa-solid fa-heart"></i></label>
+      <div className="me-encanta-lokita">
+          <label className="label-me-encanta"><i className="fa-solid fa-heart"></i></label>
       </div>
   </article>
   );
@@ -73,23 +73,23 @@ const Canal = ({idCanal}) =>{
     });
     }
   return(
-    <article class="card-canal" data-aos="fade-up">
+    <article className="card-canal" data-aos="fade-up">
       <img src={radioGarka} alt="logo-miembro"/>
-      <div class="descripcion-canal">
+      <div className="descripcion-canal">
           <h2>Cosas de Trolazo</h2>
           <p>Canal echo para realizar aportes al CDT y debatir sobre los ya existentes.</p>
           <button className="btn-servidor btn btn-personalized-3 fw-bold" onClick={alertEliminarCanal}><i className="fa-solid fa-trash"></i> Eliminar</button>
       </div>
-      <div class="botones-canales">
+      <div className="botones-canales">
         <button type="button" className="btn-canal btn btn-personalized-2 fw-bold my-1 mx-0 mx-sm-1 my-md-0"
             id="boton-editar-canal"
             data-bs-toggle="modal"
             data-bs-target={`#editarCanalModal${idCanal}`}><i className="fa-solid fa-pen-to-square"></i> Editar</button>
         <ModalEditarCanal idModal={idCanal}/>
-        <a className="btn-canal btn btn-personalized-1 fw-bold my-1 mx-0 mx-sm-1 my-md-0" href="chat.html">Ir a servidor <i class="fa-solid fa-comments"></i></a>
+        <a className="btn-canal btn btn-personalized-1 fw-bold my-1 mx-0 mx-sm-1 my-md-0" href="chat.html">Ir a servidor <i className="fa-solid fa-comments"></i></a>
       </div>
-      <div class="me-encanta-lokita">
-          <label class="label-me-encanta"><i class="fa-solid fa-heart"></i></label>
+      <div className="me-encanta-lokita">
+          <label className="label-me-encanta"><i className="fa-solid fa-heart"></i></label>
       </div>
     </article>
   );
@@ -99,14 +99,14 @@ const Canal = ({idCanal}) =>{
 const Canales = () => {
   return (
     <>
-    <section class="cambio-de-color">
-        <section class="bienvenida-canales">
+    <section className="cambio-de-color">
+        <section className="bienvenida-canales">
             <h1>Canales del servidor Radio Garka</h1>
         </section>
         <AgregarCanal/>
         <BuscarCanal/>
     </section>
-    <section class="tus-canales">
+    <section className="tus-canales">
       <CanalGeneral/>
       <Canal idCanal={1}/>
       <Canal idCanal={2}/>

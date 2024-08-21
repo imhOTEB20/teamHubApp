@@ -1,5 +1,3 @@
-import React from 'react'
-
 const ModalEditarCanal = ({idModal}) => {
     return (
         <div className="modal fade" id={`editarCanalModal${idModal}`} tabIndex="-1" aria-labelledby={`editarCanalModalLabel${idModal}`} aria-hidden="true">

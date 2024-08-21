@@ -7,13 +7,15 @@ import BienvenidaPage from "../pages/BienvenidaPage";
 import DesarrolladoresPage from "../pages/DesarrolladoresPage";
 import CanalesPage from "../pages/CanalesPage";
 import MiembrosPage from "../pages/MiembrosPage";
+import ChatHeader from "../components/ChatHeader";
+import ChatMain from "../components/ChatMain";
 
 const tituloSoftware = "MootMate";
 
 const RoutesViews = () => {
     return (
     <>
-        <NavMootMate nombre={tituloSoftware}/>
+        {/* <NavMootMate nombre={tituloSoftware}/>
         <Routes>
             <Route path="/desarrolladores" element={<DesarrolladoresPage/>}/>
             <Route path="/canales" element={<CanalesPage/>}/>
@@ -22,7 +24,9 @@ const RoutesViews = () => {
             <Route path="/" element={<HomePage/>}/>
             <Route path="*" element={<Error404Page/>}/>
         </Routes>
-        <FooterMootMate nombre={tituloSoftware}/>
+        <FooterMootMate nombre={tituloSoftware}/> */}
+        <ChatHeader/>
+        <ChatMain/>
     </>
     )
 }
