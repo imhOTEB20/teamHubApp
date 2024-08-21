@@ -10,7 +10,7 @@ const ModalEditarPerfil = () =>{
                         <button type="button" className="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body bg-color-fondo">
-                        <form id="form-editar-perfil">
+                        <form id="form-registro">
                             <div className="mb-3">
                                 <label htmlFor="editarEmailRegistro" className="form-label fw-bolder">Email</label>
                                 <input type="email" className="form-control bg-input" id="editarEmailRegistro" aria-describedby="emailHelp"
@@ -43,7 +43,7 @@ const ModalEditarPerfil = () =>{
                                 <div id="editarFechaNacimientoErrorRegistro"></div>
                             </div>
                             <div className="d-flex align-items-center justify-content-center">
-                                <button type="submit" id="botonEditar" className="btn btn-personalized-1 mx-1 fw-bold" aria-label="Registrarse">
+                                <button type="submit" id="botonRegistrarse" className="btn btn-personalized-1 mx-1 fw-bold" aria-label="Registrarse">
                                     Guardar cambios
                                 </button>
                                 <button type="button" className="btn btn-personalized-3 mx-1 fw-bold"

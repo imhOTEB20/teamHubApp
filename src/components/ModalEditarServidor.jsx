@@ -1,118 +1,50 @@
-import { useEffect, useState } from "react";
-import PropTypes from 'prop-types';
-import Swal from 'sweetalert2';
-
-const ModalEditarServidor = ({ serverData, onEdit }) => {
-    const [nombreServidor, setNombreServidor] = useState(serverData.name);
-    const [descripcionServidor, setDescripcionServidor] = useState(serverData.description);
-    const [icon, setIcon] = useState(null);
-    const [botonDesactivado, setBotonDesactivado] = useState(true);
-
-    const manejarSubmit = (e) => {
-        e.preventDefault();
-
-        const newFormData = new FormData();
-        if (icon) newFormData.append('icon', icon);
-        newFormData.append('name', nombreServidor);
-        if (descripcionServidor != serverData.description) newFormData.append('description', descripcionServidor);
-        console.log(newFormData);
-        fetch(`${import.meta.env.VITE_SERVER_API_URL}${serverData.id}/`, {
-            method: 'PUT',
-            headers: {
-                Authorization: `Token ${localStorage.getItem('token')}`
-            },
-            body: newFormData,
-        })
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw Error("Error al intentar editar el servidor.");
-        })
-        .then((data) => {
-            console.log(`DATOS POS EDIT: ${data}`);
-            onEdit(data);
-        })
-        .catch((e) => {
-            console.log(e);
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Se produjo un error al editar el servidor"
-            });
-        });
-    };
-
-    useEffect(() => {
-        if(icon != null || nombreServidor != serverData.name || descripcionServidor != serverData.description) {
-            if(nombreServidor != "") {
-                setBotonDesactivado(false);
-            } else {
-                setBotonDesactivado(true);
-                Swal.fire({
-                    position: "center",
-                    icon: "warning",
-                    title: "el nombre del servidor no puede estar vacio",
-                    showConfirmButton: false,
-                    timer: 1000
-                });
-            }
-        }
-    }, [nombreServidor, descripcionServidor, icon]);
-
-    const manejarCambioNombreServidor = (e) => {
-        const valor = e.target.value;
-        setNombreServidor(valor);
-    };
-
-    const manejadorCambioDescripcionServidor = (e) => {
-        const text = e.target.value;
-        setDescripcionServidor(text);
-    }
-
-    const manejarCambioImagen = (e) => {
-        const file = e.target.files[0] || null;
-        setIcon(file);
-    };
-
-    const resetValues = () => {
-        setNombreServidor(serverData.name);
-        setDescripcionServidor(serverData.description);
-        setIcon(null);
-        setBotonDesactivado(true);
-    }
-
+const ModalEditarServidor = ({ idModal }) => {
     return (
-        <div className="modal fade" id={`editarServidorModal${serverData.id}`} tabIndex="-1" aria-labelledby={`editarServidorModalLabel${serverData.id}`} aria-hidden="true">
+        <div className="modal fade" id={`editarServidorModal${idModal}`} tabIndex="-1" aria-labelledby={`editarServidorModalLabel${idModal}`} aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header bg-color-principal">
-                        <h5 className="modal-title text-white" id={`editarServidorModalLabel${serverData.id}`}>Editar Servidor</h5>
-                        <button type="button" className="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" onClick={resetValues}></button>
+                        <h5 className="modal-title text-white" id={`editarServidorModalLabel${idModal}`}>Editar Servidor</h5>
+                        <button type="button" className="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body bg-color-fondo">
-                        <form onSubmit={manejarSubmit}>
+                        <form>
                             <div className="mb-3">
-                                <label htmlFor={`editarFotoServidor${serverData.id}`} className="form-label fw-bolder">Subir foto</label>
-                                <input className="form-control bg-input" type="file" id={`editarFotoServidor${serverData.id}`} onChange={manejarCambioImagen} />
-                                <div id={`editarFotoErrorServidor${serverData.id}`}></div>
+                                <label htmlFor={`editarFotoServidor${idModal}`} className="form-label fw-bolder">Subir foto</label>
+                                <input className="form-control bg-input" type="file" id={`editarFotoServidor${idModal}`} />
+                                <div id={`editarFotoErrorServidor${idModal}`}></div>
                             </div>
                             <div className="mb-3">
-                                <label htmlFor={`editarNombreServidor${serverData.id}`} className="form-label fw-bolder">Nombre</label>
-                                <input type="text" className="form-control bg-input" value={nombreServidor} onChange={manejarCambioNombreServidor} id={`editarNombreServidor${serverData.id}`} placeholder="Ingrese nombre"
-                                    minLength="4" maxLength="64" name="Nombre" required />
-                                <div id={`editarNombreErrorServidor${serverData.id}`}></div>
+                                <label htmlFor={`editarNombreServidor${idModal}`} className="form-label fw-bolder">Nombre</label>
+                                <input type="text" className="form-control bg-input" id={`editarNombreServidor${idModal}`} placeholder="Ingrese nombre"
+                                    minLength="3" maxLength="25" name="Nombre" required />
+                                <div id={`editarNombreErrorServidor${idModal}`}></div>
                             </div>
                             <div className="mb-3">
                                 <div className="form-floating">
-                                    <textarea className="form-control bg-input" placeholder="Ingrese descripción" id={`descripcion${serverData.id}`} style={{ height: '100px' }} value={descripcionServidor} onChange={manejadorCambioDescripcionServidor}></textarea>
-                                    <label htmlFor={`descripcion${serverData.id}`} >Descripción</label>
+                                    <textarea className="form-control bg-input" placeholder="Ingrese descripción" id={`descripcion${idModal}`} style={{ height: '100px' }}></textarea>
+                                    <label htmlFor={`descripcion${idModal}`}>Descripción</label>
                                 </div>
-                                <div id={`editarDescripcionErrorServidor${serverData.id}`}></div>
+                                <div id={`editarDescripcionErrorServidor${idModal}`}></div>
+                            </div>
+                            <div className="mb-3">
+                                <label className="form-label fw-bolder w-100">Chat general</label>
+                                <div className="form-check form-check-inline">
+                                    <input className="form-check-input" type="radio" name={`editarChatRadioOptions${idModal}`} id={`chatRadio1${idModal}`} value="adm" />
+                                    <label className="form-check-label" htmlFor={`chatRadio1${idModal}`}><i className="fa-solid fa-users-rectangle"></i> Adm.</label>
+                                </div>
+                                <div className="form-check form-check-inline">
+                                    <input className="form-check-input" type="radio" name={`editarChatRadioOptions${idModal}`} id={`chatRadio2${idModal}`} value="adm-y-moderadores" />
+                                    <label className="form-check-label" htmlFor={`chatRadio2${idModal}`}><i className="fa-solid fa-users-viewfinder"></i> Adm. y Moderadores</label>
+                                </div>
+                                <div className="form-check form-check-inline">
+                                    <input className="form-check-input" type="radio" name={`editarChatRadioOptions${idModal}`} id={`chatRadio3${idModal}`} value="todos" />
+                                    <label className="form-check-label" htmlFor={`chatRadio3${idModal}`}><i className="fa-solid fa-users"></i> Todos</label>
+                                </div>
                             </div>
                             <div className="d-flex align-items-center justify-content-center">
-                                <button disabled={botonDesactivado} type="submit" className="btn btn-personalized-1 mx-1 fw-bold" data-bs-dismiss="modal" aria-label="Agregar">Guardar cambios</button>
-                                <button type="reset" className="btn btn-personalized-3 mx-1 fw-bold" data-bs-dismiss="modal" aria-label="Close" onClick={resetValues}>Cancelar</button>
+                                <button type="submit" className="btn btn-personalized-1 mx-1 fw-bold" aria-label="Agregar">Guardar cambios</button>
+                                <button type="reset" className="btn btn-personalized-3 mx-1 fw-bold" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
                             </div>
                         </form>
                     </div>
@@ -121,19 +53,5 @@ const ModalEditarServidor = ({ serverData, onEdit }) => {
         </div>
     );
 }
-
-ModalEditarServidor.propTypes = {
-    serverData: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        created_at: PropTypes.string.isRequired,
-        updated_at: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
-        icon: PropTypes.string.isRequired,
-        owner: PropTypes.number.isRequired,
-        members: PropTypes.array.isRequired
-    }).isRequired,
-    onEdit: PropTypes.func.isRequired
-};
 
 export default ModalEditarServidor;
