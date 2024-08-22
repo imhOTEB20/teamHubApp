@@ -86,7 +86,7 @@
     padding: 5px 10px;
 }
 
-.usuario-estado .icono .la-user-circle{
+.usuario-estado .icono .fa-user{
     font-size: 1.8rem;
     background-color: var(--color-05);
     color: var(--color-blanco);

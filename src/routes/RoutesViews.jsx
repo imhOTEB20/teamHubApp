@@ -1,22 +1,18 @@
 import { Routes, Route } from "react-router-dom";
-import HomePage from "../pages/HomePage";
-import Error404Page from "../pages/Error404Page";
-import NavMootMate from "../components/NavMootMate";
-import FooterMootMate from "../components/FooterMootMate";
-import BienvenidaPage from "../pages/BienvenidaPage";
+import ChatPage from "../pages/ChatPage";
 import DesarrolladoresPage from "../pages/DesarrolladoresPage";
 import CanalesPage from "../pages/CanalesPage";
 import MiembrosPage from "../pages/MiembrosPage";
-import ChatHeader from "../components/ChatHeader";
-import ChatMain from "../components/ChatMain";
+import BienvenidaPage from "../pages/BienvenidaPage";
+import HomePage from "../pages/HomePage";
+import Error404Page from "../pages/Error404Page";
 
-const tituloSoftware = "MootMate";
 
 const RoutesViews = () => {
     return (
     <>
-        {/* <NavMootMate nombre={tituloSoftware}/>
         <Routes>
+            <Route path="/chat" element={<ChatPage/>}/>
             <Route path="/desarrolladores" element={<DesarrolladoresPage/>}/>
             <Route path="/canales" element={<CanalesPage/>}/>
             <Route path="/miembros" element={<MiembrosPage/>}/>
@@ -24,11 +20,8 @@ const RoutesViews = () => {
             <Route path="/" element={<HomePage/>}/>
             <Route path="*" element={<Error404Page/>}/>
         </Routes>
-        <FooterMootMate nombre={tituloSoftware}/> */}
-        <ChatHeader/>
-        <ChatMain/>
     </>
     )
 }
 
-export default RoutesViews
+export default RoutesViews;
