@@ -1,9 +1,10 @@
 import Desarrolladores from '../components/Desarrolladores'
+import Canales from '../components/Canales';
 
 const DesarrolloMootMate = () => {
     return (
         <>
-            <Desarrolladores/>
+            <Canales/>
         </>
     )
 }

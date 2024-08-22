@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import useAuth from "../hooks/useAuth";
 
 function PrivateRoute({ children }) {
-    const { isLoggedIn } = useAuth;
+    const { isLoggedIn } = useAuth();
     return isLoggedIn ? children : <Navigate to='/' />;
 }
 PrivateRoute.propTypes = {

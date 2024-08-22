@@ -43,6 +43,7 @@ export default function AuthProvider({ children }) {
     const logout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('profileData');
+        localStorage.removeItem('allServers');
         setIsLoggedIn(false);
         setProfileData(null);
     };

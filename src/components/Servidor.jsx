@@ -1,10 +1,31 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 import useAuth from '../hooks/useAuth';
 import ModalEditarServidor from './ModalEditarServidor';
 import useFetch from '../hooks/useFetch';
+
+import noPicture from '../assets/img/no_picture.png';
+
+const EnterServerButton = ({serverData}) => {
+    const { profileData } = useAuth();
+    const navigate = useNavigate(); 
+
+    const handlePushButton = () => {
+        localStorage.setItem('lastServer', JSON.stringify(serverData));
+        navigate(`/servidores/${serverData.id}`);
+    }
+    return (
+        <button
+            className="btn-servidor btn btn-personalized-1 fw-bold my-1 mx-0 mx-sm-1 my-md-0"
+            onClick={handlePushButton}
+        >   {serverData.members.includes(profileData.user__id) ? "Ingresar" : "Unirse"}
+            <i className="fa-solid fa-comments"></i>
+        </button>
+    );
+};
 
 const DeleteServerButton = ({ idServidor, owner, onDelete }) => {
     const { profileData } = useAuth();
@@ -42,7 +63,6 @@ const DeleteServerButton = ({ idServidor, owner, onDelete }) => {
 
     useEffect(() => {
         if(!isError && !isLoading) {
-            console.log("nunca pase");
             Swal.fire({
                 icon: "success",
                 title: "¡Éxito!",
@@ -61,7 +81,6 @@ const DeleteServerButton = ({ idServidor, owner, onDelete }) => {
         }
     }, [data, isError, isLoading]);
     
-    console.log(`owner:${owner} - userID:${userID}`);
     if (owner === userID) {
         return (
             <button className="btn-servidor btn btn-personalized-3 fw-bold" onClick={alertEliminarServidor}><i className="fa-solid fa-trash"></i> Eliminar</button>
@@ -69,8 +88,9 @@ const DeleteServerButton = ({ idServidor, owner, onDelete }) => {
     } else return null;
 }
 
-const ExitServerButton = ( { idServidor, owner, onExit } ) => {
+const ExitServerButton = ( { serverData, onExit } ) => {
     const { profileData } = useAuth();
+    const idServidor = serverData.id;
     
     const userID = profileData.user__id;
     const [exitServer, setExitServer] = useState(false);
@@ -97,8 +117,10 @@ const ExitServerButton = ( { idServidor, owner, onExit } ) => {
 
     useEffect(() => {
         if(data && !isError && !isLoading) {
-            console.log(data.results[0]);
-            setIdMember(data.results[0].id);
+            if(data.count !== 0){
+                console.log(data.results[0]);
+                setIdMember(data.results[0].id);
+            }
         }
     },[data]);
 
@@ -141,7 +163,7 @@ const ExitServerButton = ( { idServidor, owner, onExit } ) => {
         });
     };
 
-    if (owner !== userID) {
+    if (serverData.members.includes(userID)) {
         return (
             <button className='btn-servidor btn btn-personalized-3 fw-bold my-1 mx-0 mx-sm-1 my-md-0' onClick={salirDelServidor}><i className="fa-solid fa-right-from-bracket"></i> Salir</button>
         );
@@ -171,7 +193,7 @@ const EditServerButton = ({ serverData, onEdit }) => {
 
 const Servidor = ({ idServidor, serverData, onDelete, onEdit }) => {
     
-    const icon = serverData.icon;
+    const icon = serverData.icon || noPicture;
     const serverName = serverData.name;
     const members = serverData.members.length===0 ? serverData.members.length : 1;
 
@@ -187,9 +209,9 @@ const Servidor = ({ idServidor, serverData, onDelete, onEdit }) => {
                 <DeleteServerButton idServidor={idServidor} owner={serverData.owner} onDelete={onDelete}/>
             </div>
             <div className="botones-servidor">
-                <a className="btn-servidor btn btn-personalized-1 fw-bold my-1 mx-0 mx-sm-1 my-md-0" href="chat.html">Ingresar <i className="fa-solid fa-comments"></i></a>
+                <EnterServerButton serverData={serverData}/>
                 <EditServerButton serverData={serverData} onEdit={onEdit}/>
-                <ExitServerButton idServidor={idServidor} owner={serverData.owner} onExit={onDelete}/>
+                <ExitServerButton serverData={serverData} onExit={onDelete}/>
             </div>
         </article>
     );
@@ -202,8 +224,22 @@ DeleteServerButton.propTypes = {
 };
 
 ExitServerButton.propTypes = {
-    idServidor: PropTypes.string.isRequired,
-    owner: PropTypes.number.isRequired,
+    serverData: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        created_at: PropTypes.string.isRequired,
+        updated_at: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        description: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.oneOf([null])
+        ]),
+        icon: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.oneOf([null])
+        ]),
+        owner: PropTypes.number.isRequired,
+        members: PropTypes.array.isRequired
+    }).isRequired,
     onExit: PropTypes.func.isRequired,
 };
 
@@ -213,8 +249,14 @@ EditServerButton.propTypes = {
         created_at: PropTypes.string.isRequired,
         updated_at: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
-        icon: PropTypes.string.isRequired,
+        description: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.oneOf([null])
+        ]),
+        icon: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.oneOf([null])
+        ]),
         owner: PropTypes.number.isRequired,
         members: PropTypes.array.isRequired
     }).isRequired,
@@ -228,8 +270,14 @@ Servidor.propTypes = {
         created_at: PropTypes.string.isRequired,
         updated_at: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
-        icon: PropTypes.string.isRequired,
+        description: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.oneOf([null])
+        ]),
+        icon: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.oneOf([null])
+        ]),
         owner: PropTypes.number.isRequired,
         members: PropTypes.array.isRequired
     }).isRequired,

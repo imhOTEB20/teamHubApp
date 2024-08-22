@@ -1,50 +1,133 @@
-import React from 'react'
+import { useState } from 'react';
+import PropTypes from 'prop-types';
+import Swal from 'sweetalert2';
 
-const ModalCrearCanal = () => {
+const NombreCanal = ({ variable, manejadorCambio }) => {
+    return (
+        <>
+            <label htmlFor="nombreCanal" className="form-label fw-bolder">Nombre</label>
+            <input type="text"
+                className="form-control bg-input"
+                id="nombreCanal"
+                value={variable}
+                onChange={manejadorCambio}
+                placeholder="Ingrese nombre"
+                minLength="4"
+                maxLength="100"
+                name="Nombre"
+                required />
+        </>
+    );
+};
+
+const DescripcionCanal = ({ variable, manejadorCambio }) => {
+    return (
+        <div className="form-floating">
+        <textarea
+            value={variable}
+            onChange={manejadorCambio}
+            className="form-control bg-input"
+            placeholder="Ingrese descripción"
+            id="descripcion"
+            style={{ height: '100px' }}>
+        </textarea>
+        <label
+            htmlFor="descripcion">
+            Descripción
+        </label>
+        </div>
+    );
+};
+
+const ModalCrearCanal = ({ addChannel, serverID }) => {
+    console.log(`id servidor ${serverID}`);
+    const [nombreCanal, setNombreCanal] = useState("");
+    const [descripcionCanal, setDescripcionCanal] = useState("");
+    const [botonDesactivado, setBotonDesactivado] = useState(true);
+
+    const manejarSubmit = (e) => {
+        e.preventDefault();
+
+        const body = JSON.stringify ({
+            server: serverID,
+            name: nombreCanal,
+            description: descripcionCanal
+        });
+        
+        fetch(import.meta.env.VITE_CHANNELS_API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Token ${localStorage.getItem('token')}`
+            },
+            body: body,
+        })
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw Error("Error al intentar crear el canal.");
+        })
+        .then((data) => {
+            console.log(data);
+            addChannel();
+        })
+        .catch((e) => {
+            console.log(e);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Se produjo un error al crear el canal"
+            });
+        });
+    };
+
+    const validarNombreCanal = (valor) => {
+        const exp_reg = /^[a-zA-Z0-9 ]{4,}$/;
+
+        if (exp_reg.test(valor)) {
+            setBotonDesactivado(false);
+        } else {
+            setBotonDesactivado(true);
+        }
+    };
+
+    const manejarCambioNombreCanal = (e) => {
+        const valor = e.target.value;
+        setNombreCanal(valor);
+        validarNombreCanal(valor);
+    };
+
+    const manejadorCambioDescripcionCanal = (e) => {
+        const text = e.target.value;
+        setDescripcionCanal(text);
+    }
+
+    const resetValues = () => {
+        setNombreCanal("");
+        setDescripcionCanal("");
+        setBotonDesactivado(true);
+    }
+    
     return (
         <section className="modal fade" id="agregarCanalModal" tabIndex="-1" aria-labelledby="agregarCanalModal" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header bg-color-principal">
                             <h5 className="modal-title text-white" id="agregarCanalModal">Agregar Canal</h5>
-                            <button type="button" className="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" className="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" onClick={resetValues}></button>
                         </div>
                         <div className="modal-body bg-color-fondo">
-                            <form>
+                            <form onSubmit={manejarSubmit}>
                                 <div className="mb-3">
-                                    <label htmlFor="fotoServidor" className="form-label fw-bolder">Subir foto</label>
-                                    <input className="form-control bg-input" type="file" id="fotoServidor" />
+                                    <NombreCanal variable={nombreCanal} manejadorCambio={manejarCambioNombreCanal} />
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="nombreServidor" className="form-label fw-bolder">Nombre</label>
-                                    <input type="text" className="form-control bg-input" id="nombreServidor" placeholder="Ingrese nombre"
-                                        minLength="3" maxLength="25" name="Nombre" required />
-                                    <div id="nombreErrorServidor"></div>
-                                </div>
-                                <div className="mb-3">
-                                    <div className="form-floating">
-                                        <textarea className="form-control bg-input" placeholder="Ingrese descripción" id="descripcion" style={{ height: '100px' }}></textarea>
-                                        <label htmlFor="descripcion">Descripción</label>
-                                    </div>
-                                </div>
-                                <div className="mb-3">
-                                    <label className="form-label fw-bolder w-100">Chat</label>
-                                    <div className="form-check form-check-inline">
-                                        <input className="form-check-input" type="radio" name="chatRadioOptions" id="chatRadio1" value="adm" />
-                                        <label className="form-check-label" htmlFor="chatRadio1"><i class="fa-solid fa-users-rectangle"></i> Adm.</label>
-                                    </div>
-                                    <div className="form-check form-check-inline">
-                                        <input className="form-check-input" type="radio" name="chatRadioOptions" id="chatRadio2" value="adm-y-moderadores" />
-                                        <label className="form-check-label" htmlFor="chatRadio2"><i class="fa-solid fa-users-viewfinder"></i> Adm. y Moderadores</label>
-                                    </div>
-                                    <div className="form-check form-check-inline">
-                                        <input className="form-check-input" type="radio" name="chatRadioOptions" id="chatRadio3" value="todos" />
-                                        <label className="form-check-label" htmlFor="chatRadio3"><i class="fa-solid fa-users"></i> Todos</label>
-                                    </div>
+                                    <DescripcionCanal variable={descripcionCanal} manejadorCambio={manejadorCambioDescripcionCanal} />
                                 </div>
                                 <div className="d-flex align-items-center justify-content-center">
-                                    <button type="submit" className="btn btn-personalized-1 mx-1 fw-bold" aria-label="Agregar">Agregar</button>
-                                    <button type="reset" className="btn btn-personalized-3 mx-1 fw-bold" aria-label="Cancelar">Cancelar</button>
+                                    <button disabled={botonDesactivado} type="submit" className="btn btn-personalized-1 mx-1 fw-bold" data-bs-dismiss="modal" aria-label="Agregar">Agregar</button>
+                                    <button type="reset" className="btn btn-personalized-3 mx-1 fw-bold" data-bs-dismiss="modal" aria-label="Cancelar" onClick={resetValues}>Cancelar</button>
                                 </div>
                             </form>
                         </div>
@@ -52,6 +135,21 @@ const ModalCrearCanal = () => {
                 </div>
         </section>
     )
-}
+};
+
+NombreCanal.propTypes = {
+    variable: PropTypes.string.isRequired,
+    manejadorCambio: PropTypes.func.isRequired
+};
+
+DescripcionCanal.propTypes = {
+    variable: PropTypes.string.isRequired,
+    manejadorCambio: PropTypes.func.isRequired
+};
+
+ModalCrearCanal.propTypes = {
+    addChannel: PropTypes.func.isRequired,
+    serverID: PropTypes.string.isRequired,
+};
 
 export default ModalCrearCanal
