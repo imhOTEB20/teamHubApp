@@ -29,7 +29,7 @@ function reducer(state, action) {
     }
 }
 
-function useFetch(url, options = {}, trigger = true) {
+function useFetch(url, options = {}, trigger = true, reload = 0) {
     const [state, dispatch] = useReducer(reducer, {
         data: null,
         isError: false,
@@ -37,9 +37,10 @@ function useFetch(url, options = {}, trigger = true) {
     });
 
     useEffect(() => {
+        console.log(options);
         if (trigger) {
             dispatch({ type: ACTIONS.FETCH_INIT });
-            
+
             fetch(url, { ...options })
                 .then((response) => {
                     if (response.ok && response.status !== 204) {
@@ -48,7 +49,7 @@ function useFetch(url, options = {}, trigger = true) {
                     else if(response.status === 204) {
                         return null;
                     }
-                    throw Error("Error al relizar la petición");
+                    throw Error("Error al relizar la petición. " + response.statusText);
                 })
                 .then((data) => {
                     dispatch({
@@ -61,7 +62,7 @@ function useFetch(url, options = {}, trigger = true) {
                     console.log(e);
                 });
         }
-    }, [url, trigger]);
+    }, [url, trigger, reload]);
 
     return state;
 }

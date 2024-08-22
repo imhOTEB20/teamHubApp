@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import Swal from 'sweetalert2';
-
-import useFetch from '../hooks/useFetch';
 
 const NombreCanal = ({ variable, manejadorCambio }) => {
     return (
@@ -20,82 +18,69 @@ const NombreCanal = ({ variable, manejadorCambio }) => {
                 required />
         </>
     );
-}
+};
 
-const ModalCrearCanal = () => {
+const DescripcionCanal = ({ variable, manejadorCambio }) => {
+    return (
+        <div className="form-floating">
+        <textarea
+            value={variable}
+            onChange={manejadorCambio}
+            className="form-control bg-input"
+            placeholder="Ingrese descripción"
+            id="descripcion"
+            style={{ height: '100px' }}>
+        </textarea>
+        <label
+            htmlFor="descripcion">
+            Descripción
+        </label>
+        </div>
+    );
+};
+
+const ModalCrearCanal = ({ addChannel, serverID }) => {
+    console.log(`id servidor ${serverID}`);
     const [nombreCanal, setNombreCanal] = useState("");
     const [descripcionCanal, setDescripcionCanal] = useState("");
-    const [icon, setIcon] = useState(null);
     const [botonDesactivado, setBotonDesactivado] = useState(true);
-    const [channelCreated, setChannelCreated] = useState({id:null});
-    const [joinServer, setJoinServer] = useState(false);
-    const { data: memberData, isError, isLoading } = useFetch(
-        import.meta.env.VITE_MEMBERS_API_URL,
-        {
+
+    const manejarSubmit = (e) => {
+        e.preventDefault();
+
+        const body = JSON.stringify ({
+            server: serverID,
+            name: nombreCanal,
+            description: descripcionCanal
+        });
+        
+        fetch(import.meta.env.VITE_CHANNELS_API_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Token ${localStorage.getItem('token')}`
             },
-            body: JSON.stringify({ server: channelCreated.id }),
-        },
-        joinServer,
-    );
-
-    useEffect(() => {
-        if (memberData && !isError && !isLoading) {
-            agregarServidor(channelCreated);
-            Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Servidor creado",
-                showConfirmButton: false,
-                timer: 1500
-            });
-        } else if (isError && !isLoading) {
-            Swal.fire({
-                icon: "warning",
-                title: "Oops...",
-                text: "Se creo el servidor, pero no pudiste unirte al mismo."
-            });
-        }
-    },[memberData, isError]);
-
-    const manejarSubmit = (e) => {
-        e.preventDefault();
-
-        const newFormData = new FormData();
-        if (icon) newFormData.append('icon', icon);
-        newFormData.append('name', nombreCanal);
-        newFormData.append('description', descripcionCanal);
-        
-        fetch(import.meta.env.VITE_SERVER_API_URL, {
-            method: 'POST',
-            headers: {
-                Authorization: `Token ${localStorage.getItem('token')}`
-            },
-            body: newFormData,
+            body: body,
         })
         .then((response) => {
             if (response.ok) {
                 return response.json();
             }
-            throw Error("Error al intentar crear el servidor.");
+            throw Error("Error al intentar crear el canal.");
         })
         .then((data) => {
-            setChannelCreated(data);
-            setJoinServer(true);
+            console.log(data);
+            addChannel();
         })
         .catch((e) => {
             console.log(e);
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Se produjo un error al crear el servidor"
+                text: "Se produjo un error al crear el canal"
             });
         });
     };
-
 
     const validarNombreCanal = (valor) => {
         const exp_reg = /^[a-zA-Z0-9 ]{4,}$/;
@@ -118,10 +103,11 @@ const ModalCrearCanal = () => {
         setDescripcionCanal(text);
     }
 
-    const manejarCambioImagen = (e) => {
-        const file = e.target.files[0] || null;
-        setIcon(file);
-    };
+    const resetValues = () => {
+        setNombreCanal("");
+        setDescripcionCanal("");
+        setBotonDesactivado(true);
+    }
     
     return (
         <section className="modal fade" id="agregarCanalModal" tabIndex="-1" aria-labelledby="agregarCanalModal" aria-hidden="true">
@@ -129,25 +115,19 @@ const ModalCrearCanal = () => {
                     <div className="modal-content">
                         <div className="modal-header bg-color-principal">
                             <h5 className="modal-title text-white" id="agregarCanalModal">Agregar Canal</h5>
-                            <button type="button" className="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" className="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" onClick={resetValues}></button>
                         </div>
                         <div className="modal-body bg-color-fondo">
-                            <form>
+                            <form onSubmit={manejarSubmit}>
                                 <div className="mb-3">
-                                    <label htmlFor="nombreCanal" className="form-label fw-bolder">Nombre</label>
-                                    <input type="text" className="form-control bg-input" id="nombreCanal" placeholder="Ingrese nombre"
-                                        minLength="3" maxLength="25" name="Nombre" required />
-                                    <div id="nombreErrorServidor"></div>
+                                    <NombreCanal variable={nombreCanal} manejadorCambio={manejarCambioNombreCanal} />
                                 </div>
                                 <div className="mb-3">
-                                    <div className="form-floating">
-                                        <textarea className="form-control bg-input" placeholder="Ingrese descripción" id="descripcion" style={{ height: '100px' }}></textarea>
-                                        <label htmlFor="descripcion">Descripción</label>
-                                    </div>
+                                    <DescripcionCanal variable={descripcionCanal} manejadorCambio={manejadorCambioDescripcionCanal} />
                                 </div>
                                 <div className="d-flex align-items-center justify-content-center">
-                                    <button type="submit" className="btn btn-personalized-1 mx-1 fw-bold" aria-label="Agregar">Agregar</button>
-                                    <button type="reset" className="btn btn-personalized-3 mx-1 fw-bold" aria-label="Cancelar">Cancelar</button>
+                                    <button disabled={botonDesactivado} type="submit" className="btn btn-personalized-1 mx-1 fw-bold" data-bs-dismiss="modal" aria-label="Agregar">Agregar</button>
+                                    <button type="reset" className="btn btn-personalized-3 mx-1 fw-bold" data-bs-dismiss="modal" aria-label="Cancelar" onClick={resetValues}>Cancelar</button>
                                 </div>
                             </form>
                         </div>
@@ -155,6 +135,21 @@ const ModalCrearCanal = () => {
                 </div>
         </section>
     )
-}
+};
+
+NombreCanal.propTypes = {
+    variable: PropTypes.string.isRequired,
+    manejadorCambio: PropTypes.func.isRequired
+};
+
+DescripcionCanal.propTypes = {
+    variable: PropTypes.string.isRequired,
+    manejadorCambio: PropTypes.func.isRequired
+};
+
+ModalCrearCanal.propTypes = {
+    addChannel: PropTypes.func.isRequired,
+    serverID: PropTypes.string.isRequired,
+};
 
 export default ModalCrearCanal

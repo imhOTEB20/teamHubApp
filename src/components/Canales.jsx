@@ -19,16 +19,10 @@ import useFetch from '../hooks/useFetch';
 import EstadoCanales from './EstadoCanales';
 
 const AgregarCanal = ({ addChannel, serverData }) => {
-  const [disabled, setDisabled] = useState(true);
-  useEffect (() => {
-    if(serverData!=null) {
-      setDisabled(true);
-    }
-  }, [serverData]);
+
   return (
     <>
     <button
-      disabled={disabled}
       type="button"
       className="btn btn-personalized-1 btn-agregar-canal fw-bold"
       data-bs-toggle="modal"
@@ -42,14 +36,14 @@ const AgregarCanal = ({ addChannel, serverData }) => {
   );
 };
 
-const ServerChannels = ({ isError, channels, onDelete, onEdit }) => {
+const ServerChannels = ({ isError, serverOwner, channels, onDelete, onEdit }) => {
   if (!isError) {
     if (Object.keys(channels).length !== 0)
         return (
             <section className='tus-canales'>
                 {Object.entries(channels)
                     .map(([clave, valor]) => (
-                        <Canal key={clave} channelData={valor} onDelete={onDelete} onEdit={onEdit}></Canal>
+                        <Canal key={clave} serverOwner={serverOwner} channelData={valor} onDelete={onDelete} onEdit={onEdit}></Canal>
                     ))}
             </section>
             );
@@ -92,8 +86,6 @@ const CargandoServidor = () => {
 };
 
 const Canales = () => {
-  const { profileData } = useAuth();
-
   const paramServerID = useParams().id;
   const allServers = useRef(JSON.parse(localStorage.getItem('allServers')));
   const [serverData, setServerData] = useState(allServers.current[paramServerID] !== undefined ? allServers.current[paramServerID] : null);
@@ -102,6 +94,7 @@ const Canales = () => {
   const {serversData, isErrorServers, isLoadingServers} = useServers(triggerLoadServer);
   const [loadChannels, setLoadChannels] = useState(false);
   const [channels, setChannels] = useState(null);
+  const [reload, setReload] = useState(0);
   const { data, isError, isLoading } = useFetch(
     `${import.meta.env.VITE_CHANNELS_API_URL}?server=${serverData.id}`,
     {
@@ -110,7 +103,8 @@ const Canales = () => {
           Authorization: `Token ${localStorage.getItem('token')}`
       }
     },
-    loadChannels
+    loadChannels,
+    reload
   );
 
   useEffect(() => {
@@ -144,18 +138,16 @@ const Canales = () => {
     }
   },[data, isError, isLoading]);
 
-  const handleDeleteChannel = (channelID) => {
-    const loadedChannels = { ...channels };
-    delete loadedChannels[channelID];
-    setChannels(loadedChannels);
-  }
-
   const handleEditChannel = (channelData) => {
     const loadedChannels = { ...channels };
     loadedChannels[channelData.id]["name"] = channelData.name;
     loadedChannels[channelData.id]["description"] = channelData.description;
 
     setChannels(loadedChannels);
+  }
+
+  const handleAddOrDeleteChannel = () => {
+    setReload(reload + 1);
   }
 
   if (!isNotFound) {
@@ -169,10 +161,10 @@ const Canales = () => {
           <section className="agregar-canal">
             <img src={canalAgregar} alt="nuevo-canal"/>
             <p>{serverData != null ? `¿Quieres crear un nuevo canal en ${serverData.name}?` : "LOADING"}</p>
-            
+            {serverData !== null ? (<AgregarCanal addChannel={handleAddOrDeleteChannel} serverData={serverData} />) : (<></>)}
           </section>
         </section>
-        { channels !== null ? (<ServerChannels isError={isError} channels={channels} onDelete={handleDeleteChannel} onEdit={handleEditChannel}/>) : (<EstadoCanales img={loading} txt={'Cargando Canales'} />)}
+        { channels !== null ? (<ServerChannels isError={isError} serverOwner={serverData.owner} channels={channels} onDelete={handleAddOrDeleteChannel} onEdit={handleEditChannel}/>) : (<EstadoCanales img={loading} txt={'Cargando Canales'} />)}
         </>
       );
     } else {
