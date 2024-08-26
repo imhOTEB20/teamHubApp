@@ -9,15 +9,16 @@ import useServers from "../hooks/useServers";
 import sinServidores from '../assets/img/no-chatear.png';
 import error404 from '../assets/img/error.png';
 import loading from '../assets/animations/girar.gif';
+import useAuth from "../hooks/useAuth";
 
-const AllServers = ({ isError, servers, onDelete, onEdit}) => {
+const AllServers = ({ isError, servers, onDelete, onExit, onEdit}) => {
     if (!isError) {
         if (Object.keys(servers).length !== 0)
             return (
                 <section className='tus-servidores'>
                     {Object.entries(servers)
                         .map(([clave, valor]) => (
-                            <Servidor key={clave} idServidor={clave} serverData={valor} onDelete={onDelete} onEdit={onEdit}></Servidor>
+                            <Servidor key={clave} serverData={valor} onDelete={onDelete} onExit={onExit} onEdit={onEdit}></Servidor>
                         ))}
                 </section>
                 );
@@ -36,6 +37,7 @@ const AllServers = ({ isError, servers, onDelete, onEdit}) => {
 };
 
 const TodosLosServidores = () => {
+    const { profileData } = useAuth();
     const { serversData, isErrorServers, isLoadingServers } = useServers(true);
     const [servers, setServers] = useState(null);
 
@@ -49,6 +51,12 @@ const TodosLosServidores = () => {
     const deleteServers = (idServer) => {
         const loadedServers = { ...servers };
         delete loadedServers[idServer];
+        setServers(loadedServers);
+    }
+
+    const exitServer = (idServer) => {
+        const loadedServers = { ...servers };
+        loadedServers[idServer].members.splice(loadedServers[idServer].members.indexOf(profileData.user__id))
         setServers(loadedServers);
     }
 
@@ -66,7 +74,7 @@ const TodosLosServidores = () => {
             <section className="titulo-tus-servidores">
                 <h2>¡Todos los servidores!</h2>
             </section>
-            {servers !== null ? (<AllServers isError={isErrorServers} servers={servers} onDelete={deleteServers} onEdit={editServers}/>) : (<EstadoServidores img={loading} txt={"Cargando todos Servidores"} />)}
+            {servers !== null ? (<AllServers isError={isErrorServers} servers={servers} onDelete={deleteServers} onExit={exitServer} onEdit={editServers}/>) : (<EstadoServidores img={loading} txt={"Cargando todos Servidores"} />)}
         </section>
     );
 };

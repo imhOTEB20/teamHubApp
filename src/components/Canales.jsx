@@ -87,8 +87,9 @@ const CargandoServidor = () => {
 
 const Canales = () => {
   const paramServerID = useParams().id;
-  const allServers = useRef(JSON.parse(localStorage.getItem('allServers')));
-  const [serverData, setServerData] = useState(allServers.current[paramServerID] !== undefined ? allServers.current[paramServerID] : null);
+  const storedServers = localStorage.getItem('allServers')
+  const allServers = useRef(storedServers ? JSON.parse(storedServers) : {});
+  const [serverData, setServerData] = useState(storedServers && allServers.current[paramServerID] !== undefined ? allServers.current[paramServerID] : {id:''});
   const [isNotFound, setIsNotFound] = useState(false);
   const [triggerLoadServer, setTriggerLoadServer] = useState(false);
   const {serversData, isErrorServers, isLoadingServers} = useServers(triggerLoadServer);
@@ -108,7 +109,7 @@ const Canales = () => {
   );
 
   useEffect(() => {
-    if (serverData === null) {
+    if (serverData.id === '') {
       setTriggerLoadServer(true);
     } else {
       setLoadChannels(true);
@@ -180,9 +181,23 @@ const Canales = () => {
 };
 
 AgregarCanal.propTypes = {
-  serverName: PropTypes.string.isRequired,
-  serverID: PropTypes.string.isRequired,
   addChannel: PropTypes.func.isRequired,
+  serverData: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    created_at: PropTypes.string.isRequired,
+    updated_at: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    description: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.oneOf([null])
+    ]),
+    icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.oneOf([null])
+    ]),
+    owner: PropTypes.number.isRequired,
+    members: PropTypes.array.isRequired
+  }).isRequired,
 };
 
 Canales.propTypes = {

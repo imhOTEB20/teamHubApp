@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Swal from 'sweetalert2';
 
 import useFetch from '../hooks/useFetch';
+import useAuth from '../hooks/useAuth';
 
 const NombreServidor = ({ variable, manejadorCambio }) => {
     return (
@@ -23,12 +24,14 @@ const NombreServidor = ({ variable, manejadorCambio }) => {
 }
 
 const ModalCrearServidor = ({ agregarServidor }) => {
+    const { profileData } = useAuth(); 
     const [nombreServidor, setNombreServidor] = useState("");
     const [descripcionServidor, setDescripcionServidor] = useState("");
     const [icon, setIcon] = useState(null);
     const [botonDesactivado, setBotonDesactivado] = useState(true);
     const [serverCreated, setServerCreated] = useState({id:null});
     const [joinServer, setJoinServer] = useState(false);
+    const [options, setOptions] = useState(null);
     const { data: memberData, isError, isLoading } = useFetch(
         import.meta.env.VITE_MEMBERS_API_URL,
         {
@@ -45,6 +48,11 @@ const ModalCrearServidor = ({ agregarServidor }) => {
     useEffect(() => {
         if (memberData && !isError && !isLoading) {
             agregarServidor(serverCreated);
+            const storedServers = JSON.parse(localStorage.getItem('myServers'));
+            const serverCopied = serverCreated;
+            serverCopied.members.push(profileData.user__id);
+            storedServers[serverCreated.id] = serverCopied;
+            localStorage.setItem('myServers', JSON.stringify(storedServers));
             Swal.fire({
                 position: "center",
                 icon: "success",
@@ -61,41 +69,61 @@ const ModalCrearServidor = ({ agregarServidor }) => {
         }
     },[memberData, isError]);
 
+    useEffect(() => {
+        if (options != null) {
+            fetch(import.meta.env.VITE_SERVER_API_URL, options)
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw Error("Error al intentar crear el servidor.");
+            })
+            .then((data) => {
+                setServerCreated(data);
+                setJoinServer(true);
+            })
+            .catch((e) => {
+                console.log(e);
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Se produjo un error al crear el servidor"
+                });
+            });
+        }
+    },[options]);
+
     const manejarSubmit = (e) => {
         e.preventDefault();
-
-        const newFormData = new FormData();
-        if (icon) newFormData.append('icon', icon);
-        newFormData.append('name', nombreServidor);
-        newFormData.append('description', descripcionServidor);
         
-        fetch(import.meta.env.VITE_SERVER_API_URL, {
-            method: 'POST',
-            headers: {
-                Authorization: `Token ${localStorage.getItem('token')}`
-            },
-            body: newFormData,
-        })
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw Error("Error al intentar crear el servidor.");
-        })
-        .then((data) => {
-            setServerCreated(data);
-            setJoinServer(true);
-        })
-        .catch((e) => {
-            console.log(e);
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Se produjo un error al crear el servidor"
-            });
-        });
+        if (icon) {
+            const form = new FormData();
+            form.append('icon', icon);
+            form.append('name', nombreServidor);
+            form.append('description', descripcionServidor);
+            setOptions(
+                {
+                    method: 'POST',
+                    headers: {
+                        Authorization: `Token ${localStorage.getItem('token')}`
+                    },
+                    body: form,
+                }
+            );
+        } else {
+            const form = JSON.stringify({name: nombreServidor, description: descripcionServidor});
+            setOptions(
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Token ${localStorage.getItem('token')}`
+                    },
+                    body: form
+                }
+            );
+        }
     };
-
 
     const validarNombreServidor = (valor) => {
         const exp_reg = /^[a-zA-Z0-9 ]{4,}$/;

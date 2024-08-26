@@ -40,7 +40,6 @@ const DescripcionCanal = ({ variable, manejadorCambio }) => {
 };
 
 const ModalCrearCanal = ({ addChannel, serverID }) => {
-    console.log(`id servidor ${serverID}`);
     const [nombreCanal, setNombreCanal] = useState("");
     const [descripcionCanal, setDescripcionCanal] = useState("");
     const [botonDesactivado, setBotonDesactivado] = useState(true);
@@ -69,7 +68,6 @@ const ModalCrearCanal = ({ addChannel, serverID }) => {
             throw Error("Error al intentar crear el canal.");
         })
         .then((data) => {
-            console.log(data);
             addChannel();
         })
         .catch((e) => {
@@ -149,7 +147,7 @@ DescripcionCanal.propTypes = {
 
 ModalCrearCanal.propTypes = {
     addChannel: PropTypes.func.isRequired,
-    serverID: PropTypes.string.isRequired,
+    serverID: PropTypes.number.isRequired,
 };
 
 export default ModalCrearCanal

@@ -37,7 +37,6 @@ function useFetch(url, options = {}, trigger = true, reload = 0) {
     });
 
     useEffect(() => {
-        console.log(options);
         if (trigger) {
             dispatch({ type: ACTIONS.FETCH_INIT });
 
