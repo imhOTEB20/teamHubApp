@@ -4,13 +4,13 @@ import imagen2 from '../assets/img/card-2.jpeg';
 import imagen3 from '../assets/img/card-3.jpeg';
 import imagen4 from '../assets/img/card-4.jpeg';
 
-const CardSistema = (props) => {
+const CardSistema = () => {
     return (
         <section id="Funciones" className="cards-sistemas">
             <article className="card-s" data-aos="flip-left">
                 <img src={imagen1} alt="img-card-1"/>
                 <h4>Funciones</h4>
-                <p>¡Descubre lo que puedes hacer en {props.nombre}!</p>
+                <p>¡Descubre lo que puedes hacer en MootMate!</p>
                 <a href="#" className="btn btn-personalized-1 fw-bold">Ver más</a>
             </article>
             <article className="card-s" data-aos="flip-left">
@@ -22,13 +22,13 @@ const CardSistema = (props) => {
             <article className="card-s" data-aos="flip-left">
                 <img src={imagen3} alt="img-card-3"/>
                 <h4>Soluciones</h4>
-                <p>Descubre cómo funciona {props.nombre} y sus servicios</p>
+                <p>Descubre cómo funciona MootMate y sus servicios</p>
                 <a href="#" className="btn btn-personalized-1 fw-bold">Ver más</a>
             </article>
             <article className="card-s" data-aos="flip-left">
                 <img src={imagen4} alt="img-card-4"/>
                 <h4>Cómo</h4>
-                <p>Introducete en {props.nombre} con el pie derecho</p>
+                <p>Introducete en MootMate con el pie derecho</p>
                 <a href="#" className="btn btn-personalized-1 fw-bold">Ver más</a>
             </article>
         </section>

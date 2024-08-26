@@ -1,9 +1,8 @@
-import { useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Swal from 'sweetalert2';
 
 import useValidateLogin from '../hooks/useValidateLogin';
-import useFetch from '../hooks/useFetch';
 import useAuth from '../hooks/useAuth';
 
 const UsernameInput = ({ value, handleUsernameInput }) => (
@@ -19,6 +18,7 @@ const UsernameInput = ({ value, handleUsernameInput }) => (
         required
     />
 );
+
 
 const PasswordInput = ({ value, handlePasswordInput }) => (
     <input
@@ -42,33 +42,35 @@ const Login = () => {
 
     const { username, password, isValid, setUsername, setPassword } = useValidateLogin(validateUsername, validatePassword);
     const navigate = useNavigate();
-    const [triggerFetch, setTriggerFetch] = useState(false);
-    const options = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: username, password: password}),
-    }
-    const { data, isError, isLoading} = useFetch(
-        import.meta.env.VITE_USER_AUTH_API_URL,
-        options,
-        triggerFetch
-    );
-    
+
     const handleSubmit = (e) => {
         e.preventDefault();
+
         if (isValid) {
-            console.log(import.meta.env.VITE_USER_AUTH_API_URL);
-            setTriggerFetch(true);
+            const options = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: username, password: password}),
+            }
+            fetch(
+                import.meta.env.VITE_USER_AUTH_API_URL,
+                { ...options }
+            ).then((response) => {
+                if(response.ok) {
+                    return response.json();
+                } else throw Error("Se produjo un error al intentar loguearse.");
+            }).then((data) => {
+                login(data.token);
+                navigate("/bienvenida");
+            }).catch(() => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Credenciales Invalidas",
+                    text: "Username o Password incorrectos"
+                });
+            })
         }
     };
-
-    
-    useEffect(() => {
-        if (data && !isError && !isLoading) {
-            login(data.token);
-            navigate("/bienvenida");
-        }
-    },[data])
 
     return (
         <section className="modal fade" id="iniciarSesionModal" tabIndex="-1" aria-labelledby="iniciarSesionModal" aria-hidden="true">

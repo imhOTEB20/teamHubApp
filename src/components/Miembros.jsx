@@ -155,20 +155,20 @@ const Miembro = ({id}) =>{
     }
 
     return(
-        <article class="card-miembro" data-aos="fade-up">
+        <article className="card-miembro" data-aos="fade-up">
             <img src={nuevoUsuario} alt="logo-miembro"/>
-            <div class="descripcion-miembro">
+            <div className="descripcion-miembro">
                 <h2>Celeste Severich</h2>
                 <p>celeste@gmail.com</p>
             </div>
-            <div class="botones-miembro">
+            <div className="botones-miembro">
                 <button type="button" className="btn-miembro btn btn-personalized-1 fw-bold my-1 mx-0 mx-sm-1 my-md-0"
                     id="boton-editar-servidor"
                     data-bs-toggle="modal"
-                    data-bs-target={`#editarPrivilegios${id}`}><i class="fa-solid fa-user-gear"></i> Privilegios</button>
+                    data-bs-target={`#editarPrivilegios${id}`}><i className="fa-solid fa-user-gear"></i> Privilegios</button>
                 <ModalPrivilegiosMiembro idModal={id} />
-                <button className='btn-miembro btn btn-personalized-2 fw-bold my-1 mx-0 mx-sm-1 my-md-0' onClick={silenciarMiembro}><i class="fa-solid fa-comment-slash"></i> Silenciar</button>
-                <button className='btn-miembro btn btn-personalized-3 fw-bold my-1 mx-0 mx-sm-1 my-md-0' onClick={banearMiembro}><i class="fa-solid fa-ban"></i> Banear</button>
+                <button className='btn-miembro btn btn-personalized-2 fw-bold my-1 mx-0 mx-sm-1 my-md-0' onClick={silenciarMiembro}><i className="fa-solid fa-comment-slash"></i> Silenciar</button>
+                <button className='btn-miembro btn btn-personalized-3 fw-bold my-1 mx-0 mx-sm-1 my-md-0' onClick={banearMiembro}><i className="fa-solid fa-ban"></i> Banear</button>
             </div>
         </article>
     );
@@ -184,7 +184,7 @@ const Miembros = () => {
             <InvitarMiembros/>
             <BuscarMiembro/>
         </section>
-        <section class="tus-miembros">
+        <section className="tus-miembros">
             <Miembro id={1}/>
             <Miembro id={2}/>
             <Miembro id={3}/>

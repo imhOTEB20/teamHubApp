@@ -1,9 +1,9 @@
 import "../styles/Footer.css";
-const FooterMootMate = (props) => {
+const FooterMootMate = () => {
     return (
         <footer>
             <section className="section-footer">
-                <h3>¿Por qué {props.nombre}?</h3>
+                <h3>¿Por qué MootMate?</h3>
                 <a href="#">Misión</a>
                 <a href="#">Visión</a>
                 <a href="#">Descripción</a>
@@ -17,15 +17,15 @@ const FooterMootMate = (props) => {
             <section className="section-footer">
                 <h3>Recursos</h3>
                 <a href="#"><i className="lab la-github"></i> Front End</a>
-                <a href="#"><i className="lab la-github"></i> {props.nombre}</a>
+                <a href="#"><i className="lab la-github"></i> MootMate</a>
                 <a href="#">Institución UPATECO</a>
             </section>
             <section className="section-footer">
-                <h3>{props.nombre}</h3>
+                <h3>MootMate</h3>
                 <a href="#">Conócenos</a>
                 <a href="#">Noticias</a>
                 <a href="#">Ayuda</a>
-                <p>{props.nombre}@gmail.com</p>
+                <p>MootMate@gmail.com</p>
             </section>
         </footer>
     );

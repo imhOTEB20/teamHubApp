@@ -1,9 +1,5 @@
 const Error404 = () => {
-    return (
-        <>
-        
-        </>
-    )
+    return null;
 }
 
 export default Error404
