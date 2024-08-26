@@ -11,20 +11,76 @@ import noPicture from '../assets/img/no_picture.png';
 
 const EnterServerButton = ({serverData}) => {
     const { profileData } = useAuth();
+    const [triggerJoinServer, setTriggerJoinServer] = useState(false);
+    const { data, isError, isLoading } = useFetch(
+        import.meta.env.VITE_MEMBERS_API_URL,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Token ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({server: serverData.id})
+        },
+        triggerJoinServer
+    );
     const navigate = useNavigate(); 
 
-    const handlePushButton = () => {
-        localStorage.setItem('lastServer', JSON.stringify(serverData));
+    const handleEnterButton = () => {
         navigate(`/servidores/${serverData.id}`);
+    };
+
+    const hadleJoinButton = () => {
+        Swal.fire({
+            title: `¿Unirse?`,
+            text: `Quieres unirte al servidor ${serverData.name}`,
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "SI, unirse"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                setTriggerJoinServer(true);
+            }
+        });
+    };
+
+    useEffect(() => {
+        if(data && !isError && !isLoading) {
+            const storedServers = JSON.parse(localStorage.getItem('myServers'));
+            serverData.members.push(profileData.user__id);
+            storedServers[data.server] = serverData;
+            localStorage.setItem('myServers', JSON.stringify(storedServers));
+            Swal.fire({
+                title: "¡Te uniste!",
+                text: `Eres miembro de ${serverData.name}`,
+                icon: "success"
+            });
+            navigate(`/servidores/${serverData.id}`);
+        }
+    },[data, isError, isLoading]);
+
+    if(serverData.members.includes(profileData.user__id)) {
+        return (
+            <button
+                className="btn-servidor btn btn-personalized-1 fw-bold my-1 mx-0 mx-sm-1 my-md-0"
+                onClick={handleEnterButton}
+            >   Ingresar
+                <i className="fa-solid fa-comments"></i>
+            </button>
+        );
+    } else {
+        return (
+            <button
+                className="btn-servidor btn btn-personalized-1 fw-bold my-1 mx-0 mx-sm-1 my-md-0"
+                onClick={hadleJoinButton}
+            >   Unirse
+                <i className="fa-solid fa-comments"></i>
+            </button>
+        );
     }
-    return (
-        <button
-            className="btn-servidor btn btn-personalized-1 fw-bold my-1 mx-0 mx-sm-1 my-md-0"
-            onClick={handlePushButton}
-        >   {serverData.members.includes(profileData.user__id) ? "Ingresar" : "Unirse"}
-            <i className="fa-solid fa-comments"></i>
-        </button>
-    );
+
 };
 
 const DeleteServerButton = ({ idServidor, owner, onDelete }) => {
@@ -63,6 +119,9 @@ const DeleteServerButton = ({ idServidor, owner, onDelete }) => {
 
     useEffect(() => {
         if(!isError && !isLoading) {
+            const storedServers = JSON.parse(localStorage.getItem('myServers'));
+            delete storedServers[idServidor];
+            localStorage.setItem('myServers', JSON.stringify(storedServers));
             Swal.fire({
                 icon: "success",
                 title: "¡Éxito!",
@@ -104,7 +163,7 @@ const ExitServerButton = ( { serverData, onExit } ) => {
             }
         }
     );
-    const {data: responseDelete, isError: isErrorDelete, isLoading: isLoadingDelete } = useFetch(
+    const { isError: isErrorDelete, isLoading: isLoadingDelete } = useFetch(
         `${import.meta.env.VITE_MEMBERS_API_URL}${idMember}/`,
         {
             method: "DELETE",
@@ -118,7 +177,6 @@ const ExitServerButton = ( { serverData, onExit } ) => {
     useEffect(() => {
         if(data && !isError && !isLoading) {
             if(data.count !== 0){
-                console.log(data.results[0]);
                 setIdMember(data.results[0].id);
             }
         }
@@ -127,6 +185,9 @@ const ExitServerButton = ( { serverData, onExit } ) => {
     useEffect(() => {
         if (!isErrorDelete && !isLoadingDelete) {
             onExit(idServidor);
+            const storedServers = JSON.parse(localStorage.getItem('myServers'));
+            delete storedServers[idServidor];
+            localStorage.setItem('myServers', JSON.stringify(storedServers));
             Swal.fire({
                 icon: "success",
                 title: "¡Éxito!",
@@ -163,7 +224,7 @@ const ExitServerButton = ( { serverData, onExit } ) => {
         });
     };
 
-    if (serverData.members.includes(userID)) {
+    if (serverData.members.includes(userID) && serverData.owner !== userID) {
         return (
             <button className='btn-servidor btn btn-personalized-3 fw-bold my-1 mx-0 mx-sm-1 my-md-0' onClick={salirDelServidor}><i className="fa-solid fa-right-from-bracket"></i> Salir</button>
         );
@@ -191,7 +252,7 @@ const EditServerButton = ({ serverData, onEdit }) => {
     } else return null;
 }
 
-const Servidor = ({ idServidor, serverData, onDelete, onEdit }) => {
+const Servidor = ({ serverData, onDelete, onExit, onEdit }) => {
     
     const icon = serverData.icon || noPicture;
     const serverName = serverData.name;
@@ -206,19 +267,19 @@ const Servidor = ({ idServidor, serverData, onDelete, onEdit }) => {
                 <h2>{serverName}</h2>
                 <p> {members} <a href="/miembros">mostrar <i className="fa-solid fa-eye"></i></a></p>
                 <p>falta implementar </p>
-                <DeleteServerButton idServidor={idServidor} owner={serverData.owner} onDelete={onDelete}/>
+                <DeleteServerButton idServidor={serverData.id} owner={serverData.owner} onDelete={onDelete}/>
             </div>
             <div className="botones-servidor">
                 <EnterServerButton serverData={serverData}/>
                 <EditServerButton serverData={serverData} onEdit={onEdit}/>
-                <ExitServerButton serverData={serverData} onExit={onDelete}/>
+                <ExitServerButton serverData={serverData} onExit={onExit}/>
             </div>
         </article>
     );
 }
 
 DeleteServerButton.propTypes = {
-    idServidor: PropTypes.string.isRequired,
+    idServidor: PropTypes.number.isRequired,
     owner: PropTypes.number.isRequired,
     onDelete: PropTypes.func.isRequired,
 };
@@ -264,7 +325,6 @@ EditServerButton.propTypes = {
 };
 
 Servidor.propTypes = {
-    idServidor: PropTypes.string.isRequired,
     serverData: PropTypes.shape({
         id: PropTypes.number.isRequired,
         created_at: PropTypes.string.isRequired,

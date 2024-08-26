@@ -6,5 +6,6 @@ const AuthContext = createContext();
 //console.log(tokenTest);
 //localStorage.removeItem('token');
 //localStorage.removeItem('profileData');
+//localStorage.removeItem('myServers');
 
 export default AuthContext;

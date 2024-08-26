@@ -15,7 +15,6 @@ const ModalEditarServidor = ({ serverData, onEdit }) => {
         if (icon) newFormData.append('icon', icon);
         newFormData.append('name', nombreServidor);
         if (descripcionServidor != serverData.description) newFormData.append('description', descripcionServidor);
-        console.log(newFormData);
         fetch(`${import.meta.env.VITE_SERVER_API_URL}${serverData.id}/`, {
             method: 'PUT',
             headers: {
@@ -30,8 +29,10 @@ const ModalEditarServidor = ({ serverData, onEdit }) => {
             throw Error("Error al intentar editar el servidor.");
         })
         .then((data) => {
-            console.log(`DATOS POS EDIT: ${data}`);
             onEdit(data);
+            const storedServers = JSON.parse(localStorage.getItem('myServers'));
+            storedServers[data.id] = data;
+            localStorage.setItem('myServers', JSON.stringify(storedServers));
         })
         .catch((e) => {
             console.log(e);
@@ -128,8 +129,14 @@ ModalEditarServidor.propTypes = {
         created_at: PropTypes.string.isRequired,
         updated_at: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
-        icon: PropTypes.string.isRequired,
+        description: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.oneOf([null])
+        ]),
+        icon: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.oneOf([null])
+        ]),
         owner: PropTypes.number.isRequired,
         members: PropTypes.array.isRequired
     }).isRequired,

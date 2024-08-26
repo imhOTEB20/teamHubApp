@@ -52,7 +52,6 @@ const ExitProfileButton = () => {
             cancelButtonText: "Cancelar"
         }).then((result) => {
             if (result.isConfirmed) {
-                console.log("pase por aqui y quise salir")
                 setToExit(true);
             }
         });

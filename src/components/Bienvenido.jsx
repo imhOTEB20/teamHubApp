@@ -13,6 +13,7 @@ import buscarServidor from '../assets/img/new-server-1.png';
 import sinServidores from '../assets/img/no-chatear.png';
 import error404 from '../assets/img/error.png';
 import loading from '../assets/animations/girar.gif';
+import useFetch from '../hooks/useFetch';
 
 const AgregarServidor = ({ agregarServidor }) => {
     return(
@@ -42,7 +43,7 @@ const TusServidores = ({ isError, servers, onDelete, onEdit}) => {
                 <section className='tus-servidores'>
                     {Object.entries(servers)
                         .map(([clave, valor]) => (
-                            <Servidor key={clave} idServidor={clave} serverData={valor} onDelete={onDelete} onEdit={onEdit}></Servidor>
+                            <Servidor key={clave} serverData={valor} onDelete={onDelete} onExit={onDelete} onEdit={onEdit}></Servidor>
                         ))}
                 </section>
                 );
@@ -68,40 +69,37 @@ const Bienvenido = () => {
     const userId = profileData.user__id;
     
     const [triggerLoadServer, setTriggerLoadServer] = useState(false);
-    const { serversData, isErrorServers, isLoadingServers } = useServers(triggerLoadServer);
-    const storedServer = localStorage.getItem('allServers');
+    const { data, isError, isLoading } = useFetch(
+        `${import.meta.env.VITE_SERVER_API_URL}?members=${userId}`,
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Token ${localStorage.getItem('token')}`
+            }
+        },
+        triggerLoadServer
+    );
+    const storedServer = localStorage.getItem('myServers');
+    console.log(JSON.parse(storedServer));
     const [servers, setServers] = useState(storedServer ? JSON.parse(storedServer) : null);
 
     useEffect(() => {
-        if(localStorage.getItem('allServers') === null) {
+        if(localStorage.getItem('myServers') === null) {
             setTriggerLoadServer(true);
-        } else {
-            const loadedServers = {};
-            const ids = Object.keys(servers);
-            ids.forEach(id => {
-                const server = servers[id];
-                if(server.members.includes(userId)) {
-                    loadedServers[id] = servers[id];
-                }
-            });
-            setServers(loadedServers);
         }
     }, []);
     
     useEffect(() => {
-        if(serversData && !isErrorServers && !isLoadingServers) {
+        if(data && !isError && !isLoading) {
             const loadedServers = {};
-            const ids = Object.keys(serversData);
-            ids.forEach(id => {
-                const server = serversData[id];
-                if(server.members.includes(userId)) {
-                    loadedServers[id] = serversData[id];
-                }
+            data.results.forEach(server => {
+                loadedServers[server.id] = server;
             });
-            localStorage.setItem('allServers', JSON.stringify(loadedServers));
+            localStorage.setItem('myServers', JSON.stringify(loadedServers));
             setServers(loadedServers);
         }
-    },[serversData]);
+    },[data, isError, isLoading]);
 
     const deleteServers = (idServer) => {
         const loadedServers = { ...servers };
@@ -134,7 +132,7 @@ const Bienvenido = () => {
             <section className="titulo-tus-servidores">
                 <h2>¡Tus servidores!</h2>
             </section>
-            {servers !== null ? (<TusServidores isError={isErrorServers} servers={servers} onDelete={deleteServers} onEdit={editServers}/>) : (<EstadoServidores img={loading} txt={"Cargando tus servidores"}/>)}
+            {servers !== null ? (<TusServidores isError={isError} servers={servers} onDelete={deleteServers} onEdit={editServers}/>) : (<EstadoServidores img={loading} txt={"Cargando tus servidores"}/>)}
         </section>
     );
 };
@@ -153,8 +151,14 @@ TusServidores.propTypes = {
             created_at: PropTypes.string.isRequired,
             updated_at: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired,
-            description: PropTypes.string.isRequired,
-            icon: PropTypes.string.isRequired,
+            description: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.oneOf([null])
+            ]),
+            icon: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.oneOf([null])
+            ]),
             owner: PropTypes.number.isRequired,
             members: PropTypes.array.isRequired
         })

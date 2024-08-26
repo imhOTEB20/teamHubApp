@@ -4,6 +4,7 @@ import ModalEditarCanal from "./ModalEditarCanal";
 import { useEffect, useState } from 'react';
 import useFetch from '../hooks/useFetch';
 import useAuth from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 const DeleteChannelButton = ({ serverOwner, channelData, onDelete }) => {
     const { profileData } = useAuth();
@@ -83,6 +84,17 @@ const EditChannelButton = ({ serverOwner, channelData, onEdit }) => {
     } else return null;
 };
 
+const EnterChannelButton = ({ channelID }) => {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`/canales/${channelID}/`)
+    }
+    return (
+        <a className="btn-canal btn btn-personalized-1 fw-bold my-1 mx-0 mx-sm-1 my-md-0" onClick={handleClick}>Ir al canal <i className="fa-solid fa-comments"></i></a>
+    );
+}
+
 const Canal = ({ serverOwner, channelData, onDelete, onEdit }) =>{
     const alertEliminarCanal = () =>{
         Swal.fire({
@@ -118,7 +130,7 @@ const Canal = ({ serverOwner, channelData, onDelete, onEdit }) =>{
         </div>
         <div className="botones-canales">
           <EditChannelButton serverOwner={serverOwner} channelData={channelData} onEdit={onEdit}/>
-          <a className="btn-canal btn btn-personalized-1 fw-bold my-1 mx-0 mx-sm-1 my-md-0" href="chat.html">Ir al canal <i className="fa-solid fa-comments"></i></a>
+          <EnterChannelButton channelID={channelData.id}/>
         </div>
       </article>
     );

@@ -1,13 +1,14 @@
 import '../styles/Chat.css';
-import maxiSoriano from '../assets/img/maxi-soriano.jpg';
+import noImg from '../assets/img/usuario.png';
+import useAuth from '../hooks/useAuth';
 
 const ChatDatosUsuario = () => {
+    const { profileData } = useAuth();
     return (
         <section className="header-nav">
-            <img src={maxiSoriano} alt="logo-user"/>
+            <img src={ profileData.image || noImg } alt="logo-user"/>
             <article className="usuario-nombre">
-                <p className="usuario texto">Mia_Khalifa_69</p>
-                <p className="nombre texto">Mia Khalifa</p>
+                <p className="usuario texto">{`${profileData.first_name} ${profileData.last_name}`}</p>
             </article>
         </section>
     );

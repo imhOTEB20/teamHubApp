@@ -32,7 +32,7 @@ function reducer(state, action) {
 
 function useServers(trigger = false) {
     const [state, dispatch] = useReducer(reducer, {
-        serversDatas: null,
+        serversData: null,
         isErrorServers: false,
         isLoadingServers: true,
     });
@@ -54,7 +54,6 @@ function useServers(trigger = false) {
 
     useEffect(() => {
         page.current += 1;
-        console.log(`server page: ${page}`);
     },[url])
 
     useEffect(() => {
