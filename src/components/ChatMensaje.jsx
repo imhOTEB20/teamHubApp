@@ -18,11 +18,12 @@ const ButtonRemoveMessage = ( { authorData } ) => {
     }
 }
 
-const ChatMensaje = ({ messageData }) => {
+const ChatMensaje = ({ message }) => {
+
     const [trigger, setTrigger] = useState(false);
     const [authorData, setAuthorData] = useState(null);
     const { data, isError, isLoading } = useFetch(
-        `${import.meta.env.VITE_BASE_USER_API_URL}${messageData.author}/`,
+        `${import.meta.env.VITE_BASE_USER_API_URL}${message.author}/`,
         {
             method: 'GET',
             headers: {
@@ -37,12 +38,12 @@ const ChatMensaje = ({ messageData }) => {
         const storedUsers = localStorage.getItem('storedUsers');
         const loadedUsers = storedUsers ? { ...JSON.parse(storedUsers) } : {};
         
-        if (loadedUsers[messageData.author]) {
-            setAuthorData(loadedUsers[messageData.author]);
+        if (loadedUsers[message.author]) {
+            setAuthorData(loadedUsers[message.author]);
         } else {
             setTrigger(true);
         }
-    }, [messageData.author]);
+    }, [message]);
 
     useEffect(() => {
         if (data && !isError && !isLoading) {
@@ -71,7 +72,7 @@ const ChatMensaje = ({ messageData }) => {
                 </div>
             </div>
             <p>
-                {messageData.content}
+                {message.content}
             </p>
         </article>
     );

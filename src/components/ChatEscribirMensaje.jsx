@@ -25,6 +25,8 @@ const ChatEscribirMensaje = ( {channelData, loadNewMessages} ) => {
             }
         })
         .then((data) => {
+            console.log("nuevo mensajes");
+            console.log(data);
             loadNewMessages();
             setContent('');
         })

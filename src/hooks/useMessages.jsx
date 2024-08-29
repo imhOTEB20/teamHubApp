@@ -3,14 +3,17 @@ import useFetch from "./useFetch";
 
 const ACTIONS = {
     LOADING_MESSAGES: "LOADING_MESSAGES",
+    NEW_MESSAGES_SUCCESS: "NEW_MESSAGES_SUCCESS",
     MESSAGES_FAILURE: "MESSAGES_FAILURE",
     MESSAGES_SUCCESS: "MESSAGES_SUCCESS",
 };
 
 const getDateWithZone = (date) => {
     const dateTime = new Date(date);
+    dateTime.setHours(dateTime.getHours() - 3);
     const dateTimeISO = dateTime.toISOString();
     const dateWithTimeZone = `${dateTimeISO.slice(0, -1)}-03:00`;
+    console.log(dateWithTimeZone);
 
     return  dateWithTimeZone;
 };
@@ -22,6 +25,12 @@ function reducer(state, action) {
                 isLoadMessagesError: false,
                 isLoadingMessages: true,
             };
+        case ACTIONS.NEW_MESSAGES_SUCCESS:
+            return {
+                newMessagesData: action.payload.newMessagesData,
+                isLoadLastMessagesError: false,
+                isLoadingMessages: false,
+            }
         case ACTIONS.MESSAGES_SUCCESS:
             return {
                 messagesData: action.payload.messagesData,
@@ -40,21 +49,19 @@ function reducer(state, action) {
 
 function useMessages(channelID) {
     //first_load
-    console.log(`Channel ID en useMessages: ${channelID}`);
     const [state, dispatch] = useReducer(reducer, {
         messagesData: null,
+        newMessagesData: null,
         isLoadMessagesError: false,
         isLoadingMessages: true,
     });
-    const [page, setPage] = useState(1);
-    const max_page = useRef(1);
+    const page = useRef(1);
     const dateMin = useRef(new Date());
-    const dateInit = useRef(new Date());
-    const dateMax = useRef(null);
-    const allMessagesLoaded = useRef([]);
+    const allMessagesLoaded = useRef({});
+    const [url, setUrl] = useState(`${import.meta.env.VITE_MESSAGES_API_URL}?channel=${channelID}&page=${page.current}&ordering=created_at&page_size=20&created_at_max=${getDateWithZone(dateMin.current)}`);
 
     const { data, isError, isLoading } = useFetch(
-        `${import.meta.env.VITE_MESSAGES_API_URL}?channel=${channelID}&page=${page}&ordering=-created_at&page_size=10`,
+        url,
         {
             method: 'GET',
             headers: {
@@ -66,14 +73,19 @@ function useMessages(channelID) {
 
     useEffect(() => {
         if(data && !isError && !isLoading) {
-            max_page.current = Math.ceil(data.count / 10);
-            console.log(`pagina max: ${max_page.current}`);
-            allMessagesLoaded.current = data.results;
-            dispatch({
-                type: ACTIONS.MESSAGES_SUCCESS,
-                payload: { messagesData: allMessagesLoaded.current }
+            data.results.forEach((message) => {
+                allMessagesLoaded[message.id] = message;
             });
-
+            if(data.next) {
+                page.current = page.current + 1;
+                setUrl(`${import.meta.env.VITE_MESSAGES_API_URL}?channel=${channelID}&page=${page.current}&ordering=created_at&page_size=20&created_at_max=${getDateWithZone(dateMin.current)}`);
+            } else {
+                delete allMessagesLoaded.current;
+                dispatch({
+                    type: ACTIONS.MESSAGES_SUCCESS,
+                    payload: { messagesData: allMessagesLoaded }
+                });
+            }
         } else if (isError && !isLoading) {
             dispatch({type: ACTIONS.MESSAGES_FAILURE});
         }
@@ -82,11 +94,9 @@ function useMessages(channelID) {
 
 
     // new_messages
-    const pageLastMessages = useRef(1);
     const [triggerLoadNewMessages, setTriggerLoadNewMessages] = useState(false);
-    const prevList= useRef([]);
-    const [urlLastMessages, setUrlLastMessages] = useState(`${import.meta.env.VITE_MESSAGES_API_URL}?channel=${channelID}&ordering=-created_at&created_at_min=${getDateWithZone(dateMin.current)}&page_size=10`);
-
+    const [urlLastMessages, setUrlLastMessages] = useState(`${import.meta.env.VITE_MESSAGES_API_URL}?channel=${channelID}&ordering=created_at&page_size=10&created_at_min=${getDateWithZone(dateMin.current)}`);
+    const newMessagesLoaded = useRef({});
     const { data: dataLastMessages, isError: isLoadLastMessagesError, isLoading: isLoadingLastMessages} = useFetch(
         urlLastMessages,
         {
@@ -100,7 +110,7 @@ function useMessages(channelID) {
     );
 
     const loadNewMessages = () => {
-        dateMax.current = new Date();
+        setUrlLastMessages(`${import.meta.env.VITE_MESSAGES_API_URL}?channel=${channelID}&ordering=created_at&page_size=10&created_at_min=${getDateWithZone(dateMin.current)}`);
         setTriggerLoadNewMessages(true);
     };
 
@@ -110,73 +120,23 @@ function useMessages(channelID) {
     
     useEffect(() => {
         if (dataLastMessages && !isLoadLastMessagesError && !isLoadingLastMessages) {
-            prevList.current = [...prevList.current, ...dataLastMessages.results];
-            if (dataLastMessages.next) {
-                pageLastMessages.current += 1;
-                setUrlLastMessages(`${import.meta.env.VITE_MESSAGES_API_URL}?channel=${channelID}&ordering=-created_at&created_at_min=${getDateWithZone(dateMin.current)}&created_at_max=${getDateWithZone(dateMax.current)}&page_size=10&page=${pageLastMessages.current}`);
-            } else {
-                allMessagesLoaded.current = [...prevList.current, ...allMessagesLoaded.current];
-                dispatch({
-                    type: ACTIONS.MESSAGES_SUCCESS,
-                    payload: { messagesData: allMessagesLoaded.current }
-                });
-                dateMin.current = dateMax.current;
-                setTriggerLoadNewMessages(false);
-                pageLastMessages.current = 1;
-                prevList.current = [];
-                setUrlLastMessages(`${import.meta.env.VITE_MESSAGES_API_URL}?channel=${channelID}&ordering=-created_at&created_at_min=${getDateWithZone(dateMax.current)}&page_size=10`);
-            }
+            console.log(dataLastMessages.results);
+            dataLastMessages.results.forEach((message) => {
+                newMessagesLoaded[message.id] = message;
+            });
+            delete newMessagesLoaded.current;
+            console.log(dateMin.current);
+            setTriggerLoadNewMessages(false);
+            dispatch({
+                type: ACTIONS.NEW_MESSAGES_SUCCESS,
+                payload: { newMessagesData: newMessagesLoaded }
+            });
         } else if (isLoadLastMessagesError && !isLoadingLastMessages) {
             dispatch({ type: ACTIONS.MESSAGES_FAILURE});
         }
     },[dataLastMessages, isLoadLastMessagesError, isLoadingLastMessages, channelID]);
-
-    // old_messages
-    const [triggerLoadOldMessages, setTriggerLoadOldMessages] = useState(false);
-    const [urlOldMessages, setUrlOldMessages] = useState('');
-    const { data: dataOldMessages, isError: isLoadOldMessagesError, isLoading: isLoadingOldMessages} = useFetch(
-        urlOldMessages,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Token ${localStorage.getItem('token')}`
-            }
-        },
-        triggerLoadOldMessages,
-    );
-
-    const loadOldMessages = () => {
-        if(page < max_page) {
-            setPage(prevPage => prevPage + 1);
-        }
-    }
-
-    useEffect(() => {
-        if(page != 1) {
-            dispatch({type: ACTIONS.LOADING_MESSAGES});
-            setUrlOldMessages(`${import.meta.env.VITE_MESSAGES_API_URL}?channel=${channelID}&page=${page}&ordering=-created_at&created_at_max=${getDateWithZone(dateInit.current)}&page_size=10`);
-        }
-    },[page]);
-
-    useEffect(() => {
-        if(!triggerLoadOldMessages) setTriggerLoadOldMessages(true);
-    },[urlOldMessages]);
-
-    useEffect(() => {
-        if(dataOldMessages && !isLoadOldMessagesError && !isLoadingOldMessages) {
-            allMessagesLoaded.current = [...allMessagesLoaded.current, ...dataOldMessages.results];
-            dispatch({
-                type: ACTIONS.MESSAGES_SUCCESS,
-                payload: { messagesData: allMessagesLoaded.current }
-            });
-        } else if (isLoadOldMessagesError && !isLoadingOldMessages) {
-            dispatch({ type: ACTIONS.MESSAGES_FAILURE});
-        }
-        setTriggerLoadOldMessages(false);
-    }, [dataOldMessages, isLoadOldMessagesError, isLoadingOldMessages]);
     
-    return { ...state, loadNewMessages, loadOldMessages};
+    return { ...state, loadNewMessages };
 }
 
 export default useMessages;
